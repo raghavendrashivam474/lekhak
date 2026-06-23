@@ -555,3 +555,24 @@ A place where writers can return months later and immediately understand:
 ## Motto
 
 > The Memory Layer for Writers.
+# Founder
+
+Lekhak was created and is actively developed by:
+
+**Raghav**
+
+Engineering Student, Builder, and Creator.
+
+The project began from a simple observation:
+
+> Writers rarely lose their words.
+>
+> They lose the context behind them.
+
+Lekhak is an attempt to preserve that context and help writers reconnect with their creative journeys.
+ 
+# License
+
+This project is licensed under the MIT License.
+
+See the LICENSE file for details.
