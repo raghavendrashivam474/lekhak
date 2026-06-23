@@ -1,9 +1,31 @@
 # Session Architecture Research
+
+# Status Update
+
+This document was created during Sprint 3 as a research and planning document.
+
+The migration described below was successfully completed during Sprint 4.
+
+Current implementation now uses:
+
+* @supabase/ssr
+* createBrowserClient()
+* createServerClient()
+* proxy.ts route protection
+* Cookie-based sessions
+
+Refer to:
+
+* ARCHITECTURE.md
+* Sprint 4 Status Report
+
+for the latest implementation details.
+
 ## @supabase/ssr Migration Assessment
 
 Date: 24 June 2026
 Sprint: 3
-Status: Research Only — No Implementation This Sprint
+Status: Research Only ï¿½ No Implementation This Sprint
 
 ---
 
@@ -50,8 +72,8 @@ Both use cookies instead of localStorage.
 2. Replace src/lib/supabase/client.ts with createBrowserClient()
 3. Create src/lib/supabase/server.ts with createServerClient()
 4. Rewrite src/proxy.ts to read session from cookies
-5. Update (app)/layout.tsx — remove client-side auth check
-6. Update (auth)/layout.tsx — remove client-side auth check
+5. Update (app)/layout.tsx ï¿½ remove client-side auth check
+6. Update (auth)/layout.tsx ï¿½ remove client-side auth check
 
 ### Estimated effort: 2-4 hours
 ### Risk: Low
