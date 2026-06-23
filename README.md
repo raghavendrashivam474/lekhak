@@ -2,6 +2,20 @@
 
 > The Memory Layer for Writers.
 
+**Status:** Active Development
+**Version:** v0.4
+**License:** MIT
+
+---
+
+## About
+
+Lekhak was created by **Raghav** to solve a problem experienced by writers:
+
+> Writers rarely lose words.
+>
+> They lose context.
+
 ---
 
 ## Vision
@@ -23,6 +37,18 @@ What they lose is:
 Lekhak is being built to solve that problem.
 
 Its purpose is to help writers remember not only what they wrote, but also the journey behind their work.
+
+---
+
+## Current Milestone
+
+### v0.4 — Foundation + Writing Workflow + Memory Layer v1
+
+Current focus:
+
+* Context Layer v1
+* Resume Workspace
+* Project Context
 
 ---
 
@@ -451,7 +477,7 @@ Features:
 Clone repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/<username>/lekhak.git
 ```
 
 Install dependencies:
@@ -530,6 +556,20 @@ Active Development
 
 ---
 
+# Documentation
+
+For deeper understanding of the project:
+
+* docs/PRODUCT_VISION.md
+* docs/ROADMAP.md
+* docs/ARCHITECTURE.md
+* docs/DESIGN_PHILOSOPHY.md
+* docs/3D_PHILOSOPHY.md
+* docs/HANDOVER.md
+* docs/CONTRIBUTING.md
+
+---
+
 # Long-Term Goal
 
 Lekhak is not being built as another writing editor.
@@ -540,7 +580,7 @@ The long-term goal is to become a system that helps writers preserve:
 * Ideas
 * Context
 * Progress
-* Creative history
+* Creative History
 
 A place where writers can return months later and immediately understand:
 
@@ -555,22 +595,19 @@ A place where writers can return months later and immediately understand:
 ## Motto
 
 > The Memory Layer for Writers.
-# Founder
 
-Lekhak was created and is actively developed by:
+---
+
+# Founder
 
 **Raghav**
 
 Engineering Student, Builder, and Creator.
 
-The project began from a simple observation:
+Lekhak is an attempt to preserve context and help writers reconnect with their creative journeys.
 
-> Writers rarely lose their words.
->
-> They lose the context behind them.
+---
 
-Lekhak is an attempt to preserve that context and help writers reconnect with their creative journeys.
- 
 # License
 
 This project is licensed under the MIT License.
