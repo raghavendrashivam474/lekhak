@@ -8,12 +8,16 @@ import { format, formatDistanceToNow } from "date-fns";
 import { getProjectById, deleteProject } from "@/services/projects";
 import { getNotesByProject } from "@/services/notes";
 import { getProjectActivity } from "@/services/activity";
+import { getProjectQuestions, getNoteIntentLinks } from "@/services/relationships";
 import { CreateNoteDialog } from "@/components/notes/CreateNoteDialog";
 import { EditProjectDialog } from "@/components/projects/EditProjectDialog";
 import { IntentPanel } from "@/components/projects/IntentPanel";
+import { QuestionsPanel } from "@/components/projects/QuestionsPanel";
+import { IntentLinksPanel } from "@/components/projects/IntentLinksPanel";
 import type { Project } from "@/types/project";
 import type { Note } from "@/types/note";
 import type { ActivityLog } from "@/types/activity";
+import type { QuestionWithNote, NoteIntentLinkWithNote } from "@/types/relationship";
 
 function activityLabel(log: ActivityLog): string {
   switch (log.action) {
@@ -34,6 +38,8 @@ export default function ProjectDetailPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
   const [activity, setActivity] = useState<ActivityLog[]>([]);
+  const [questions, setQuestions] = useState<QuestionWithNote[]>([]);
+  const [intentLinks, setIntentLinks] = useState<NoteIntentLinkWithNote[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -44,11 +50,14 @@ export default function ProjectDetailPage() {
     if (!id) return;
 
     async function load() {
-      const [projectRes, notesRes, activityRes] = await Promise.all([
-        getProjectById(id),
-        getNotesByProject(id),
-        getProjectActivity(id),
-      ]);
+      const [projectRes, notesRes, activityRes, questionsRes, intentLinksRes] =
+        await Promise.all([
+          getProjectById(id),
+          getNotesByProject(id),
+          getProjectActivity(id),
+          getProjectQuestions(id),
+          getNoteIntentLinks(id),
+        ]);
 
       if (projectRes.error) {
         setError(projectRes.error);
@@ -58,6 +67,8 @@ export default function ProjectDetailPage() {
 
       if (notesRes.data) setNotes(notesRes.data);
       if (activityRes.data) setActivity(activityRes.data);
+      if (questionsRes.data) setQuestions(questionsRes.data);
+      if (intentLinksRes.data) setIntentLinks(intentLinksRes.data);
 
       setLoading(false);
     }
@@ -107,6 +118,16 @@ export default function ProjectDetailPage() {
   ).length;
   const mostRecentNote = notes[0] ?? null;
 
+  const goalLinks = intentLinks.filter((l) => l.context === "goal");
+  const focusLinks = intentLinks.filter((l) => l.context === "focus");
+  const nextStepLinks = intentLinks.filter((l) => l.context === "next_step");
+
+  const notePicklist = notes.map((n) => ({
+    id: n.id,
+    title: n.title,
+    category: n.category,
+  }));
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
 
@@ -118,9 +139,7 @@ export default function ProjectDetailPage() {
         All Projects
       </button>
 
-      {loading && (
-        <p className="text-[#8A9BB0] text-sm">Loading project...</p>
-      )}
+      {loading && <p className="text-[#8A9BB0] text-sm">Loading project...</p>}
 
       {!loading && error && (
         <div className="space-y-4">
@@ -165,9 +184,7 @@ export default function ProjectDetailPage() {
 
             <div className="flex items-center gap-1.5 mt-4 text-xs text-[#4A5A6A]">
               <Calendar className="h-3.5 w-3.5" />
-              <span>
-                Created {format(new Date(project.created_at), "MMMM d, yyyy")}
-              </span>
+              <span>Created {format(new Date(project.created_at), "MMMM d, yyyy")}</span>
             </div>
           </div>
 
@@ -203,7 +220,6 @@ export default function ProjectDetailPage() {
                 <Clock className="h-4 w-4 text-[#C9A84C]" />
                 <h2 className="text-sm font-medium text-[#C9A84C]">Where you left off</h2>
               </div>
-
               {lastActivity && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Last worked on</span>
@@ -212,7 +228,6 @@ export default function ProjectDetailPage() {
                   </span>
                 </div>
               )}
-
               {recentNoteUpdates > 0 && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Recent changes</span>
@@ -221,7 +236,6 @@ export default function ProjectDetailPage() {
                   </span>
                 </div>
               )}
-
               {mostRecentNote && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Most recent note</span>
@@ -236,7 +250,39 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          <IntentPanel project={project} onProjectUpdated={handleProjectUpdated} />
+          <IntentPanel
+            project={project}
+            onProjectUpdated={handleProjectUpdated}
+            goalLinks={goalLinks}
+            focusLinks={focusLinks}
+            nextStepLinks={nextStepLinks}
+            onGoalLinksChanged={(links) =>
+              setIntentLinks((prev) => [
+                ...prev.filter((l) => l.context !== "goal"),
+                ...links,
+              ])
+            }
+            onFocusLinksChanged={(links) =>
+              setIntentLinks((prev) => [
+                ...prev.filter((l) => l.context !== "focus"),
+                ...links,
+              ])
+            }
+            onNextStepLinksChanged={(links) =>
+              setIntentLinks((prev) => [
+                ...prev.filter((l) => l.context !== "next_step"),
+                ...links,
+              ])
+            }
+            projectNotes={notePicklist}
+          />
+
+          <QuestionsPanel
+            projectId={id}
+            questions={questions}
+            onQuestionsChanged={setQuestions}
+            projectNotes={notePicklist}
+          />
 
           <div>
             <div className="flex items-center justify-between mb-4">
@@ -266,7 +312,12 @@ export default function ProjectDetailPage() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0">
-                          <h3 className="font-medium text-[#F5ECD7] truncate">{note.title}</h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-medium text-[#F5ECD7] truncate">{note.title}</h3>
+                            <span className="text-xs text-[#4A5A6A] shrink-0 bg-[#0F1623] px-2 py-0.5 rounded">
+                              {note.category}
+                            </span>
+                          </div>
                           {note.content && (
                             <p className="text-[#8A9BB0] text-sm mt-1 line-clamp-2 whitespace-pre-wrap">
                               {note.content}

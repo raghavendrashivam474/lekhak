@@ -1,4 +1,16 @@
-import { z } from "zod";
+﻿import { z } from "zod";
+
+export const NOTE_CATEGORIES = [
+  "idea",
+  "scene",
+  "outline",
+  "dialogue",
+  "research",
+  "character",
+  "theme",
+  "worldbuilding",
+  "revision",
+] as const;
 
 export const createNoteSchema = z.object({
   title: z
@@ -12,9 +24,11 @@ export const createNoteSchema = z.object({
     .trim()
     .optional()
     .or(z.literal("")),
+
+  category: z.enum(NOTE_CATEGORIES).default("idea"),
 });
 
-export const updateNoteSchema = createNoteSchema;
+export const updateNoteSchema = createNoteSchema.partial();
 
 export type CreateNoteFormValues = z.infer<typeof createNoteSchema>;
 export type UpdateNoteFormValues = z.infer<typeof updateNoteSchema>;

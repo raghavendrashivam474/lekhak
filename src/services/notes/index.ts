@@ -33,6 +33,7 @@ export async function createNote(
       title: input.title.trim(),
       content: input.content?.trim() || null,
       project_id: input.project_id,
+      category: input.category ?? "idea",
     })
     .select()
     .single();
@@ -107,6 +108,9 @@ export async function updateNote(
   if (input.title !== undefined) payload.title = input.title.trim();
   if (input.content !== undefined) {
     payload.content = input.content.trim() || null;
+  }
+  if (input.category !== undefined) {
+    payload.category = input.category;
   }
 
   const { data, error } = await supabase
