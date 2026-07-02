@@ -4,58 +4,69 @@
 
 ### The Memory Layer for Writers
 
-Version: v0.4
+**Version:** v0.6
 
-Status: Active Development
+**Status:** Active Development
 
-Last Updated: June 2026
+**Last Updated:** July 2026
 
 ---
 
 # Purpose
 
-This document outlines the planned evolution of Lekhak.
+This document outlines the long-term evolution of Lekhak.
 
-The roadmap exists to provide direction and prioritization.
+The roadmap exists to provide strategic direction rather than fixed deadlines.
 
-It should help contributors understand:
+It helps contributors understand:
 
-* Current stage of development
-* Upcoming priorities
-* Long-term vision
-* Features intentionally deferred
+* The current stage of development
+* Why each capability exists
+* How every milestone builds upon the previous one
+* Which features are intentionally deferred
+* The long-term vision of the product
 
-This roadmap is directional, not contractual.
+This roadmap is **directional**, not contractual.
 
-Priorities may change as the product evolves.
+As the product evolves, priorities may shift while preserving the overall philosophy.
 
 ---
 
 # Product Evolution
 
-Lekhak is being developed in layers.
+Lekhak is not being built feature by feature.
 
-Each layer solves a different problem.
+It is being built capability by capability.
 
-The order matters.
+Each capability solves a different cognitive problem for writers.
+
+The order matters because every new layer depends on the previous one.
 
 ---
 
 ## Layer 1
 
-Writing Workflow
+### Writing Workflow
 
 Question:
 
 ```text
-Can writers store their work?
+Can writers store and organize their work?
 ```
+
+Purpose:
+
+Provide a reliable workspace for projects and notes.
+
+Outcome:
+
+Writers can create, edit and organize their writing.
 
 ---
 
 ## Layer 2
 
-Memory Layer
+### Memory Layer
 
 Question:
 
@@ -63,11 +74,19 @@ Question:
 Can writers remember what happened?
 ```
 
+Purpose:
+
+Preserve writing history.
+
+Outcome:
+
+Writers can understand what changed, when it changed, and where they left off.
+
 ---
 
 ## Layer 3
 
-Context Layer
+### Intent Layer
 
 Question:
 
@@ -75,41 +94,93 @@ Question:
 Can writers remember why they were working on something?
 ```
 
+Purpose:
+
+Preserve creative purpose.
+
+Outcome:
+
+Projects always communicate their objective, current focus and next step.
+
 ---
 
 ## Layer 4
 
-Connections Layer
+### Relationship Layer
 
 Question:
 
 ```text
-Can writers understand how ideas relate?
+Can Lekhak understand how ideas relate?
 ```
+
+Purpose:
+
+Connect isolated pieces of creative knowledge.
+
+Outcome:
+
+Projects become interconnected knowledge systems rather than collections of notes.
 
 ---
 
 ## Layer 5
 
-Writer Intelligence
+### Writer Intelligence
 
 Question:
 
 ```text
-Can the system help writers discover patterns?
+Can Lekhak help writers think?
 ```
+
+Purpose:
+
+Use accumulated knowledge to assist—not replace—the writer.
+
+Outcome:
+
+The system begins providing meaningful insights and guidance.
 
 ---
 
 ## Layer 6
 
-Writer Operating System
+### Knowledge Visualization
 
 Question:
 
 ```text
-Can Lekhak become the central home for creative work?
+Can writers explore their creative knowledge visually?
 ```
+
+Purpose:
+
+Represent relationships through meaningful visualizations.
+
+Outcome:
+
+Writers understand their work spatially rather than only through lists.
+
+---
+
+## Layer 7
+
+### Creative Operating System
+
+Question:
+
+```text
+Can Lekhak become the central home for a writer's creative life?
+```
+
+Purpose:
+
+Unify every aspect of the creative process.
+
+Outcome:
+
+One workspace for ideas, projects, research, planning and creative history.
 
 ---
 
@@ -119,176 +190,253 @@ Can Lekhak become the central home for creative work?
 
 ## v0.1 — Foundation
 
-Status:
+**Status**
 
 ```text
 Completed
 ```
 
-Delivered:
+### Delivered
 
-* Project Setup
-* Next.js Application
-* Folder Structure
-* Shared Layout
-* Service Architecture
-* Type System
-* Validation Structure
+* Project setup
+* Next.js application
+* Folder structure
+* Shared layouts
+* Service architecture
+* Type system
+* Validation structure
+* Git repository
 
-Outcome:
+### Outcome
 
-A scalable technical foundation.
+Established a scalable technical foundation.
 
 ---
 
 ## v0.2 — Authentication
 
-Status:
+**Status**
 
 ```text
 Completed
 ```
 
-Delivered:
+### Delivered
 
-* Supabase Integration
-* Authentication
-* Protected Routes
-* User Profiles
-* RLS Policies
+* Supabase integration
+* User authentication
+* Protected routes
+* User profiles
+* Row Level Security
+* Server-side authentication
 
-Outcome:
+### Outcome
 
-Secure multi-user platform.
+Every writer receives a secure personal workspace.
 
 ---
 
 ## v0.3 — Writing Workflow
 
-Status:
+**Status**
 
 ```text
 Completed
 ```
 
-Delivered:
+### Delivered
 
 * Projects
 * Notes
-* CRUD Operations
 * Dashboard
-* Note Detail Pages
+* CRUD operations
+* Validation
+* Service layer
+* Project organization
 
-Outcome:
+### Outcome
 
-First usable writing workflow.
+Writers can capture and organize creative work.
 
 ---
 
-## v0.4 — Memory Layer v1
+## v0.4 — Memory Layer
 
-Status:
+**Status**
 
 ```text
 Completed
 ```
 
-Delivered:
+### Delivered
 
-* Activity Logs
-* Recent Activity Feed
+* Activity logs
+* Recent activity feed
 * Resume Context
-* Project Timeline
-* Last Active Tracking
-* SSR Authentication
+* Project timeline
+* Last active tracking
+* SSR authentication
+* Activity services
 
-Outcome:
+### Outcome
 
-Writers can understand what changed and where they left off.
+Lekhak remembers what happened.
+
+Writers can immediately understand the recent history of every project.
+
+---
+
+## v0.5 — Intent Layer
+
+**Status**
+
+```text
+Completed
+```
+
+### Objective
+
+Preserve the writer's creative intent.
+
+### Delivered
+
+* Project Goal
+* Current Focus
+* Next Writing Step
+* Open Questions
+* Intent Panel
+* Inline editing
+* Intent validation
+* Intent services
+
+### Outcome
+
+Lekhak remembers why writers are working on a project and what they intended to do next.
+
+Projects become active workspaces instead of passive containers.
+
+---
+
+## v0.6 — Relationship Layer
+
+**Status**
+
+```text
+Completed
+```
+
+### Objective
+
+Teach Lekhak how creative ideas relate.
+
+### Delivered
+
+* Note References
+* Related Notes
+* Question-to-Note Relationships
+* Goal Support
+* Focus Support
+* Next Step Dependencies
+* Question Status
+* Note Categories
+* Relationship services
+* Relationship management interface
+
+### Outcome
+
+Lekhak no longer stores isolated information.
+
+It understands meaningful relationships between creative assets.
+
+This establishes the foundation for future Writer Intelligence and visualization systems.
 
 ---
 
 # Next Milestone
 
-## v0.5 — Context Layer v1
+## v0.7 — Writer Intelligence
 
-Status:
+**Status**
 
 ```text
 Planned
 ```
 
-Objective:
+### Objective
 
-Help writers remember:
+Transform stored knowledge into meaningful assistance.
 
-```text
-Why
-```
-
-they are working on a project.
+Rather than merely remembering information, Lekhak begins helping writers make progress.
 
 ---
 
-### Planned Features
+### Planned Capabilities
 
-Project Goal
+#### Smart Resume
 
-Example:
-
-```text
-Finish first draft by December.
-```
-
----
-
-Current Focus
-
-Example:
+Examples:
 
 ```text
-Resolve Chapter 4 conflict.
+You were revising Chapter 6.
+
+Two questions remain unanswered.
+
+Your next suggested step is to complete Scene 14.
 ```
 
 ---
 
-Next Writing Step
+#### Creative Momentum
 
-Example:
+Examples:
 
 ```text
-Write dialogue between Aarav and father.
+Most active project
+
+Writing streak
+
+Momentum trends
+
+Creative consistency
 ```
 
 ---
 
-Open Questions
+#### Writing Insights
 
-Example:
+Examples:
 
 ```text
-Should the protagonist leave home?
+Projects needing attention
+
+Unanswered questions
+
+Frequently referenced notes
+
+Most connected ideas
 ```
 
 ---
 
-Resume Workspace
+#### Project Health
 
-Example:
+Examples:
 
 ```text
-What was I doing?
+Dormant projects
 
-Why was I doing it?
+Incomplete drafts
 
-What should I do next?
+Projects nearing completion
+
+Focus distribution
 ```
 
 ---
 
-Outcome:
+### Outcome
 
-Projects become understandable even after long breaks.
+Lekhak begins supporting the writer's thinking process.
 
 ---
 
@@ -296,181 +444,137 @@ Projects become understandable even after long breaks.
 
 ---
 
-## v0.6 — Connections Layer v1
+## v0.8 — Knowledge Visualization
 
-Status:
-
-```text
-Planned
-```
-
-Objective:
-
-Reveal relationships between ideas.
-
----
-
-Potential Features
-
-* Linked Notes
-* Related Projects
-* Context References
-* Idea Relationships
-* Backlinks
-
-Outcome:
-
-Writers see how concepts connect.
-
----
-
-## v0.7 — Writer Intelligence
-
-Status:
+**Status**
 
 ```text
 Future
 ```
 
-Objective:
+### Objective
 
-Identify meaningful patterns.
+Visualize relationships instead of listing them.
 
 ---
 
-Potential Features
-
-Writing Activity
+### Potential Capabilities
 
 ```text
-Most Active Project
-
-Writing Frequency
-
-Progress Trends
-```
-
----
-
-Creative Signals
-
-```text
-Stale Projects
-
-Unfinished Threads
-
-Recent Momentum
-```
-
----
-
-Outcome:
-
-The system becomes more aware of writing behavior.
-
----
-
-## v0.8 — Memory Graph
-
-Status:
-
-```text
-Future
-```
-
-Objective:
-
-Visualize relationships.
-
----
-
-Potential Features
-
-```text
-Memory Graph
-
-Project Relationships
+Relationship Graph
 
 Idea Networks
+
+Creative Clusters
+
+Question Networks
 
 Context Navigation
 ```
 
 ---
 
-Technology Candidates
+### Technology Candidates
 
 ```text
 React Flow
 ```
 
-Possibly:
+Visualization must communicate meaning rather than decoration.
 
-```text
-React Three Fiber
-```
+### Outcome
 
-Only if it improves understanding.
+Writers can explore their knowledge visually.
 
 ---
 
-Outcome:
+## v0.9 — Spatial Memory
 
-Visual memory exploration.
-
----
-
-## v0.9 — Writer Workspace
-
-Status:
+**Status**
 
 ```text
 Future
 ```
 
-Objective:
+### Objective
 
-Create a unified creative environment.
+Represent creative memory through meaningful three-dimensional space.
 
 ---
 
-Potential Features
+### Potential Capabilities
 
 ```text
-Characters
+Memory Constellation
 
-Research
+Spatial Navigation
 
-References
+Creative Universe
 
-World Building
+Knowledge Space
 
-Story Structure
+Interactive Memory Exploration
 ```
 
+This stage follows the principles defined in:
+
+```text
+docs/3D_PHILOSOPHY.md
+```
+
+### Outcome
+
+Space becomes a representation of memory rather than visual decoration.
+
 ---
 
-Outcome:
+## v1.0 — Creative Operating System
 
-Centralized writing workspace.
-
----
-
-## v1.0 — Public Launch Candidate
-
-Status:
+**Status**
 
 ```text
 Long-Term Goal
 ```
 
-Objective:
+### Objective
 
-Deliver a complete memory system for writers.
+Deliver a complete creative operating system for writers.
 
 ---
 
-Success Criteria
+### Core Capabilities
+
+```text
+Writing
+
+↓
+
+Memory
+
+↓
+
+Intent
+
+↓
+
+Relationships
+
+↓
+
+Writer Intelligence
+
+↓
+
+Knowledge Visualization
+
+↓
+
+Spatial Memory
+```
+
+---
+
+### Success Criteria
 
 A writer should be able to:
 
@@ -481,40 +585,46 @@ Write Notes
 
 Track Progress
 
+Preserve Intent
+
+Explore Relationships
+
 Understand Context
 
-Explore Connections
-
 Resume Work Instantly
+
+Navigate Years of Creative History
 ```
 
-without relying on multiple tools.
+without relying on multiple disconnected tools.
 
 ---
 
 # Deferred Features
 
-The following features are intentionally postponed.
-
-They are not current priorities.
+The following capabilities are intentionally postponed.
 
 ---
 
-## AI Features
+## AI Content Generation
 
 Examples:
 
 ```text
-Writing Assistant
+Story Generation
 
-Idea Generation
+Poem Generation
 
-Summarization
+Dialogue Generation
+
+Automatic Rewriting
 ```
 
 Reason:
 
-Core workflow must be validated first.
+Lekhak is designed to augment creativity, not replace it.
+
+The priority is understanding the writer before generating content.
 
 ---
 
@@ -525,20 +635,22 @@ Examples:
 ```text
 Shared Projects
 
-Team Writing
+Real-time Editing
 
 Comments
+
+Team Workspaces
 ```
 
 Reason:
 
-Single-user experience comes first.
+Single-user experience remains the priority.
 
 ---
 
 ## Desktop Application
 
-Examples:
+Platforms:
 
 ```text
 Windows
@@ -550,7 +662,7 @@ Linux
 
 Reason:
 
-Web application must mature first.
+The web experience must mature first.
 
 ---
 
@@ -558,61 +670,84 @@ Web application must mature first.
 
 Reason:
 
-Desktop and web workflows are the priority.
+Writing workflows are currently optimized for larger screens.
 
 ---
 
-## Advanced Visualizations
+## Advanced 3D Experiences
 
 Examples:
 
 ```text
-3D Worlds
+Immersive Worlds
 
-Story Universes
+Virtual Reality
 
-Memory Constellations
+Decorative 3D Environments
 ```
 
 Reason:
 
-Require mature data structures first.
+Three-dimensional interfaces should only be introduced when they improve understanding.
 
 ---
 
 # Guiding Principle
 
-When choosing between two features, prioritize the feature that improves:
+When choosing between two features, prioritize the one that improves:
 
 ```text
 Memory
 
-Context
+↓
+
+Intent
+
+↓
+
+Relationships
+
+↓
+
+Understanding
+
+↓
 
 Continuity
 ```
 
-over features that merely add complexity.
+over features that merely increase complexity.
+
+Every capability should reduce cognitive load.
 
 ---
 
 # Long-Term Vision
 
-The final destination is not another editor.
+Lekhak is not being built as another writing editor.
 
-The final destination is:
+It is being built as a system that preserves creative journeys.
 
-> A system that remembers creative journeys.
-
-A place where writers can return months or years later and immediately understand:
+A place where writers can return months—or years—later and immediately understand:
 
 * What they created
 * Why they created it
-* How it evolved
-* What comes next
+* How their ideas relate
+* How their work evolved
+* What should happen next
 
 ---
 
-## Roadmap Motto
+# Roadmap Motto
 
-> Notes → Memory → Context → Connections → Intelligence → Writer OS
+> Write with clarity.
+>
+> Remember with confidence.
+>
+> Connect ideas.
+>
+> Build lasting creative knowledge.
+
+---
+
+*End of Roadmap*

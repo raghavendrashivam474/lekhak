@@ -4,299 +4,346 @@
 
 ### The Memory Layer for Writers
 
+**Version:** v0.6
+
+**Status:** Active Development
+
+**Last Updated:** July 2026
+
+---
+
+# Vision Statement
+
+Most writing tools help people write.
+
+Lekhak helps people remember.
+
+Its purpose is not only to preserve documents, but also to preserve the context, intent, relationships, and creative journey behind every piece of writing.
+
+The long-term vision is to build a system that allows writers to return to any project—days, months, or years later—and immediately understand what they were creating, why they were creating it, how their ideas evolved, and where they should continue.
+
 ---
 
 # Why Lekhak Exists
 
-Modern writing tools are excellent at storing documents.
+Creative work rarely fails because ideas disappear.
 
-They are not good at preserving context.
+It fails because context disappears.
 
-Writers often begin with excitement, clarity, and purpose.
+A writer may still have:
 
-Over time:
+* Chapters
+* Notes
+* Outlines
+* Research
+* Voice recordings
+* Screenshots
+* References
 
-* Ideas become fragmented
-* Notes become scattered
-* Research becomes disconnected
-* Motivation fades
-* Context is forgotten
+Yet still ask:
 
-Months later, returning to a project often feels like starting over.
+> Why was I working on this?
 
-The problem is rarely lost content.
+or
 
-The problem is lost context.
+> What was this note supposed to solve?
+
+Modern writing tools preserve information.
+
+Very few preserve understanding.
+
+Lekhak exists to bridge that gap.
 
 ---
 
-# The Core Insight
+# The Problem
 
-> Writers do not lose words.
->
-> Writers lose context.
+Writing is not a linear activity.
 
-A document can survive for years.
+Ideas emerge gradually.
 
-What disappears is:
+Questions remain unanswered.
 
-* Why it was written
-* What problem it was solving
-* Which idea inspired it
-* What remained unfinished
-* What should happen next
+Characters evolve.
 
-This gap creates friction between inspiration and execution.
+Plots change.
+
+Scenes are rewritten.
+
+Research expands.
+
+Months later, writers often spend more time reconstructing context than creating new work.
+
+Creative momentum is lost.
 
 ---
 
 # Our Belief
 
-Writing is not a collection of documents.
+We believe writers should never have to reconstruct their own thinking.
 
-Writing is a journey.
+A writing tool should remember:
 
-Every story, article, journal, screenplay, poem, or book evolves over time.
+* what exists
+* what happened
+* why it happened
+* how ideas relate
+* where the writer should continue
 
-The journey contains:
-
-* Ideas
-* Drafts
-* Revisions
-* Research
-* Questions
-* Decisions
-* Intentions
-
-Most software stores the output.
-
-We want to preserve the journey.
+Memory should become an active part of the creative process.
 
 ---
 
-# Product Mission
+# Product Philosophy
 
-Help writers remember:
-
-* Every story
-* Every idea
-* Every decision
-* Every unfinished thread
-
-And most importantly:
-
-> Remember why they started.
+Lekhak is built around five principles.
 
 ---
 
-# Product Positioning
+## 1. Memory First
 
-Lekhak is not trying to replace every writing tool.
+Everything should help preserve creative memory.
 
-Instead, it focuses on a specific responsibility:
+Every feature should answer:
 
-Context Preservation.
-
----
-
-## What Others Do
-
-### Google Docs
-
-Stores documents.
-
-### Notion
-
-Stores pages.
-
-### Obsidian
-
-Stores knowledge.
-
-### Scrivener
-
-Organizes manuscripts.
+> Will this make it easier to return to creative work later?
 
 ---
 
-## What Lekhak Does
+## 2. Calm Interfaces
 
-Preserves creative context.
+Writing requires attention.
+
+Interfaces should reduce cognitive load rather than compete for it.
+
+Visual clarity is more valuable than visual complexity.
 
 ---
 
-# The Problem Space
+## 3. Intent Matters
 
-Writers often have information spread across:
+Projects should communicate purpose.
 
-```text
-Documents
-Notes
-Voice Memos
-Research
-Screenshots
-Bookmarks
-References
-Journals
-```
+Every project should answer:
 
-The more a project grows, the harder it becomes to maintain context.
+* Why does this exist?
+* What am I working on?
+* What comes next?
 
-This creates questions such as:
+Intent should never disappear between writing sessions.
 
-* What was I working on?
-* What changed recently?
-* What should I write next?
-* Which note matters most?
-* Why does this project exist?
+---
 
-Lekhak aims to answer these questions automatically.
+## 4. Relationships Create Understanding
+
+Ideas gain meaning through relationships.
+
+Questions relate to notes.
+
+Notes relate to goals.
+
+Goals relate to projects.
+
+The more meaningful relationships Lekhak understands, the more valuable the system becomes.
+
+---
+
+## 5. Technology Should Stay Invisible
+
+Technology should support creativity without demanding attention.
+
+The writer should think about stories—not software.
 
 ---
 
 # Product Evolution
 
----
+Lekhak evolves through successive cognitive capabilities.
 
-## Phase 1
+```text id="5d7b6t"
+Writing
 
-Writing Workflow
+↓
 
-Goal:
+Memory
 
-Allow writers to create and manage projects and notes.
+↓
 
-Implemented:
+Intent
 
-* Projects
-* Notes
-* Dashboard
+↓
 
----
+Relationships
 
-## Phase 2
+↓
 
-Memory Layer
+Understanding
 
-Goal:
+↓
 
-Help writers understand what changed.
+Visualization
 
-Implemented:
+↓
 
-* Activity Tracking
-* Activity Feed
-* Project Timeline
-* Resume Context
+Creative Intelligence
+```
 
----
-
-## Phase 3
-
-Context Layer
-
-Goal:
-
-Help writers understand why they are working on something.
-
-Planned:
-
-* Project Goal
-* Current Focus
-* Next Writing Step
-* Open Questions
+Each layer depends upon the previous one.
 
 ---
 
-## Phase 4
+# Product Principles
 
-Connections Layer
+Every major capability should satisfy at least one of the following goals.
 
-Goal:
+### Preserve
 
-Help writers understand how ideas relate.
-
-Planned:
-
-* Linked Notes
-* Related Ideas
-* Context References
-* Project Relationships
+Never lose valuable creative context.
 
 ---
 
-## Phase 5
+### Organize
 
-Writer Intelligence
-
-Goal:
-
-Help writers discover patterns.
-
-Future Possibilities:
-
-* Writing Insights
-* Progress Analysis
-* Productivity Signals
-* Creative Trends
+Reduce fragmentation across projects and notes.
 
 ---
 
-# Design Principles
+### Connect
 
-Every feature should support at least one of these principles.
-
----
-
-## Preserve Context
-
-The product should help writers understand the bigger picture.
+Reveal meaningful relationships between ideas.
 
 ---
 
-## Reduce Cognitive Load
+### Resume
 
-Writers should spend less time organizing and more time creating.
-
----
-
-## Encourage Continuity
-
-Returning to a project should feel natural.
+Allow writers to continue immediately after long breaks.
 
 ---
 
-## Build Memory
+### Understand
 
-The system should remember details so users do not have to.
+Help writers make sense of their own creative work.
+
+---
+
+# What Lekhak Is
+
+Lekhak is:
+
+* A writing workspace
+* A creative memory system
+* A project knowledge base
+* A context preservation platform
+* A long-term creative archive
+
+---
+
+# What Lekhak Is Not
+
+Lekhak is **not** intended to become:
+
+* Another word processor
+* Another document editor
+* An AI story generator
+* A social writing platform
+* A replacement for the writer's creativity
+
+Technology should support human creativity—not replace it.
+
+---
+
+# Target Users
+
+Initially, Lekhak is designed for:
+
+* Novelists
+* Screenwriters
+* Poets
+* Researchers
+* Journal writers
+* Worldbuilders
+* Students managing long-form writing
+* Anyone working on projects that evolve over time
+
+Future versions may expand to additional creative disciplines.
+
+---
+
+# Long-Term Product Vision
+
+The destination is not simply a better notes application.
+
+The destination is a system capable of understanding an entire creative journey.
+
+A future version of Lekhak should know:
+
+```text id="kcukz7"
+What you're building.
+
+Why you're building it.
+
+How your ideas connect.
+
+What changed.
+
+Where you're stuck.
+
+What should happen next.
+```
+
+Without replacing the writer's creative decisions.
 
 ---
 
 # Success Definition
 
-A writer returns to a project after several months.
+Lekhak succeeds when a writer can close a project today...
 
-Instead of feeling lost, they immediately understand:
+...return months later...
 
-* What they were building
-* Why they were building it
-* What changed recently
-* What should happen next
+...and continue writing within minutes instead of spending hours reconstructing forgotten context.
 
-When that experience becomes effortless, Lekhak has succeeded.
+The software should preserve creative continuity.
 
 ---
 
-# Long-Term Vision
+# Guiding Question
 
-A future where writers never lose context.
+Every design decision should answer:
 
-A future where creative journeys remain understandable years later.
+> Does this help writers preserve and reconnect with their creative thinking?
 
-A future where software remembers the details that humans naturally forget.
+If the answer is **no**, the feature should be reconsidered.
 
 ---
 
-## Motto
+# Vision Beyond v1.0
 
-> The Memory Layer for Writers.
+Beyond the initial release, Lekhak aims to become a complete Creative Memory Platform.
+
+Potential future capabilities include:
+
+* Writer Intelligence
+* Memory Graph
+* Spatial Memory
+* Creative Analytics
+* Knowledge Exploration
+* Cross-project understanding
+
+Each capability should strengthen the writer's understanding of their own work rather than distract from it.
+
+---
+
+# Product Motto
+
+> Preserve the work.
+>
+> Preserve the purpose.
+>
+> Preserve the relationships.
+>
+> Preserve the creative journey.
+
+---
+
+*End of Product Vision*

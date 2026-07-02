@@ -1,10 +1,166 @@
 # Changelog
 
-All notable changes to Lekhak will be documented in this file.
+All notable changes to **Lekhak** will be documented in this file.
 
-The format is inspired by Keep a Changelog.
+This project follows a milestone-based versioning strategy during active development.
 
-Versioning follows a milestone-based approach during early development.
+The structure of this document is inspired by **Keep a Changelog**.
+
+---
+
+# [v0.6] - July 2026
+
+## Release Name
+
+**Connections Layer v1**
+
+---
+
+## Highlights
+
+This release transforms Lekhak from an intent-aware writing workspace into a connected knowledge system.
+
+Writers can now establish meaningful relationships between their creative assets, allowing projects to evolve into interconnected knowledge spaces instead of isolated notes.
+
+---
+
+## Added
+
+### Relationships
+
+* Note-to-note relationships
+* Related notes
+* Note references
+* Goal support relationships
+* Current focus support relationships
+* Open question relationships
+* Relationship categorization
+* Relationship management service
+* Relationship-aware project workspace
+
+---
+
+### Navigation
+
+* Relationship discovery within projects
+* Faster movement between connected ideas
+* Relationship-aware writing workflow
+
+---
+
+### Architecture
+
+* Dedicated Relationship Service
+* Relationship entity models
+* Relationship validation
+* Relationship database support
+* Extensible relationship architecture for future graph visualization
+
+---
+
+## Improved
+
+### Project Workspace
+
+Projects now combine:
+
+* Memory
+* Intent
+* Relationships
+
+creating a significantly richer writing environment.
+
+---
+
+### Application Architecture
+
+The application architecture now consists of five major capability layers:
+
+```text
+Writing
+
+↓
+
+Memory
+
+↓
+
+Intent
+
+↓
+
+Relationships
+
+↓
+
+Future Intelligence
+```
+
+---
+
+## Known Limitations
+
+* Relationship visualization is list-based
+* No graphical relationship explorer
+* Relationship analytics not yet implemented
+
+---
+
+# [v0.5] - July 2026
+
+## Release Name
+
+**Context Layer v1**
+
+---
+
+## Highlights
+
+Sprint 5 introduced the Intent Layer.
+
+Lekhak now preserves not only what writers create, but also why they are creating it and what they should work on next.
+
+---
+
+## Added
+
+### Intent System
+
+* Project Goal
+* Current Focus
+* Next Writing Step
+* Open Questions
+
+---
+
+### Project Workspace
+
+* Intent Panel
+* Inline editing
+* Independent field saving
+* Project context preservation
+
+---
+
+### Architecture
+
+* Intent-aware Projects Service
+* Intent validation
+* Intent data model
+
+---
+
+## Improved
+
+Projects evolved from passive note containers into active writing workspaces.
+
+---
+
+## Known Limitations
+
+* Intent history not preserved
+* Open questions cannot be reordered
+* Plain text only
 
 ---
 
@@ -12,7 +168,15 @@ Versioning follows a milestone-based approach during early development.
 
 ## Release Name
 
-Memory Layer v1
+**Memory Layer v1**
+
+---
+
+## Highlights
+
+Introduced Lekhak's first Memory Layer.
+
+The application now preserves project history and helps writers resume work after long breaks.
 
 ---
 
@@ -22,29 +186,26 @@ Memory Layer v1
 
 * Server-side authentication using `@supabase/ssr`
 * Cookie-based session management
-* Protected route handling through `proxy.ts`
-* Login functionality
-* Signup functionality
-* Logout functionality
+* Protected routes through `proxy.ts`
 
 ---
 
 ### Projects
 
-* Create projects
-* View project listings
-* Edit project details
-* Delete projects
+* Create
+* View
+* Edit
+* Delete
 * Project detail pages
 
 ---
 
 ### Notes
 
-* Create notes
-* View notes
-* Edit notes
-* Delete notes
+* Create
+* View
+* Edit
+* Delete
 * Note detail pages
 
 ---
@@ -60,21 +221,21 @@ Memory Layer v1
 
 ### Memory Layer
 
-* Activity logging system
-* Activity timeline
-* Resume context
-* Last active tracking
-* Project activity history
+* Activity logging
+* Resume Context
+* Project Timeline
+* Last Active tracking
+* Activity history
 
 ---
 
 ### Infrastructure
 
-* Service layer architecture
+* Service-oriented architecture
 * Zod validation
 * React Hook Form integration
-* Supabase database integration
-* Row Level Security policies
+* Supabase integration
+* Row Level Security
 
 ---
 
@@ -82,57 +243,33 @@ Memory Layer v1
 
 ### Authentication
 
-Migrated from:
-
-```text
-Client-side route guards
-```
-
-to:
-
-```text
-Server-side authentication
-```
+Migrated from client-side authentication to server-side authentication using `@supabase/ssr`.
 
 Benefits:
 
 * No loading flash
 * Better security
-* SSR compatibility
+* SSR support
 
 ---
 
 ### Dashboard
 
-Migrated from:
-
-```text
-Placeholder content
-```
-
-to:
-
-```text
-Live database-driven content
-```
+Replaced placeholder content with live database-driven content.
 
 ---
 
 ### Layout
 
-Migrated from:
+Separated application into:
 
 ```text
-Single layout
+(auth)
+
+(app)
 ```
 
-to:
-
-```text
-(auth) route group
-
-(app) route group
-```
+route groups.
 
 ---
 
@@ -142,34 +279,25 @@ to:
 
 * Redirect loops
 * Session race conditions
-* Client-side loading flashes
-
----
+* Loading flashes
 
 ### Routing
 
-* Auth pages incorrectly rendering AppShell
-* Route group organization issues
-
----
+* Incorrect AppShell rendering
+* Route group organization
 
 ### Supabase
 
 * Multiple GoTrueClient instances
-* Incorrect client initialization pattern
+* Client initialization improvements
 
 ---
 
 ## Known Limitations
 
-* Activity feed not paginated
 * Activity deduplication not implemented
-* Placeholder pages remain:
-
-  * Settings
-  * Characters
-  * Connections
-  * Timeline
+* Activity pagination not implemented
+* Placeholder pages remain
 
 ---
 
@@ -177,7 +305,7 @@ to:
 
 ## Release Name
 
-Writing Workflow
+**Writing Workflow**
 
 ---
 
@@ -185,33 +313,31 @@ Writing Workflow
 
 ### Projects
 
-* Project CRUD
+* Complete Project CRUD
 
 ### Notes
 
-* Note CRUD
+* Complete Note CRUD
 
 ### Dashboard
 
-* Initial dashboard implementation
+* Initial dashboard
 
 ### Validation
 
-* Project validation schemas
-* Note validation schemas
+* Project validation
+* Note validation
 
 ### Services
 
-* Projects service
-* Notes service
+* Projects Service
+* Notes Service
 
 ---
 
 ## Outcome
 
-First complete writer workflow established.
-
-Users could:
+Established the first complete writing workflow.
 
 ```text
 Login
@@ -226,7 +352,7 @@ Create Note
 
 ↓
 
-View Note
+Open Note
 
 ↓
 
@@ -239,17 +365,17 @@ Continue Writing
 
 ## Release Name
 
-Authentication Foundation
+**Authentication Foundation**
 
 ---
 
 ## Added
 
-### Supabase Integration
+### Supabase
 
-* Database setup
-* Authentication setup
-* Profile creation trigger
+* Database integration
+* Authentication
+* Profile creation
 
 ### Security
 
@@ -266,7 +392,7 @@ Authentication Foundation
 
 ## Outcome
 
-Secure multi-user platform established.
+Established a secure multi-user foundation.
 
 ---
 
@@ -274,7 +400,7 @@ Secure multi-user platform established.
 
 ## Release Name
 
-Project Foundation
+**Project Foundation**
 
 ---
 
@@ -282,71 +408,80 @@ Project Foundation
 
 ### Initial Setup
 
-* Next.js application
-* TypeScript configuration
+* Next.js
+* TypeScript
 * Tailwind CSS
 * shadcn/ui
 
 ### Architecture
 
-* Service layer pattern
+* Service Layer
 * Folder structure
-* Shared layout
-* Route organization
+* Shared layouts
+* Routing foundation
 
-### Development Foundation
+### Development
 
 * Git repository
-* Documentation structure
-* Project conventions
+* Documentation
+* Engineering conventions
 
 ---
 
 ## Outcome
 
-Scalable development foundation established.
+Established the technical foundation for future development.
 
 ---
 
 # Upcoming
 
-## [v0.5]
+## v0.7 — Writer Intelligence
 
-Planned:
+Planned capabilities include:
 
-Context Layer v1
-
-Potential additions:
-
-* Project Goal
-* Current Focus
-* Next Writing Step
-* Open Questions
-* Continue Writing Workspace
+* Creative insights
+* Writing patterns
+* Dormant project detection
+* Progress analysis
+* Project health indicators
+* Writing momentum
+* Context-aware recommendations
 
 ---
 
-## [v0.6]
+## v0.8 — Knowledge Graph
 
-Planned:
+Planned capabilities include:
 
-Connections Layer v1
-
-Potential additions:
-
-* Linked Notes
-* Related Projects
-* Context References
-* Idea Relationships
+* Interactive relationship graph
+* Graph navigation
+* Memory visualization
+* Connected knowledge exploration
 
 ---
 
-## [v1.0]
+## v0.9 — Creative Workspace
 
-Vision:
+Planned capabilities include:
+
+* Character management
+* World building
+* Research organization
+* Story structure tools
+* Writing sessions
+* Reference management
+
+---
+
+## v1.0 — Public Launch
+
+**Vision**
 
 A complete memory system for writers.
 
+A place where writers can preserve not only their work, but also the context, intent, relationships, and evolution behind every creative project.
+
 ---
 
-End of Changelog
+*End of Changelog*

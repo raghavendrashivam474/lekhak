@@ -3,22 +3,24 @@
 > The Memory Layer for Writers.
 
 **Status:** Active Development
-**Version:** v0.4
+**Version:** v0.6
 **License:** MIT
 
 ---
 
-## About
+# About
 
-Lekhak was created by **Raghav** to solve a problem experienced by writers:
+Lekhak was created by **Raghav** to solve a problem experienced by writers.
 
 > Writers rarely lose words.
 >
 > They lose context.
 
+Lekhak is a memory-first writing workspace designed to preserve not only documents, but also the ideas, intent, relationships, and creative history behind them.
+
 ---
 
-## Vision
+# Vision
 
 Most writing tools store documents.
 
@@ -36,23 +38,23 @@ What they lose is:
 
 Lekhak is being built to solve that problem.
 
-Its purpose is to help writers remember not only what they wrote, but also the journey behind their work.
+Its purpose is to help writers remember not only what they wrote, but also the creative journey behind their work.
 
 ---
 
-## Current Milestone
+# Current Milestone
 
-### v0.4 — Foundation + Writing Workflow + Memory Layer v1
+## v0.6 — Relationship Layer v1
 
 Current focus:
 
-* Context Layer v1
-* Resume Workspace
-* Project Context
+* Writer Intelligence
+* Smart Resume Experience
+* Creative Insights
 
 ---
 
-## Core Philosophy
+# Core Philosophy
 
 > Remember every story.
 >
@@ -60,17 +62,17 @@ Current focus:
 >
 > Remember why you started.
 
-Traditional tools focus on writing.
+Traditional writing software stores documents.
 
-Lekhak focuses on memory.
+Lekhak preserves memory.
 
 ---
 
-## The Problem
+# The Problem
 
 Modern writing workflows are fragmented.
 
-Writers often have:
+Writers often manage information across:
 
 ```text
 Google Docs
@@ -83,38 +85,37 @@ Screenshots
 Ideas on Paper
 ```
 
-Over time, context becomes scattered.
+Over time, creative context becomes scattered.
 
 Months later, returning to a project often feels like starting over.
 
-Questions writers frequently ask:
+Common questions become:
 
-* Why did I create this project?
-* What was I trying to say?
-* Which note was important?
+* Why did I start this?
+* What was I trying to solve?
+* Which note mattered?
 * What changed recently?
 * Where should I continue?
 
-Current tools store information.
+Most writing software stores information.
 
-Very few preserve context.
+Very little software preserves creative context.
 
 ---
 
-## The Solution
+# The Solution
 
 Lekhak acts as a memory system for writers.
 
-Instead of only storing notes and projects, it gradually builds a history around a writer's work.
+Instead of simply storing notes, Lekhak gradually builds an understanding of:
 
-Lekhak helps users:
+* Projects
+* Notes
+* Activity
+* Intent
+* Relationships
 
-* Organize projects
-* Store notes
-* Track activity
-* Understand project history
-* Resume work quickly
-* Preserve writing context
+allowing writers to immediately reconnect with their work after days, weeks, or months away.
 
 ---
 
@@ -127,16 +128,16 @@ Lekhak helps users:
 * User Logout
 * Protected Routes
 * Server-Side Authentication
-* Session Management
+* Cookie-Based Sessions
 
 ---
 
 ## Projects
 
-* Create Project
-* Edit Project
-* Delete Project
-* View Project Details
+* Create Projects
+* Edit Projects
+* Delete Projects
+* Project Dashboard
 * Last Active Information
 
 ---
@@ -146,104 +147,85 @@ Lekhak helps users:
 * Create Notes
 * Edit Notes
 * Delete Notes
-* View Note Details
-* Project-Based Organization
+* Project Organization
+* Note Detail Pages
 
 ---
 
 ## Memory Layer v1
 
-### Activity Tracking
+Automatically preserves:
 
-Automatically records:
-
-* Project Creation
-* Project Updates
-* Project Deletion
-* Note Creation
-* Note Updates
-* Note Deletion
+* Project Activity
+* Note Activity
+* Timeline History
+* Resume Context
+* Recent Activity Feed
 
 ---
 
-### Recent Activity Feed
+## Intent Layer v1
 
-View recent actions across all projects.
+Every project now includes:
 
-Examples:
+* Project Goal
+* Current Focus
+* Next Writing Step
+* Open Questions
 
-```text
-Created Project: Novel Draft
-
-Updated Note: Chapter 4 Outline
-
-Deleted Note: Old Scene Draft
-```
+Helping writers preserve creative intent between writing sessions.
 
 ---
 
-### Project Timeline
+## Relationship Layer v1
 
-Every project maintains a chronological activity history.
+Lekhak now understands relationships between creative assets.
 
-This helps writers understand:
+Capabilities include:
 
-* What changed
-* When it changed
-* How the project evolved
+* Note References
+* Related Notes
+* Question-to-Note Relationships
+* Goal Support
+* Focus Support
+* Next Step Dependencies
+* Question Status
+* Note Categories
 
----
-
-### Resume Context
-
-When returning to a project, Lekhak displays:
-
-* Last Active Time
-* Recent Changes
-* Most Recently Modified Note
-
-Helping writers immediately continue where they left off.
+These relationships form the foundation for future intelligence features.
 
 ---
 
 # Product Roadmap
 
-## v0.1 — Foundation
-
-Completed
+## v0.1 — Foundation ✅
 
 * Project Setup
 * Folder Structure
-* Base Layout
-* Shared Components
+* Shared Layout
+* Base Components
 
 ---
 
-## v0.2 — Authentication
-
-Completed
+## v0.2 — Authentication ✅
 
 * Supabase Integration
-* User Authentication
+* Authentication
 * Protected Routes
 * Database Setup
 
 ---
 
-## v0.3 — Writing Workflow
-
-Completed
+## v0.3 — Writing Workflow ✅
 
 * Projects
 * Notes
-* CRUD Operations
 * Dashboard
+* CRUD Operations
 
 ---
 
-## v0.4 — Memory Layer v1
-
-Completed
+## v0.4 — Memory Layer ✅
 
 * Activity Logs
 * Timeline
@@ -252,19 +234,7 @@ Completed
 
 ---
 
-## v0.5 — Context Layer v1
-
-Planned
-
-Focus:
-
-Helping writers understand:
-
-* What they are working on
-* Why they are working on it
-* What they should do next
-
-Potential Features:
+## v0.5 — Intent Layer ✅
 
 * Project Goal
 * Current Focus
@@ -273,104 +243,110 @@ Potential Features:
 
 ---
 
-## v0.6 — Connections Layer v1
+## v0.6 — Relationship Layer ✅
 
-Planned
-
-Focus:
-
-Connecting ideas together.
-
-Potential Features:
-
+* Note References
 * Related Notes
-* Idea Relationships
-* Linked Projects
-* Context References
+* Question Relationships
+* Goal Support
+* Focus Support
+* Note Categories
+* Question Status
 
 ---
 
 ## v0.7 — Writer Intelligence
 
-Future
+Planned
 
-Potential Features:
+Potential capabilities:
 
+* Smart Resume
 * Writing Insights
-* Activity Patterns
-* Progress Tracking
-* Productivity Signals
+* Progress Analysis
+* Pattern Recognition
+* Intelligent Suggestions
 
 ---
 
-## v1.0 — Public Launch Candidate
+## v0.8 — Memory Graph
+
+Planned
+
+Potential capabilities:
+
+* Interactive Knowledge Graph
+* Creative Relationship Explorer
+* Context Navigation
+
+---
+
+## v0.9 — Spatial Memory
 
 Future
 
+Potential capabilities:
+
+* Three-Dimensional Memory Visualization
+* Memory Constellation
+* Spatial Knowledge Navigation
+
+---
+
+## v1.0 — Public Launch
+
 Goal:
 
-A complete memory system for writers.
+A complete creative memory system for writers.
 
 ---
 
 # Design Philosophy
 
-Lekhak is designed around three principles.
+Lekhak is built around three principles.
 
-### Calm
+## Calm
 
 Writing requires focus.
 
-The interface should never feel overwhelming.
+The interface should remain quiet and distraction-free.
 
 ---
 
-### Memory
+## Memory
 
-The product should help users remember their journey.
+The product should preserve the creative journey.
 
-Not just store files.
-
----
-
-### Growth
-
-Projects should feel alive.
-
-Writers should be able to see how their work evolves over time.
+Not just documents.
 
 ---
 
-## Visual Direction
+## Growth
 
-Inspired by:
+Creative work should feel alive.
 
-* Apple Journal
-* Obsidian
-* Arc Browser
-* Modern Libraries
-* Personal Archives
+Writers should see how ideas evolve over time.
 
-Design Keywords:
+---
 
-```text
-Deep Navy
-Warm Gold
-Soft Cream
+## Relationships
 
-Focused
-Calm
-Timeless
-```
+Ideas become more valuable when connected.
+
+Lekhak should help writers understand how their thoughts, notes, and questions relate.
 
 ---
 
 # Architecture
 
-Current architecture follows a simple service-oriented structure.
+Current architecture follows a layered service-oriented design.
 
 ```text
 UI
+
+↓
+
+Components
 
 ↓
 
@@ -385,31 +361,43 @@ Supabase
 PostgreSQL
 ```
 
----
+Business logic remains inside the service layer.
 
-## Database Tables
-
-### profiles
-
-User information.
-
-### projects
-
-Writing projects.
-
-### notes
-
-Project notes.
-
-### activity_logs
-
-Memory Layer activity history.
+Pages never communicate directly with the database.
 
 ---
 
-## Authentication
+# Core Data Model
 
-Authentication is powered by:
+```text
+Project
+│
+├── Goal
+├── Current Focus
+├── Next Step
+├── Open Questions
+├── Notes
+├── Relationships
+└── Activity
+```
+
+---
+
+# Database
+
+Current tables:
+
+* profiles
+* projects
+* notes
+* activity_logs
+* relationship tables (Sprint 6)
+
+---
+
+# Authentication
+
+Powered by:
 
 ```text
 Supabase Auth
@@ -419,8 +407,8 @@ Supabase Auth
 Features:
 
 * Server-Side Sessions
+* Cookie Authentication
 * Protected Routes
-* Cookie-Based Authentication
 
 ---
 
@@ -455,13 +443,6 @@ Features:
 
 ---
 
-## Authentication
-
-* Supabase Auth
-* @supabase/ssr
-
----
-
 # Local Development
 
 ## Prerequisites
@@ -474,13 +455,9 @@ Features:
 
 ## Installation
 
-Clone repository:
-
 ```bash
-git clone https://github.com/<username>/lekhak.git
+git clone https://github.com/raghavendrashivam474/lekhak.git
 ```
-
-Install dependencies:
 
 ```bash
 npm install
@@ -499,7 +476,7 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
-Start development server:
+Run:
 
 ```bash
 npm run dev
@@ -513,44 +490,18 @@ http://localhost:3000
 
 ---
 
-# Project Structure
-
-```text
-src/
-
-app/
-components/
-services/
-types/
-lib/
-hooks/
-
-Database:
-profiles
-projects
-notes
-activity_logs
-```
-
----
-
 # Current Status
 
-Version:
-
 ```text
-v0.4
-```
+Version: v0.6
 
 Milestone:
+Foundation
+→ Memory
+→ Intent
+→ Relationships
 
-```text
-Foundation + Writing Workflow + Memory Layer v1
-```
-
-Development Status:
-
-```text
+Status:
 Active Development
 ```
 
@@ -558,7 +509,7 @@ Active Development
 
 # Documentation
 
-For deeper understanding of the project:
+Additional documentation:
 
 * docs/PRODUCT_VISION.md
 * docs/ROADMAP.md
@@ -567,6 +518,7 @@ For deeper understanding of the project:
 * docs/3D_PHILOSOPHY.md
 * docs/HANDOVER.md
 * docs/CONTRIBUTING.md
+* docs/CHANGELOG.md
 
 ---
 
@@ -574,10 +526,12 @@ For deeper understanding of the project:
 
 Lekhak is not being built as another writing editor.
 
-The long-term goal is to become a system that helps writers preserve:
+Its long-term vision is to become a creative memory system that preserves:
 
 * Stories
 * Ideas
+* Intent
+* Relationships
 * Context
 * Progress
 * Creative History
@@ -588,11 +542,13 @@ A place where writers can return months later and immediately understand:
 >
 > Why was I building it?
 >
-> Where do I continue?
+> How do my ideas connect?
+>
+> Where should I continue?
 
 ---
 
-## Motto
+# Motto
 
 > The Memory Layer for Writers.
 
@@ -600,11 +556,11 @@ A place where writers can return months later and immediately understand:
 
 # Founder
 
-**Raghav**
+**Raghavendra Singh**
 
 Engineering Student, Builder, and Creator.
 
-Lekhak is an attempt to preserve context and help writers reconnect with their creative journeys.
+Lekhak is an attempt to preserve creative context and help writers reconnect with their ideas long after they were written.
 
 ---
 
