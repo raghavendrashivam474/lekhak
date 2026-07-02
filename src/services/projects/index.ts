@@ -6,6 +6,7 @@ import type {
   Project,
   CreateProjectInput,
   UpdateProjectInput,
+  UpdateProjectIntentInput,
 } from "@/types/project";
 
 type ServiceResult<T> =
@@ -115,6 +116,55 @@ export async function updateProject(
 
   if (error) {
     console.error("[updateProject]", error.message);
+    return { data: null, error: error.message };
+  }
+
+  await logActivity({
+    project_id: id,
+    entity_type: "project",
+    entity_id: id,
+    action: "project_updated",
+    metadata: { title: data.title },
+  });
+
+  return { data, error: null };
+}
+
+export async function updateProjectIntent(
+  id: string,
+  input: UpdateProjectIntentInput
+): Promise<ServiceResult<Project>> {
+  const supabase = createClient();
+
+  const payload: Record<string, unknown> = {
+    updated_at: new Date().toISOString(),
+  };
+
+  if (input.goal !== undefined) {
+    payload.goal = input.goal.trim() || null;
+  }
+
+  if (input.current_focus !== undefined) {
+    payload.current_focus = input.current_focus.trim() || null;
+  }
+
+  if (input.next_step !== undefined) {
+    payload.next_step = input.next_step.trim() || null;
+  }
+
+  if (input.open_questions !== undefined) {
+    payload.open_questions = input.open_questions.filter((q) => q.trim() !== "");
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update(payload)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("[updateProjectIntent]", error.message);
     return { data: null, error: error.message };
   }
 

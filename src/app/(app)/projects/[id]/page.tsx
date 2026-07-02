@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { getNotesByProject } from "@/services/notes";
 import { getProjectActivity } from "@/services/activity";
 import { CreateNoteDialog } from "@/components/notes/CreateNoteDialog";
 import { EditProjectDialog } from "@/components/projects/EditProjectDialog";
+import { IntentPanel } from "@/components/projects/IntentPanel";
 import type { Project } from "@/types/project";
 import type { Note } from "@/types/note";
 import type { ActivityLog } from "@/types/activity";
@@ -17,10 +18,10 @@ import type { ActivityLog } from "@/types/activity";
 function activityLabel(log: ActivityLog): string {
   switch (log.action) {
     case "project_created": return "Project created";
-    case "project_updated": return `Project updated: ${log.metadata.title}`;
-    case "note_created":    return `Note created: ${log.metadata.title}`;
-    case "note_updated":    return `Note updated: ${log.metadata.title}`;
-    case "note_deleted":    return `Note deleted: ${log.metadata.title}`;
+    case "project_updated": return "Project updated: " + (log.metadata.title || "");
+    case "note_created":    return "Note created: " + (log.metadata.title || "");
+    case "note_updated":    return "Note updated: " + (log.metadata.title || "");
+    case "note_deleted":    return "Note deleted: " + (log.metadata.title || "");
     default:                return log.action;
   }
 }
@@ -100,7 +101,6 @@ export default function ProjectDetailPage() {
     router.push("/projects");
   }
 
-  // Resume context derived from activity
   const lastActivity = activity[0] ?? null;
   const recentNoteUpdates = activity.filter(
     (a) => a.action === "note_updated" || a.action === "note_created"
@@ -137,7 +137,6 @@ export default function ProjectDetailPage() {
       {!loading && !error && project && (
         <div className="space-y-8">
 
-          {/* Project header */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-3">
               <div className="min-w-0">
@@ -172,19 +171,13 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
-          {/* Delete confirmation */}
           {showDeleteConfirm && (
             <div className="rounded-lg border border-red-900/50 bg-red-900/10 p-5 space-y-3">
-              <p className="text-sm font-medium text-red-300">
-                Delete this project?
-              </p>
+              <p className="text-sm font-medium text-red-300">Delete this project?</p>
               <p className="text-sm text-[#8A9BB0]">
-                This action cannot be undone. You will be redirected back to
-                Projects after deletion.
+                This action cannot be undone. You will be redirected back to Projects after deletion.
               </p>
-              {deleteError && (
-                <p className="text-sm text-red-400">{deleteError}</p>
-              )}
+              {deleteError && <p className="text-sm text-red-400">{deleteError}</p>}
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleDeleteProject}
@@ -194,10 +187,7 @@ export default function ProjectDetailPage() {
                   {deleting ? "Deleting..." : "Yes, delete project"}
                 </button>
                 <button
-                  onClick={() => {
-                    setShowDeleteConfirm(false);
-                    setDeleteError(null);
-                  }}
+                  onClick={() => { setShowDeleteConfirm(false); setDeleteError(null); }}
                   disabled={deleting}
                   className="inline-flex items-center justify-center rounded-lg border border-[#2A3A52] px-4 py-2 text-sm font-medium text-[#C8D6E5] transition-colors hover:bg-[#2A3A52] disabled:opacity-50"
                 >
@@ -207,23 +197,18 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          {/* Resume context */}
           {(lastActivity || mostRecentNote) && (
             <div className="rounded-lg border border-[#2A3A52] bg-[#1A2333]/50 p-5 space-y-3">
               <div className="flex items-center gap-2 mb-3">
                 <Clock className="h-4 w-4 text-[#C9A84C]" />
-                <h2 className="text-sm font-medium text-[#C9A84C]">
-                  Where you left off
-                </h2>
+                <h2 className="text-sm font-medium text-[#C9A84C]">Where you left off</h2>
               </div>
 
               {lastActivity && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Last worked on</span>
                   <span className="text-sm text-[#C8D6E5]">
-                    {formatDistanceToNow(new Date(lastActivity.created_at), {
-                      addSuffix: true,
-                    })}
+                    {formatDistanceToNow(new Date(lastActivity.created_at), { addSuffix: true })}
                   </span>
                 </div>
               )}
@@ -241,7 +226,7 @@ export default function ProjectDetailPage() {
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Most recent note</span>
                   <Link
-                    href={`/projects/${id}/notes/${mostRecentNote.id}`}
+                    href={"/projects/" + id + "/notes/" + mostRecentNote.id}
                     className="text-sm text-[#C9A84C] hover:underline truncate max-w-[200px]"
                   >
                     {mostRecentNote.title}
@@ -251,29 +236,23 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          {/* Notes section */}
+          <IntentPanel project={project} onProjectUpdated={handleProjectUpdated} />
+
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-[#F5ECD7]">
                 Notes
                 {notes.length > 0 && (
-                  <span className="ml-2 text-sm font-normal text-[#4A5A6A]">
-                    ({notes.length})
-                  </span>
+                  <span className="ml-2 text-sm font-normal text-[#4A5A6A]">({notes.length})</span>
                 )}
               </h2>
-              <CreateNoteDialog
-                projectId={id}
-                onNoteCreated={handleNoteCreated}
-              />
+              <CreateNoteDialog projectId={id} onNoteCreated={handleNoteCreated} />
             </div>
 
             {notes.length === 0 && (
               <div className="rounded-lg border border-dashed border-[#2A3A52] p-8 text-center">
                 <FileText className="h-8 w-8 text-[#4A5A6A] mx-auto mb-3" />
-                <p className="text-[#8A9BB0] text-sm">
-                  No notes yet. Capture your first idea.
-                </p>
+                <p className="text-[#8A9BB0] text-sm">No notes yet. Capture your first idea.</p>
               </div>
             )}
 
@@ -282,14 +261,12 @@ export default function ProjectDetailPage() {
                 {notes.map((note) => (
                   <li key={note.id}>
                     <Link
-                      href={`/projects/${id}/notes/${note.id}`}
+                      href={"/projects/" + id + "/notes/" + note.id}
                       className="block rounded-lg border border-[#2A3A52] bg-[#1A2333] p-4 transition-colors hover:border-[#C9A84C]/40"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0">
-                          <h3 className="font-medium text-[#F5ECD7] truncate">
-                            {note.title}
-                          </h3>
+                          <h3 className="font-medium text-[#F5ECD7] truncate">{note.title}</h3>
                           {note.content && (
                             <p className="text-[#8A9BB0] text-sm mt-1 line-clamp-2 whitespace-pre-wrap">
                               {note.content}
@@ -297,9 +274,7 @@ export default function ProjectDetailPage() {
                           )}
                         </div>
                         <span className="text-xs text-[#4A5A6A] whitespace-nowrap shrink-0 mt-0.5">
-                          {formatDistanceToNow(new Date(note.updated_at), {
-                            addSuffix: true,
-                          })}
+                          {formatDistanceToNow(new Date(note.updated_at), { addSuffix: true })}
                         </span>
                       </div>
                     </Link>
@@ -309,20 +284,15 @@ export default function ProjectDetailPage() {
             )}
           </div>
 
-          {/* Project Timeline */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <History className="h-4 w-4 text-[#C9A84C]" />
-              <h2 className="text-lg font-medium text-[#F5ECD7]">
-                Project Timeline
-              </h2>
+              <h2 className="text-lg font-medium text-[#F5ECD7]">Project Timeline</h2>
             </div>
 
             {activity.length === 0 && (
               <div className="rounded-lg border border-dashed border-[#2A3A52] p-6 text-center">
-                <p className="text-[#4A5A6A] text-sm">
-                  Start writing to build your project history.
-                </p>
+                <p className="text-[#4A5A6A] text-sm">Start writing to build your project history.</p>
               </div>
             )}
 
@@ -333,13 +303,9 @@ export default function ProjectDetailPage() {
                     key={log.id}
                     className="flex items-center justify-between gap-4 rounded-lg border border-[#2A3A52] bg-[#1A2333] px-4 py-3"
                   >
-                    <span className="text-sm text-[#C8D6E5] truncate">
-                      {activityLabel(log)}
-                    </span>
+                    <span className="text-sm text-[#C8D6E5] truncate">{activityLabel(log)}</span>
                     <span className="text-xs text-[#4A5A6A] whitespace-nowrap shrink-0">
-                      {formatDistanceToNow(new Date(log.created_at), {
-                        addSuffix: true,
-                      })}
+                      {formatDistanceToNow(new Date(log.created_at), { addSuffix: true })}
                     </span>
                   </li>
                 ))}

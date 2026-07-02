@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 
 export const createProjectSchema = z.object({
   title: z
@@ -17,5 +17,29 @@ export const createProjectSchema = z.object({
 
 export const updateProjectSchema = createProjectSchema.partial();
 
+export const intentFieldSchema = z.object({
+  goal: z
+    .string()
+    .max(500, "Goal must be 500 characters or fewer.")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+
+  current_focus: z
+    .string()
+    .max(300, "Current focus must be 300 characters or fewer.")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+
+  next_step: z
+    .string()
+    .max(300, "Next step must be 300 characters or fewer.")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+});
+
 export type CreateProjectFormValues = z.infer<typeof createProjectSchema>;
 export type UpdateProjectFormValues = z.infer<typeof updateProjectSchema>;
+export type IntentFieldFormValues = z.infer<typeof intentFieldSchema>;
