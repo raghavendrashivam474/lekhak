@@ -9,15 +9,18 @@ import { getProjectById, deleteProject } from "@/services/projects";
 import { getNotesByProject } from "@/services/notes";
 import { getProjectActivity } from "@/services/activity";
 import { getProjectQuestions, getNoteIntentLinks } from "@/services/relationships";
+import { getProjectCollections, getProjectHealth } from "@/services/collections";
 import { CreateNoteDialog } from "@/components/notes/CreateNoteDialog";
 import { EditProjectDialog } from "@/components/projects/EditProjectDialog";
 import { IntentPanel } from "@/components/projects/IntentPanel";
 import { QuestionsPanel } from "@/components/projects/QuestionsPanel";
-import { IntentLinksPanel } from "@/components/projects/IntentLinksPanel";
+import { CollectionsPanel } from "@/components/collections/CollectionsPanel";
+import { ProjectHealthPanel } from "@/components/projects/ProjectHealthPanel";
 import type { Project } from "@/types/project";
 import type { Note } from "@/types/note";
 import type { ActivityLog } from "@/types/activity";
 import type { QuestionWithNote, NoteIntentLinkWithNote } from "@/types/relationship";
+import type { CollectionWithNotes, ProjectHealth } from "@/types/collection";
 
 function activityLabel(log: ActivityLog): string {
   switch (log.action) {
@@ -40,6 +43,8 @@ export default function ProjectDetailPage() {
   const [activity, setActivity] = useState<ActivityLog[]>([]);
   const [questions, setQuestions] = useState<QuestionWithNote[]>([]);
   const [intentLinks, setIntentLinks] = useState<NoteIntentLinkWithNote[]>([]);
+  const [collections, setCollections] = useState<CollectionWithNotes[]>([]);
+  const [health, setHealth] = useState<ProjectHealth | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -50,14 +55,23 @@ export default function ProjectDetailPage() {
     if (!id) return;
 
     async function load() {
-      const [projectRes, notesRes, activityRes, questionsRes, intentLinksRes] =
-        await Promise.all([
-          getProjectById(id),
-          getNotesByProject(id),
-          getProjectActivity(id),
-          getProjectQuestions(id),
-          getNoteIntentLinks(id),
-        ]);
+      const [
+        projectRes,
+        notesRes,
+        activityRes,
+        questionsRes,
+        intentLinksRes,
+        collectionsRes,
+        healthRes,
+      ] = await Promise.all([
+        getProjectById(id),
+        getNotesByProject(id),
+        getProjectActivity(id),
+        getProjectQuestions(id),
+        getNoteIntentLinks(id),
+        getProjectCollections(id),
+        getProjectHealth(id),
+      ]);
 
       if (projectRes.error) {
         setError(projectRes.error);
@@ -69,6 +83,8 @@ export default function ProjectDetailPage() {
       if (activityRes.data) setActivity(activityRes.data);
       if (questionsRes.data) setQuestions(questionsRes.data);
       if (intentLinksRes.data) setIntentLinks(intentLinksRes.data);
+      if (collectionsRes.data) setCollections(collectionsRes.data);
+      if (healthRes.data) setHealth(healthRes.data);
 
       setLoading(false);
     }
@@ -91,6 +107,9 @@ export default function ProjectDetailPage() {
       },
       ...prev,
     ]);
+    setHealth((prev) =>
+      prev ? { ...prev, total_notes: prev.total_notes + 1, orphan_notes: prev.orphan_notes + 1 } : prev
+    );
   }
 
   function handleProjectUpdated(updated: Project) {
@@ -100,15 +119,12 @@ export default function ProjectDetailPage() {
   async function handleDeleteProject() {
     setDeleting(true);
     setDeleteError(null);
-
     const { error } = await deleteProject(id);
-
     if (error) {
       setDeleteError(error);
       setDeleting(false);
       return;
     }
-
     router.push("/projects");
   }
 
@@ -117,6 +133,7 @@ export default function ProjectDetailPage() {
     (a) => a.action === "note_updated" || a.action === "note_created"
   ).length;
   const mostRecentNote = notes[0] ?? null;
+  const openQuestions = questions.filter((q) => q.status === "open");
 
   const goalLinks = intentLinks.filter((l) => l.context === "goal");
   const focusLinks = intentLinks.filter((l) => l.context === "focus");
@@ -156,6 +173,7 @@ export default function ProjectDetailPage() {
       {!loading && !error && project && (
         <div className="space-y-8">
 
+          {/* Project header */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-3">
               <div className="min-w-0">
@@ -188,11 +206,12 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
+          {/* Delete confirmation */}
           {showDeleteConfirm && (
             <div className="rounded-lg border border-red-900/50 bg-red-900/10 p-5 space-y-3">
               <p className="text-sm font-medium text-red-300">Delete this project?</p>
               <p className="text-sm text-[#8A9BB0]">
-                This action cannot be undone. You will be redirected back to Projects after deletion.
+                This action cannot be undone. You will be redirected back to Projects.
               </p>
               {deleteError && <p className="text-sm text-red-400">{deleteError}</p>}
               <div className="flex items-center gap-3">
@@ -214,12 +233,14 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          {(lastActivity || mostRecentNote) && (
+          {/* Resume Workspace v2 */}
+          {(lastActivity || mostRecentNote || openQuestions.length > 0) && (
             <div className="rounded-lg border border-[#2A3A52] bg-[#1A2333]/50 p-5 space-y-3">
               <div className="flex items-center gap-2 mb-3">
                 <Clock className="h-4 w-4 text-[#C9A84C]" />
                 <h2 className="text-sm font-medium text-[#C9A84C]">Where you left off</h2>
               </div>
+
               {lastActivity && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Last worked on</span>
@@ -228,6 +249,7 @@ export default function ProjectDetailPage() {
                   </span>
                 </div>
               )}
+
               {recentNoteUpdates > 0 && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Recent changes</span>
@@ -236,6 +258,7 @@ export default function ProjectDetailPage() {
                   </span>
                 </div>
               )}
+
               {mostRecentNote && (
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-sm text-[#8A9BB0]">Most recent note</span>
@@ -247,9 +270,31 @@ export default function ProjectDetailPage() {
                   </Link>
                 </div>
               )}
+
+              {openQuestions.length > 0 && (
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm text-[#8A9BB0]">Open questions</span>
+                  <span className="text-sm text-[#C9A84C]">
+                    {openQuestions.length} unresolved
+                  </span>
+                </div>
+              )}
+
+              {project.next_step && (
+                <div className="border-t border-[#2A3A52] pt-3 mt-3">
+                  <p className="text-xs text-[#4A5A6A] mb-1">Suggested starting point</p>
+                  <p className="text-sm text-[#F5ECD7] font-medium">{project.next_step}</p>
+                </div>
+              )}
             </div>
           )}
 
+          {/* Project Health */}
+          {health && health.total_notes > 0 && (
+            <ProjectHealthPanel health={health} />
+          )}
+
+          {/* Intent Panel */}
           <IntentPanel
             project={project}
             onProjectUpdated={handleProjectUpdated}
@@ -277,6 +322,7 @@ export default function ProjectDetailPage() {
             projectNotes={notePicklist}
           />
 
+          {/* Questions */}
           <QuestionsPanel
             projectId={id}
             questions={questions}
@@ -284,6 +330,15 @@ export default function ProjectDetailPage() {
             projectNotes={notePicklist}
           />
 
+          {/* Collections */}
+          <CollectionsPanel
+            projectId={id}
+            collections={collections}
+            onCollectionsChanged={setCollections}
+            projectNotes={notePicklist}
+          />
+
+          {/* Notes */}
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-[#F5ECD7]">
@@ -335,6 +390,7 @@ export default function ProjectDetailPage() {
             )}
           </div>
 
+          {/* Timeline */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <History className="h-4 w-4 text-[#C9A84C]" />
@@ -366,7 +422,6 @@ export default function ProjectDetailPage() {
 
         </div>
       )}
-
     </div>
   );
 }

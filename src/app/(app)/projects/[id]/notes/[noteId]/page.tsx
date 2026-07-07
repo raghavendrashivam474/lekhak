@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { format } from "date-fns";
-import { getNoteById, deleteNote } from "@/services/notes";
+import { getNoteById, deleteNote, getNotesByProject } from "@/services/notes";
 import { getNoteRelationships } from "@/services/relationships";
-import { getNotesByProject } from "@/services/notes";
+import { getNoteTags, getProjectTags } from "@/services/collections";
 import { EditNoteDialog } from "@/components/notes/EditNoteDialog";
 import { NoteRelationships } from "@/components/notes/NoteRelationships";
+import { KnowledgeTagsPanel } from "@/components/notes/KnowledgeTagsPanel";
 import type { Note } from "@/types/note";
 import type { NoteRelationshipWithNote } from "@/types/relationship";
+import type { KnowledgeTag, NoteTagWithTag } from "@/types/collection";
 
 export default function NoteDetailPage() {
   const params = useParams();
@@ -21,6 +23,8 @@ export default function NoteDetailPage() {
   const [note, setNote] = useState<Note | null>(null);
   const [relationships, setRelationships] = useState<NoteRelationshipWithNote[]>([]);
   const [projectNotes, setProjectNotes] = useState<{ id: string; title: string; category: string }[]>([]);
+  const [noteTags, setNoteTags] = useState<NoteTagWithTag[]>([]);
+  const [projectTags, setProjectTags] = useState<KnowledgeTag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -31,11 +35,14 @@ export default function NoteDetailPage() {
     if (!noteId) return;
 
     async function load() {
-      const [noteRes, relsRes, allNotesRes] = await Promise.all([
-        getNoteById(noteId),
-        getNoteRelationships(noteId),
-        getNotesByProject(projectId),
-      ]);
+      const [noteRes, relsRes, allNotesRes, noteTagsRes, projectTagsRes] =
+        await Promise.all([
+          getNoteById(noteId),
+          getNoteRelationships(noteId),
+          getNotesByProject(projectId),
+          getNoteTags(noteId),
+          getProjectTags(projectId),
+        ]);
 
       if (noteRes.error) {
         setError(noteRes.error);
@@ -44,7 +51,6 @@ export default function NoteDetailPage() {
       }
 
       if (relsRes.data) setRelationships(relsRes.data);
-
       if (allNotesRes.data) {
         setProjectNotes(
           allNotesRes.data.map((n) => ({
@@ -54,6 +60,8 @@ export default function NoteDetailPage() {
           }))
         );
       }
+      if (noteTagsRes.data) setNoteTags(noteTagsRes.data);
+      if (projectTagsRes.data) setProjectTags(projectTagsRes.data);
 
       setLoading(false);
     }
@@ -154,6 +162,15 @@ export default function NoteDetailPage() {
               </p>
             )}
           </div>
+
+          <KnowledgeTagsPanel
+            noteId={noteId}
+            projectId={projectId}
+            noteTags={noteTags}
+            projectTags={projectTags}
+            onNoteTagsChanged={setNoteTags}
+            onProjectTagsChanged={setProjectTags}
+          />
 
           <NoteRelationships
             noteId={noteId}
