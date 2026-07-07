@@ -3,7 +3,7 @@
 > The Memory Layer for Writers.
 
 **Status:** Active Development
-**Version:** v0.6
+**Version:** v0.7
 **License:** MIT
 
 ---
@@ -42,15 +42,14 @@ Its purpose is to help writers remember not only what they wrote, but also the c
 
 ---
 
-# Current Milestone
-
-## v0.6 — Relationship Layer v1
+## v0.7 — Knowledge Layer v1
 
 Current focus:
 
 * Writer Intelligence
-* Smart Resume Experience
+* Cross-Project Knowledge
 * Creative Insights
+* Memory Graph Foundation
 
 ---
 
@@ -114,6 +113,7 @@ Instead of simply storing notes, Lekhak gradually builds an understanding of:
 * Activity
 * Intent
 * Relationships
+* Knowledge
 
 allowing writers to immediately reconnect with their work after days, weeks, or months away.
 
@@ -196,6 +196,28 @@ These relationships form the foundation for future intelligence features.
 
 ---
 
+---
+
+## Knowledge Layer v1
+
+Sprint 7 transforms connected information into organized knowledge.
+
+Capabilities include:
+
+* Collections
+* Knowledge Spaces
+* Knowledge Tags
+* Smart References
+* Project Health
+* Resume Workspace v2
+* Dashboard v2
+
+The project is no longer a collection of notes.
+
+It becomes an organized knowledge workspace that helps writers navigate ideas through structure rather than memory alone.
+
+---
+
 # Product Roadmap
 
 ## v0.1 — Foundation ✅
@@ -255,7 +277,19 @@ These relationships form the foundation for future intelligence features.
 
 ---
 
-## v0.7 — Writer Intelligence
+## v0.7 — Knowledge Layer ✅
+
+* Collections
+* Knowledge Spaces
+* Knowledge Tags
+* Smart References
+* Resume Workspace v2
+* Dashboard v2
+* Project Health
+
+---
+
+## v0.8 — Writer Intelligence
 
 Planned
 
@@ -263,37 +297,29 @@ Potential capabilities:
 
 * Smart Resume
 * Writing Insights
-* Progress Analysis
 * Pattern Recognition
-* Intelligent Suggestions
+* Project Health Insights
+* Knowledge Recommendations
+* Writing Momentum
+* Stale Project Detection
 
 ---
 
-## v0.8 — Memory Graph
+## v0.9 — Memory Graph
 
 Planned
 
 Potential capabilities:
 
 * Interactive Knowledge Graph
-* Creative Relationship Explorer
+* Cross-Project Navigation
+* Relationship Explorer
 * Context Navigation
+* Visual Knowledge Maps
 
 ---
 
-## v0.9 — Spatial Memory
-
-Future
-
-Potential capabilities:
-
-* Three-Dimensional Memory Visualization
-* Memory Constellation
-* Spatial Knowledge Navigation
-
----
-
-## v1.0 — Public Launch
+## v1.0 — Creative Operating System
 
 Goal:
 
@@ -336,6 +362,27 @@ Ideas become more valuable when connected.
 Lekhak should help writers understand how their thoughts, notes, and questions relate.
 
 ---
+---
+
+## Knowledge
+
+Knowledge should emerge naturally from relationships.
+
+The application should organize ideas into meaningful structures, helping writers navigate concepts instead of searching through disconnected notes.
+
+---
+
+## Knowledge
+
+Knowledge should emerge naturally from relationships.
+
+The application should organize ideas into meaningful structures, helping writers navigate concepts instead of searching through disconnected notes.
+
+## Knowledge
+
+Knowledge should emerge naturally from relationships.
+
+The application should organize ideas into meaningful structures, helping writers navigate concepts instead of searching through disconnected notes.
 
 # Architecture
 
@@ -351,6 +398,10 @@ Components
 ↓
 
 Service Layer
+
+↓
+
+Knowledge Layer
 
 ↓
 
@@ -372,12 +423,21 @@ Pages never communicate directly with the database.
 ```text
 Project
 │
-├── Goal
-├── Current Focus
-├── Next Step
-├── Open Questions
-├── Notes
+├── Intent
+│     ├── Goal
+│     ├── Current Focus
+│     ├── Next Step
+│     └── Questions
+│
+├── Collections
+│     └── Notes
+│
 ├── Relationships
+│
+├── Knowledge Tags
+│
+├── Project Health
+│
 └── Activity
 ```
 
@@ -391,7 +451,12 @@ Current tables:
 * projects
 * notes
 * activity_logs
-* relationship tables (Sprint 6)
+* relationships
+* intent_links
+* collections
+* note_collections
+* knowledge_tags
+* note_tags
 
 ---
 
@@ -493,13 +558,14 @@ http://localhost:3000
 # Current Status
 
 ```text
-Version: v0.6
+Version: v0.7
 
 Milestone:
 Foundation
 → Memory
 → Intent
 → Relationships
+→ Knowledge
 
 Status:
 Active Development
@@ -526,12 +592,13 @@ Additional documentation:
 
 Lekhak is not being built as another writing editor.
 
-Its long-term vision is to become a creative memory system that preserves:
+Its long-term vision is to become a creative knowledge system that preserves:
 
 * Stories
 * Ideas
 * Intent
 * Relationships
+* Knowledge
 * Context
 * Progress
 * Creative History
