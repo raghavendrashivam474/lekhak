@@ -3,24 +3,46 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, FileText, Clock, History } from "lucide-react";
+import { ArrowLeft, Calendar, FileText, History } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { getProjectById, deleteProject } from "@/services/projects";
 import { getNotesByProject } from "@/services/notes";
 import { getProjectActivity } from "@/services/activity";
 import { getProjectQuestions, getNoteIntentLinks } from "@/services/relationships";
 import { getProjectCollections, getProjectHealth } from "@/services/collections";
+import {
+  calculateProjectStatus,
+  calculateSmartResume,
+  calculateGoalProgress,
+  detectOrphans,
+  analyzeQuestions,
+  detectFocusDrift,
+  analyzeCreativeGaps,
+} from "@/services/intelligence";
 import { CreateNoteDialog } from "@/components/notes/CreateNoteDialog";
 import { EditProjectDialog } from "@/components/projects/EditProjectDialog";
 import { IntentPanel } from "@/components/projects/IntentPanel";
 import { QuestionsPanel } from "@/components/projects/QuestionsPanel";
 import { CollectionsPanel } from "@/components/collections/CollectionsPanel";
 import { ProjectHealthPanel } from "@/components/projects/ProjectHealthPanel";
+import { ProjectStatusBadge } from "@/components/intelligence/ProjectStatusBadge";
+import { SmartResumePanel } from "@/components/intelligence/SmartResumePanel";
+import { GoalProgressPanel } from "@/components/intelligence/GoalProgressPanel";
+import { InsightsPanel } from "@/components/intelligence/InsightsPanel";
 import type { Project } from "@/types/project";
 import type { Note } from "@/types/note";
 import type { ActivityLog } from "@/types/activity";
 import type { QuestionWithNote, NoteIntentLinkWithNote } from "@/types/relationship";
 import type { CollectionWithNotes, ProjectHealth } from "@/types/collection";
+import type {
+  ProjectStatusInsight,
+  SmartResumeContext,
+  GoalProgress,
+  OrphanInsight,
+  QuestionIntelligence,
+  FocusDrift,
+  CreativeGap,
+} from "@/types/intelligence";
 
 function activityLabel(log: ActivityLog): string {
   switch (log.action) {
@@ -45,6 +67,13 @@ export default function ProjectDetailPage() {
   const [intentLinks, setIntentLinks] = useState<NoteIntentLinkWithNote[]>([]);
   const [collections, setCollections] = useState<CollectionWithNotes[]>([]);
   const [health, setHealth] = useState<ProjectHealth | null>(null);
+  const [status, setStatus] = useState<ProjectStatusInsight | null>(null);
+  const [resume, setResume] = useState<SmartResumeContext | null>(null);
+  const [goalProgress, setGoalProgress] = useState<GoalProgress | null>(null);
+  const [orphans, setOrphans] = useState<OrphanInsight | null>(null);
+  const [qIntel, setQIntel] = useState<QuestionIntelligence | null>(null);
+  const [focusDrift, setFocusDrift] = useState<FocusDrift | null>(null);
+  const [gaps, setGaps] = useState<CreativeGap[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -63,6 +92,13 @@ export default function ProjectDetailPage() {
         intentLinksRes,
         collectionsRes,
         healthRes,
+        statusRes,
+        resumeRes,
+        progressRes,
+        orphansRes,
+        qIntelRes,
+        driftRes,
+        gapsRes,
       ] = await Promise.all([
         getProjectById(id),
         getNotesByProject(id),
@@ -71,6 +107,13 @@ export default function ProjectDetailPage() {
         getNoteIntentLinks(id),
         getProjectCollections(id),
         getProjectHealth(id),
+        calculateProjectStatus(id),
+        calculateSmartResume(id),
+        calculateGoalProgress(id),
+        detectOrphans(id),
+        analyzeQuestions(id),
+        detectFocusDrift(id),
+        analyzeCreativeGaps(id),
       ]);
 
       if (projectRes.error) {
@@ -85,6 +128,13 @@ export default function ProjectDetailPage() {
       if (intentLinksRes.data) setIntentLinks(intentLinksRes.data);
       if (collectionsRes.data) setCollections(collectionsRes.data);
       if (healthRes.data) setHealth(healthRes.data);
+      setStatus(statusRes);
+      setResume(resumeRes);
+      setGoalProgress(progressRes);
+      setOrphans(orphansRes);
+      setQIntel(qIntelRes);
+      setFocusDrift(driftRes);
+      setGaps(gapsRes);
 
       setLoading(false);
     }
@@ -107,9 +157,6 @@ export default function ProjectDetailPage() {
       },
       ...prev,
     ]);
-    setHealth((prev) =>
-      prev ? { ...prev, total_notes: prev.total_notes + 1, orphan_notes: prev.orphan_notes + 1 } : prev
-    );
   }
 
   function handleProjectUpdated(updated: Project) {
@@ -127,13 +174,6 @@ export default function ProjectDetailPage() {
     }
     router.push("/projects");
   }
-
-  const lastActivity = activity[0] ?? null;
-  const recentNoteUpdates = activity.filter(
-    (a) => a.action === "note_updated" || a.action === "note_created"
-  ).length;
-  const mostRecentNote = notes[0] ?? null;
-  const openQuestions = questions.filter((q) => q.status === "open");
 
   const goalLinks = intentLinks.filter((l) => l.context === "goal");
   const focusLinks = intentLinks.filter((l) => l.context === "focus");
@@ -173,7 +213,7 @@ export default function ProjectDetailPage() {
       {!loading && !error && project && (
         <div className="space-y-8">
 
-          {/* Project header */}
+          {/* Header */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-3">
               <div className="min-w-0">
@@ -187,10 +227,7 @@ export default function ProjectDetailPage() {
                 )}
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <EditProjectDialog
-                  project={project}
-                  onProjectUpdated={handleProjectUpdated}
-                />
+                <EditProjectDialog project={project} onProjectUpdated={handleProjectUpdated} />
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
                   className="inline-flex items-center justify-center rounded-lg border border-red-900/50 bg-transparent px-4 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-red-900/20 hover:text-red-300"
@@ -206,7 +243,6 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
-          {/* Delete confirmation */}
           {showDeleteConfirm && (
             <div className="rounded-lg border border-red-900/50 bg-red-900/10 p-5 space-y-3">
               <p className="text-sm font-medium text-red-300">Delete this project?</p>
@@ -233,66 +269,28 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          {/* Resume Workspace v2 */}
-          {(lastActivity || mostRecentNote || openQuestions.length > 0) && (
-            <div className="rounded-lg border border-[#2A3A52] bg-[#1A2333]/50 p-5 space-y-3">
-              <div className="flex items-center gap-2 mb-3">
-                <Clock className="h-4 w-4 text-[#C9A84C]" />
-                <h2 className="text-sm font-medium text-[#C9A84C]">Where you left off</h2>
-              </div>
+          {/* Project Status */}
+          {status && <ProjectStatusBadge insight={status} />}
 
-              {lastActivity && (
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-[#8A9BB0]">Last worked on</span>
-                  <span className="text-sm text-[#C8D6E5]">
-                    {formatDistanceToNow(new Date(lastActivity.created_at), { addSuffix: true })}
-                  </span>
-                </div>
-              )}
+          {/* Smart Resume Workspace */}
+          {resume && <SmartResumePanel projectId={id} resume={resume} />}
 
-              {recentNoteUpdates > 0 && (
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-[#8A9BB0]">Recent changes</span>
-                  <span className="text-sm text-[#C8D6E5]">
-                    {recentNoteUpdates} note{recentNoteUpdates !== 1 ? "s" : ""} updated
-                  </span>
-                </div>
-              )}
+          {/* Goal Progress */}
+          {goalProgress && <GoalProgressPanel progress={goalProgress} />}
 
-              {mostRecentNote && (
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-[#8A9BB0]">Most recent note</span>
-                  <Link
-                    href={"/projects/" + id + "/notes/" + mostRecentNote.id}
-                    className="text-sm text-[#C9A84C] hover:underline truncate max-w-[200px]"
-                  >
-                    {mostRecentNote.title}
-                  </Link>
-                </div>
-              )}
-
-              {openQuestions.length > 0 && (
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-sm text-[#8A9BB0]">Open questions</span>
-                  <span className="text-sm text-[#C9A84C]">
-                    {openQuestions.length} unresolved
-                  </span>
-                </div>
-              )}
-
-              {project.next_step && (
-                <div className="border-t border-[#2A3A52] pt-3 mt-3">
-                  <p className="text-xs text-[#4A5A6A] mb-1">Suggested starting point</p>
-                  <p className="text-sm text-[#F5ECD7] font-medium">{project.next_step}</p>
-                </div>
-              )}
-            </div>
+          {/* Insights */}
+          {orphans && qIntel && focusDrift && (
+            <InsightsPanel
+              projectId={id}
+              orphans={orphans}
+              focusDrift={focusDrift}
+              gaps={gaps}
+              questions={qIntel}
+            />
           )}
 
           {/* Project Health */}
-          {health && health.total_notes > 0 && (
-            <ProjectHealthPanel health={health} />
-          )}
+          {health && health.total_notes > 0 && <ProjectHealthPanel health={health} />}
 
           {/* Intent Panel */}
           <IntentPanel
@@ -302,22 +300,13 @@ export default function ProjectDetailPage() {
             focusLinks={focusLinks}
             nextStepLinks={nextStepLinks}
             onGoalLinksChanged={(links) =>
-              setIntentLinks((prev) => [
-                ...prev.filter((l) => l.context !== "goal"),
-                ...links,
-              ])
+              setIntentLinks((prev) => [...prev.filter((l) => l.context !== "goal"), ...links])
             }
             onFocusLinksChanged={(links) =>
-              setIntentLinks((prev) => [
-                ...prev.filter((l) => l.context !== "focus"),
-                ...links,
-              ])
+              setIntentLinks((prev) => [...prev.filter((l) => l.context !== "focus"), ...links])
             }
             onNextStepLinksChanged={(links) =>
-              setIntentLinks((prev) => [
-                ...prev.filter((l) => l.context !== "next_step"),
-                ...links,
-              ])
+              setIntentLinks((prev) => [...prev.filter((l) => l.context !== "next_step"), ...links])
             }
             projectNotes={notePicklist}
           />
