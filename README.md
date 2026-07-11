@@ -5,7 +5,7 @@
 A memory-first writing workspace that helps writers preserve not only what they write, but also **why they wrote it, how their ideas connect, what deserves attention, and where they should continue.**
 
 **Status:** Active Development
-**Version:** **v0.8 — Writer Intelligence Layer**
+**Version:** **v0.9 — Memory Graph v1**
 **License:** MIT
 
 ---
@@ -28,6 +28,7 @@ Weeks or months later, writers often return to a project and struggle to remembe
 * What they were trying to achieve
 * Which ideas mattered
 * How everything connected
+* What changed
 * Where they should continue
 
 Lekhak exists to preserve that missing context.
@@ -53,6 +54,8 @@ It remembers:
 * Relationships
 * Knowledge
 * Insights
+* Creative connections
+* Exploration context
 
 The long-term goal is to help writers reconnect with their work instantly, whether they return after one day or one year.
 
@@ -122,22 +125,30 @@ Lekhak answers:
 
 > "What were you building?"
 
+And increasingly:
+
+> "How does everything you built connect?"
+
 ---
 
 # The Solution
 
 Lekhak gradually builds an understanding of every writing project.
 
-Instead of only storing content, it learns:
+Instead of only storing content, it preserves and derives:
 
 * What changed
-* Why it changed
+* Why the project exists
+* What the writer is focused on
 * Which ideas relate
 * Which concepts belong together
 * Which projects require attention
+* Where unresolved questions remain
 * How the writer can continue immediately
 
 Every writing session strengthens the application's understanding of the project.
+
+The accumulated memory can then be explored through contextual and visual representations.
 
 ---
 
@@ -180,11 +191,11 @@ Writer Intelligence
 
 ↓
 
-Memory Graph (Planned)
+Visual Memory Graph
 
 ↓
 
-Spatial Memory (Future)
+Spatial Memory
 
 ↓
 
@@ -231,6 +242,7 @@ Features:
 * Delete Notes
 * Project Dashboard
 * Project Organization
+* Note Detail Pages
 
 ---
 
@@ -261,7 +273,7 @@ Every project maintains:
 * Next Writing Step
 * Open Questions
 
-Helping writers remember **why** they were working.
+Helping writers remember **why** they were working and **what should happen next**.
 
 ---
 
@@ -277,6 +289,7 @@ Capabilities include:
 * Focus Support
 * Next Step Dependencies
 * Question Relationships
+* Question Status
 * Note Categories
 
 Ideas become connected instead of isolated.
@@ -318,9 +331,239 @@ Capabilities include:
 * Smart Dashboard
 * Project Health Insights
 
-Writer Intelligence is entirely deterministic.
+Writer Intelligence is deterministic.
 
-It derives insights from structured project data without relying on Large Language Models or generative AI.
+It derives observations from structured project data without requiring Large Language Models or generative AI.
+
+The intelligence layer does not write for the writer.
+
+It helps the writer understand their own work.
+
+---
+
+## Memory Graph v1
+
+Memory Graph makes Lekhak's accumulated understanding visible.
+
+Instead of forcing writers to navigate creative memory through lists alone, Lekhak can project existing project data into an interactive visual memory space.
+
+The graph represents:
+
+* Projects
+* Collections
+* Notes
+* Open Questions
+* Knowledge Tags
+
+Relationships between these entities become semantic graph edges.
+
+Examples include:
+
+* Note Relationships
+* Collection Membership
+* Knowledge Tags
+* Question Answers
+* Intent Relationships
+* Goal Support
+* Focus Relevance
+* Next Step Dependencies
+
+The Memory Graph is a **projection of existing creative memory**.
+
+It is not a separate source of truth.
+
+---
+
+### Contextual Memory Exploration
+
+The graph does not render an entire project without context by default.
+
+Writers can enter memory through contextual entry points.
+
+Current entry points include:
+
+* Project Memory
+* Current Focus
+* Suggested Start
+* Recent Work
+* Open Questions
+* Orphan Knowledge
+
+Each entry point reveals a different perspective on the same project memory.
+
+---
+
+### Context Expansion
+
+Selecting an entity reveals its immediate creative neighbourhood.
+
+```text
+Selected Memory
+
+↓
+
+Immediate Relationships
+
+↓
+
+Connected Ideas
+
+↓
+
+Relevant Context
+```
+
+Relevant connections emerge.
+
+Unrelated memories fade into the background.
+
+This allows writers to explore context without being overwhelmed by the entire project.
+
+---
+
+### Memory Inspector
+
+Every selected graph entity can be inspected.
+
+The Memory Inspector adapts to the selected entity type and displays relevant information such as:
+
+* Category
+* Description
+* Project Status
+* Last Updated Time
+* Intelligence State
+* Relationship Context
+
+Writers can navigate from graph entities back to their actual writing workspace.
+
+The graph remains a lens on creative memory.
+
+It does not replace writing.
+
+---
+
+### Memory Trail
+
+Lekhak preserves the writer's current exploration path.
+
+Example:
+
+```text
+Project
+
+↓
+
+Chapter Outline
+
+↓
+
+Character Conflict
+
+↓
+
+Unresolved Question
+
+↓
+
+Research Note
+```
+
+The Memory Trail allows writers to move backwards through their exploration context.
+
+Memory exploration becomes a journey rather than a sequence of disconnected clicks.
+
+---
+
+### Graph Search and Filters
+
+The Memory Graph includes contextual discovery tools.
+
+Writers can:
+
+* Search projected memory entities
+* Filter node types
+* Filter relationship types
+* Focus on specific creative structures
+
+The graph can therefore act as both an exploration surface and a visual navigation system.
+
+---
+
+### Intelligence Overlay
+
+Writer Intelligence is mapped into visual memory state.
+
+The graph can surface concepts such as:
+
+* Orphan Knowledge
+* Dormant Projects
+* Active Projects
+* Suggested Starting Points
+* Unresolved Questions
+* Focus-Relevant Notes
+
+Intelligence calculations remain independent from visualization.
+
+The graph only visualizes insights already derived by the Writer Intelligence Layer.
+
+---
+
+# Memory Graph Architecture
+
+The graph system follows a renderer-independent architecture.
+
+```text
+Domain Layer
+
+↓
+
+Graph Projection Layer
+
+↓
+
+Graph Projection
+
+↓
+
+Renderer Adapter
+
+↓
+
+Renderer
+
+↓
+
+Memory Graph UI
+```
+
+The current renderer uses:
+
+```text
+@xyflow/react
+```
+
+Visualization-library dependencies are isolated behind a renderer adapter.
+
+The core graph domain does not depend on React Flow.
+
+---
+
+## Renderer Boundary
+
+```text
+GraphProjection
+      │
+      ├── React Flow Adapter
+      │
+      ↓
+      2D Memory Graph
+      │
+      └── Future Renderer Adapters
+                 ↓
+          Spatial Memory
+```
+
+This architecture allows future visualization systems to consume the same memory projection without replacing the underlying graph model.
 
 ---
 
@@ -337,7 +580,11 @@ Components
 
 ↓
 
-Service Layer
+Memory Graph Renderer
+
+↓
+
+Graph Projection Layer
 
 ↓
 
@@ -358,6 +605,10 @@ Intent Layer
 ↓
 
 Memory Layer
+
+↓
+
+Service Layer
 
 ↓
 
@@ -393,10 +644,68 @@ Project
 │
 ├── Intelligence
 │
+├── Graph Projection
+│
 └── Activity
 ```
 
-Every capability in Lekhak ultimately revolves around the project.
+Every capability in Lekhak ultimately revolves around the project and its accumulated creative memory.
+
+---
+
+# Graph Domain Model
+
+The graph domain is visualization-library independent.
+
+Core concepts include:
+
+```text
+GraphNode
+
+GraphEdge
+
+GraphProjection
+
+GraphNodeState
+
+GraphRelationshipType
+
+GraphEntryPoint
+
+GraphAdjacency
+```
+
+Supported memory node types include:
+
+```text
+Project
+
+Collection
+
+Note
+
+Question
+
+Knowledge Tag
+```
+
+Graph state can represent:
+
+```text
+Orphan
+
+Dormant
+
+Active
+
+Suggested Start
+
+Unresolved
+
+Focus Relevant
+```
+
+This domain model forms the foundation for future spatial memory systems.
 
 ---
 
@@ -409,6 +718,14 @@ Every capability in Lekhak ultimately revolves around the project.
 * TypeScript
 * Tailwind CSS
 * shadcn/ui
+
+---
+
+## Memory Graph
+
+* @xyflow/react
+* Renderer Adapter Architecture
+* Renderer-Independent Graph Projection
 
 ---
 
@@ -500,15 +817,33 @@ http://localhost:3000
 ```text
 Version
 
-v0.8
+v0.9
 
 Current Milestone
 
-Writer Intelligence Layer
+Memory Graph v1
 
 Development Status
 
 Active Development
+```
+
+Lekhak currently:
+
+```text
+Stores what exists
+
+Remembers what changed
+
+Preserves why work exists
+
+Connects related ideas
+
+Organizes creative knowledge
+
+Interprets writing patterns
+
+Visualizes accumulated memory
 ```
 
 ---
@@ -525,20 +860,28 @@ Active Development
 * ✅ Relationship Layer
 * ✅ Knowledge Layer
 * ✅ Writer Intelligence Layer
+* ✅ Memory Graph v1
 
 ---
 
 ## Next
 
-### Memory Graph
+### Spatial Memory Foundation
 
-Planned capabilities:
+The next stage explores whether creative memory can be understood spatially.
 
-* Interactive Knowledge Graph
-* Relationship Explorer
-* Cross-Project Navigation
-* Context Visualization
-* Visual Memory Navigation
+Potential capabilities include:
+
+* Spatial Graph Projection
+* Three-Dimensional Memory Navigation
+* Semantic Spatial Layout
+* Contextual Camera Movement
+* Depth-Based Memory Representation
+* Spatial Focus Modes
+
+The objective is not to make Lekhak visually impressive for its own sake.
+
+The objective is to determine whether spatial representation improves creative understanding.
 
 ---
 
@@ -551,7 +894,8 @@ Long-term research includes:
 * Three-Dimensional Knowledge Navigation
 * Memory Constellations
 * Spatial Project Exploration
-* Immersive Creative Workspace
+* Contextual Memory Worlds
+* Immersive Creative Navigation
 
 3D visualization will be introduced only when it meaningfully improves understanding rather than serving as decoration.
 
@@ -570,25 +914,27 @@ Its goal is to become a complete creative operating system that helps writers:
 * Maintain Intent
 * Build Relationships
 * Organize Knowledge
-* Generate Insights
+* Understand Patterns
+* Explore Creative Memory
 * Navigate Creative Spaces
+* Resume Work Instantly
 
 ---
 
 # Documentation
 
-Project documentation is available in the **docs/** directory.
+Project documentation is available in the `docs/` directory.
 
-* PRODUCT_VISION.md
-* ROADMAP.md
-* ARCHITECTURE.md
-* DESIGN_PHILOSOPHY.md
-* 3D_PHILOSOPHY.md
-* HANDOVER.md
-* CONTRIBUTING.md
-* CHANGELOG.md
-* CODE_OF_CONDUCT.md
-* SECURITY.md
+* `PRODUCT_VISION.md`
+* `ROADMAP.md`
+* `ARCHITECTURE.md`
+* `DESIGN_PHILOSOPHY.md`
+* `3D_PHILOSOPHY.md`
+* `HANDOVER.md`
+* `CONTRIBUTING.md`
+* `CHANGELOG.md`
+* `CODE_OF_CONDUCT.md`
+* `SECURITY.md`
 
 ---
 
@@ -626,6 +972,10 @@ A place where writers can return months—or even years—later and immediately 
 
 > Where should I continue?
 
+And eventually:
+
+> How can I move through everything I once understood?
+
 That is the future Lekhak is being built toward.
 
 ---
@@ -640,4 +990,4 @@ That is the future Lekhak is being built toward.
 
 This project is licensed under the **MIT License**.
 
-See the **LICENSE** file for details.
+See the `LICENSE` file for details.
