@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, FileText, History } from "lucide-react";
+import { ArrowLeft, Calendar, FileText, History, Network } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { getProjectById, deleteProject } from "@/services/projects";
 import { getNotesByProject } from "@/services/notes";
@@ -228,6 +228,13 @@ export default function ProjectDetailPage() {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <EditProjectDialog project={project} onProjectUpdated={handleProjectUpdated} />
+                <Link
+                  href={"/projects/" + id + "/memory"}
+                  className="inline-flex items-center justify-center rounded-lg border border-[#C9A84C]/40 bg-[#C9A84C]/10 px-4 py-2 text-sm font-medium text-[#C9A84C] transition-colors hover:bg-[#C9A84C]/20"
+                >
+                  <Network className="h-4 w-4 mr-2" />
+                  Explore Memory
+                </Link>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
                   className="inline-flex items-center justify-center rounded-lg border border-red-900/50 bg-transparent px-4 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-red-900/20 hover:text-red-300"
