@@ -1,9 +1,5 @@
 ﻿"use client";
 
-// src/hooks/useSpatialMemory.ts
-// Owns spatial interaction state and recomposes the projection on focus change.
-// Zero Three.js imports.
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type {
   GraphProjection,
@@ -21,7 +17,6 @@ interface UseSpatialMemoryInput {
   graph: GraphProjection;
   adjacency: GraphAdjacency;
   entryPoints: GraphEntryPoint[];
-  // Cross-view sync (optional): initial values coming from the graph view
   initialEntryKind?: GraphEntryPoint["kind"];
   initialSelectedNodeId?: string | null;
   focusRelevantEntityIds: Set<string>;
@@ -59,7 +54,7 @@ export function useSpatialMemory({
 
   const [memoryTrail, setMemoryTrail] = useState<string[]>([]);
 
-  // When entry point changes, reset visible set + trail
+  // Reset on entry point change
   useEffect(() => {
     if (!activeEntry) return;
     setVisibleNodeIds(initialVisibleFromEntry(activeEntry, adjacency));
@@ -68,9 +63,19 @@ export function useSpatialMemory({
     setFocusNodeId(null);
   }, [activeEntry, adjacency]);
 
+  // Guard: if the graph changes and the selected node no longer exists,
+  // clear selection so we don't try to focus on a ghost.
+  useEffect(() => {
+    if (!selectedNodeId) return;
+    const stillExists = graph.nodes.some((n) => n.id === selectedNodeId);
+    if (!stillExists) {
+      setSelectedNodeId(null);
+      setFocusNodeId(null);
+    }
+  }, [graph.nodes, selectedNodeId]);
+
   const projection: SpatialProjection = useMemo(() => {
     if (!activeEntry) {
-      // Safety net — shouldn't happen but avoid crashing render
       return {
         nodes: [],
         edges: [],
@@ -107,14 +112,14 @@ export function useSpatialMemory({
     entryPoints,
   ]);
 
-  // ---- Actions -------------------------------------------------------------
-
   const selectNode = useCallback(
     (spatialId: string) => {
-      // Spatial ids are "spatial::graphNodeId" — map back to graph id.
       const graphNodeId = spatialId.startsWith("spatial::")
         ? spatialId.slice("spatial::".length)
         : spatialId;
+
+      // Guard: only select nodes that exist in the current graph
+      if (!graph.nodes.some((n) => n.id === graphNodeId)) return;
 
       setSelectedNodeId(graphNodeId);
       setFocusNodeId(graphNodeId);
@@ -124,19 +129,24 @@ export function useSpatialMemory({
         return [...prev, graphNodeId];
       });
     },
-    [adjacency]
+    [adjacency, graph.nodes]
   );
 
   const jumpToTrailItem = useCallback(
     (index: number) => {
       const graphNodeId = memoryTrail[index];
       if (!graphNodeId) return;
+      if (!graph.nodes.some((n) => n.id === graphNodeId)) {
+        // Node was deleted — trim trail up to this index
+        setMemoryTrail((prev) => prev.slice(0, index));
+        return;
+      }
       setSelectedNodeId(graphNodeId);
       setFocusNodeId(graphNodeId);
       setVisibleNodeIds((prev) => recomposeVisible(prev, graphNodeId, adjacency));
       setMemoryTrail((prev) => prev.slice(0, index + 1));
     },
-    [memoryTrail, adjacency]
+    [memoryTrail, adjacency, graph.nodes]
   );
 
   const setEntryPoint = useCallback((kind: GraphEntryPoint["kind"]) => {

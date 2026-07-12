@@ -114,6 +114,9 @@ export function SpatialMemory({
             <button
               key={entry.kind}
               onClick={() => spatial.setEntryPoint(entry.kind)}
+              type="button"
+              aria-pressed={entry.kind === spatial.activeEntry?.kind}
+              aria-label={"Enter memory from " + entry.label}
               className={
                 "text-xs rounded-lg px-3 py-1.5 border transition-colors " +
                 (entry.kind === spatial.activeEntry?.kind
