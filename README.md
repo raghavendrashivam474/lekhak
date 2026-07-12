@@ -5,7 +5,7 @@
 A memory-first writing workspace that helps writers preserve not only what they write, but also **why they wrote it, how their ideas connect, what deserves attention, and where they should continue.**
 
 **Status:** Active Development
-**Version:** **v0.9 — Memory Graph v1**
+**Version:** **v0.10 — Spatial Memory Foundation v1**
 **License:** MIT
 
 ---
@@ -29,6 +29,7 @@ Weeks or months later, writers often return to a project and struggle to remembe
 * Which ideas mattered
 * How everything connected
 * What changed
+* What deserves attention
 * Where they should continue
 
 Lekhak exists to preserve that missing context.
@@ -56,6 +57,8 @@ It remembers:
 * Insights
 * Creative connections
 * Exploration context
+* Contextual relevance
+* Memory priority
 
 The long-term goal is to help writers reconnect with their work instantly, whether they return after one day or one year.
 
@@ -75,6 +78,7 @@ Its objective is to help writers remember:
 * Why they created it
 * How it evolved
 * Which ideas connect together
+* Which memories are relevant now
 * What deserves attention
 * Where they should continue
 
@@ -125,9 +129,13 @@ Lekhak answers:
 
 > "What were you building?"
 
-And increasingly:
+Then:
 
 > "How does everything you built connect?"
+
+And now:
+
+> "What matters in your current context?"
 
 ---
 
@@ -144,11 +152,12 @@ Instead of only storing content, it preserves and derives:
 * Which concepts belong together
 * Which projects require attention
 * Where unresolved questions remain
+* Which memories are contextually relevant
 * How the writer can continue immediately
 
 Every writing session strengthens the application's understanding of the project.
 
-The accumulated memory can then be explored through contextual and visual representations.
+The accumulated memory can then be explored structurally through the **Memory Graph** and contextually through **Spatial Memory**.
 
 ---
 
@@ -196,6 +205,10 @@ Visual Memory Graph
 ↓
 
 Spatial Memory
+
+↓
+
+Temporal Memory
 
 ↓
 
@@ -341,11 +354,11 @@ It helps the writer understand their own work.
 
 ---
 
-## Memory Graph v1
+# Memory Graph v1
 
 Memory Graph makes Lekhak's accumulated understanding visible.
 
-Instead of forcing writers to navigate creative memory through lists alone, Lekhak can project existing project data into an interactive visual memory space.
+Instead of forcing writers to navigate creative memory through lists alone, Lekhak projects existing project data into an interactive visual memory graph.
 
 The graph represents:
 
@@ -374,7 +387,7 @@ It is not a separate source of truth.
 
 ---
 
-### Contextual Memory Exploration
+## Contextual Memory Exploration
 
 The graph does not render an entire project without context by default.
 
@@ -393,7 +406,7 @@ Each entry point reveals a different perspective on the same project memory.
 
 ---
 
-### Context Expansion
+## Context Expansion
 
 Selecting an entity reveals its immediate creative neighbourhood.
 
@@ -415,15 +428,15 @@ Relevant Context
 
 Relevant connections emerge.
 
-Unrelated memories fade into the background.
+Unrelated memories become secondary.
 
 This allows writers to explore context without being overwhelmed by the entire project.
 
 ---
 
-### Memory Inspector
+## Memory Inspector
 
-Every selected graph entity can be inspected.
+Every selected memory entity can be inspected.
 
 The Memory Inspector adapts to the selected entity type and displays relevant information such as:
 
@@ -434,15 +447,15 @@ The Memory Inspector adapts to the selected entity type and displays relevant in
 * Intelligence State
 * Relationship Context
 
-Writers can navigate from graph entities back to their actual writing workspace.
+Writers can navigate from memory entities back to their actual writing workspace.
 
-The graph remains a lens on creative memory.
+Visual memory remains a lens on creative work.
 
 It does not replace writing.
 
 ---
 
-### Memory Trail
+## Memory Trail
 
 Lekhak preserves the writer's current exploration path.
 
@@ -474,7 +487,7 @@ Memory exploration becomes a journey rather than a sequence of disconnected clic
 
 ---
 
-### Graph Search and Filters
+## Graph Search and Filters
 
 The Memory Graph includes contextual discovery tools.
 
@@ -485,11 +498,11 @@ Writers can:
 * Filter relationship types
 * Focus on specific creative structures
 
-The graph can therefore act as both an exploration surface and a visual navigation system.
+The graph acts as both an exploration surface and a visual navigation system.
 
 ---
 
-### Intelligence Overlay
+## Intelligence Overlay
 
 Writer Intelligence is mapped into visual memory state.
 
@@ -508,12 +521,444 @@ The graph only visualizes insights already derived by the Writer Intelligence La
 
 ---
 
-# Memory Graph Architecture
+# Spatial Memory Foundation v1
 
-The graph system follows a renderer-independent architecture.
+Spatial Memory introduces a second way to understand creative memory.
+
+The Memory Graph communicates **structure**.
+
+Spatial Memory communicates **context**.
 
 ```text
-Domain Layer
+Graph
+
+↓
+
+How is memory connected?
+
+
+Space
+
+↓
+
+What matters in this context?
+```
+
+Spatial Memory does not simply place the existing graph into three dimensions.
+
+Instead, Lekhak projects creative memory into a semantic spatial model where position itself communicates meaning.
+
+---
+
+## Spatial Semantic Contract
+
+Spatial Memory follows four core semantic rules.
+
+```text
+Distance
+
+=
+
+Contextual Relevance
+```
+
+```text
+Depth
+
+=
+
+Contextual Priority
+```
+
+```text
+Prominence
+
+=
+
+Attention Priority
+```
+
+```text
+Region
+
+=
+
+Memory Role
+```
+
+Therefore:
+
+* Relevant memories appear contextually closer
+* Immediate working context occupies foreground space
+* Important memories receive greater visual presence
+* Memory regions communicate semantic roles
+
+Spatial properties are not decorative.
+
+They communicate creative context.
+
+---
+
+## Semantic Memory Regions
+
+Spatial Memory currently organizes projected memory into four regions.
+
+### Current Work
+
+Represents active working context.
+
+May contain:
+
+* Current Focus
+* Next Step Dependencies
+* Suggested Starting Points
+* Recently Active Notes
+* Focus-Relevant Notes
+
+---
+
+### Open Threads
+
+Represents unresolved creative thinking.
+
+May contain:
+
+* Open Questions
+* Question Relationships
+* Notes Answering Questions
+* Blocked Context
+* Unresolved Creative Threads
+
+---
+
+### Established Knowledge
+
+Represents stable and structured project knowledge.
+
+May contain:
+
+* Highly Connected Notes
+* Collection Anchors
+* Knowledge Tags
+* Frequently Referenced Memory
+
+---
+
+### Peripheral Memory
+
+Represents weakly connected or inactive memory.
+
+May contain:
+
+* Dormant Notes
+* Orphan Knowledge
+* Old Draft Context
+* Weakly Connected Notes
+
+Region assignment is deterministic.
+
+Current Work has the highest semantic precedence, followed by Open Threads, Established Knowledge, and Peripheral Memory.
+
+---
+
+## Contextual Spatial Exploration
+
+Selecting a memory does more than move the camera.
+
+Lekhak recomposes the spatial context around the selected entity.
+
+```text
+Memory Selected
+
+↓
+
+Focus Context Resolved
+
+↓
+
+Relevance Recalculated
+
+↓
+
+Depth Reclassified
+
+↓
+
+Memory Regions Re-evaluated
+
+↓
+
+Spatial Positions Recomputed
+
+↓
+
+Space Recomposed
+```
+
+Immediate context becomes clearer.
+
+Supporting context remains visible.
+
+Peripheral memory moves into secondary space.
+
+The writer moves deeper into existing creative memory without completely losing orientation.
+
+---
+
+## Spatial Focus Mode
+
+Spatial Focus allows writers to explore one memory context at a time.
+
+```text
+Selected Memory
+
+↓
+
+Primary Presence
+
+
+Immediate Context
+
+↓
+
+Near and Clear
+
+
+Supporting Context
+
+↓
+
+Visible
+
+
+Peripheral Context
+
+↓
+
+Distant and Secondary
+```
+
+Focus is contextual.
+
+It is not simply a visual highlight.
+
+The entire visible memory space responds to the selected context.
+
+---
+
+## Semantic Camera
+
+Camera movement communicates changes in memory context.
+
+Current camera intentions include:
+
+* Overview
+* Focus
+* Entry Point Context
+* Search Focus
+* Trail Restore
+
+The camera does not calculate product meaning.
+
+It receives already-resolved spatial intent from the domain layer.
+
+Transitions remain calm and intentional.
+
+Reduced-motion preferences are respected.
+
+---
+
+## Spatial Search
+
+Search is integrated with contextual navigation.
+
+```text
+Search Query
+
+↓
+
+Matching Memory
+
+↓
+
+Spatial Context Resolved
+
+↓
+
+Space Recomposed
+
+↓
+
+Camera Transitions
+
+↓
+
+Matching Memory Focused
+```
+
+Search does not merely highlight a distant entity.
+
+It transports the writer into the memory's contextual neighbourhood.
+
+---
+
+## Graph and Space Views
+
+Lekhak now provides two visual lenses over the same creative memory.
+
+```text
+Explore Memory
+
+[ Graph ] [ Space ]
+```
+
+### Graph View
+
+Designed for:
+
+* Structural Understanding
+* Relationship Exploration
+* Connection Discovery
+
+### Space View
+
+Designed for:
+
+* Contextual Understanding
+* Attention Navigation
+* Memory Priority
+* Spatial Exploration
+
+Both views consume the same underlying memory model.
+
+They do not maintain independent sources of truth.
+
+Where practical, entry point and selected memory context are preserved when switching views.
+
+---
+
+## Shared Memory Inspector
+
+Graph and Space reuse the same Memory Inspector.
+
+```text
+Graph Memory
+
+──────┐
+
+      ↓
+
+Memory Inspector
+
+      ↑
+
+──────┘
+
+Spatial Memory
+```
+
+A memory entity communicates the same underlying information regardless of how the writer reaches it.
+
+Visualization does not duplicate business logic.
+
+---
+
+## Shared Memory Trail
+
+Spatial navigation extends the existing Memory Trail.
+
+Example:
+
+```text
+Project
+
+↓
+
+Elena
+
+↓
+
+Character Arc
+
+↓
+
+Childhood Research
+```
+
+Selecting an earlier trail item restores that memory context and recomposes the space.
+
+Exploration history remains temporary client interaction.
+
+It is not stored as project activity.
+
+---
+
+## Spatial Intelligence Mapping
+
+Writer Intelligence influences spatial meaning.
+
+Examples:
+
+```text
+Suggested Start
+
+↓
+
+High Prominence
+```
+
+```text
+Current Focus Relevance
+
+↓
+
+Near Context
+```
+
+```text
+Orphan Knowledge
+
+↓
+
+Spatial Isolation
+```
+
+```text
+Dormant Memory
+
+↓
+
+Peripheral Context
+```
+
+```text
+Active Memory
+
+↓
+
+Greater Presence
+```
+
+```text
+Unresolved Question
+
+↓
+
+Open Spatial State
+```
+
+The renderer never calculates these states.
+
+It only displays meaning already derived by Lekhak's intelligence and spatial layers.
+
+---
+
+# Spatial Memory Architecture
+
+Spatial Memory follows a strict renderer-independent architecture.
+
+```text
+Domain Data
 
 ↓
 
@@ -521,30 +966,26 @@ Graph Projection Layer
 
 ↓
 
-Graph Projection
+GraphProjection
 
 ↓
 
-Renderer Adapter
+Spatial Projection Layer
 
 ↓
 
-Renderer
+SpatialProjection
 
 ↓
 
-Memory Graph UI
+Spatial Renderer Adapter
+
+↓
+
+3D Spatial Renderer
 ```
 
-The current renderer uses:
-
-```text
-@xyflow/react
-```
-
-Visualization-library dependencies are isolated behind a renderer adapter.
-
-The core graph domain does not depend on React Flow.
+The spatial domain contains no Three.js or React Three Fiber dependencies.
 
 ---
 
@@ -552,18 +993,83 @@ The core graph domain does not depend on React Flow.
 
 ```text
 GraphProjection
-      │
-      ├── React Flow Adapter
-      │
-      ↓
-      2D Memory Graph
-      │
-      └── Future Renderer Adapters
-                 ↓
-          Spatial Memory
+        │
+        ├── React Flow Adapter
+        │       ↓
+        │   2D Memory Graph
+        │
+        └── Spatial Projection Engine
+                ↓
+          SpatialProjection
+                ↓
+          Three Renderer Adapter
+                ↓
+          3D Spatial Memory
 ```
 
-This architecture allows future visualization systems to consume the same memory projection without replacing the underlying graph model.
+The Three.js renderer boundary is intentionally isolated.
+
+The core spatial projection remains deterministic, serializable, and renderer-independent.
+
+---
+
+## Spatial Domain
+
+Core spatial concepts include:
+
+```text
+SpatialVector
+
+SpatialDepth
+
+SpatialProminence
+
+SpatialRegionType
+
+SpatialNodeState
+
+SpatialNode
+
+SpatialEdge
+
+SpatialRegion
+
+SpatialContext
+
+SpatialProjection
+
+CameraIntent
+```
+
+The domain uses plain data structures.
+
+It does not use:
+
+```text
+THREE.Vector3
+```
+
+or other renderer-specific types.
+
+---
+
+## Deterministic Spatial Projection
+
+Spatial positions are calculated deterministically.
+
+The projection considers:
+
+* Semantic Region
+* Contextual Depth
+* Relationship Relevance
+* Writer Intelligence
+* Stable Node Identity
+
+No random semantic positioning is used.
+
+Stable node identifiers produce deterministic spatial offsets.
+
+The same project context produces the same spatial result.
 
 ---
 
@@ -580,7 +1086,15 @@ Components
 
 ↓
 
-Memory Graph Renderer
+Graph / Spatial Renderers
+
+↓
+
+Renderer Adapters
+
+↓
+
+Spatial Projection Layer
 
 ↓
 
@@ -621,6 +1135,10 @@ PostgreSQL
 
 Each layer builds upon the previous one while maintaining clear separation of responsibilities.
 
+The renderer displays meaning.
+
+The domain derives meaning.
+
 ---
 
 # Core Data Model
@@ -645,6 +1163,8 @@ Project
 ├── Intelligence
 │
 ├── Graph Projection
+│
+├── Spatial Projection
 │
 └── Activity
 ```
@@ -705,7 +1225,7 @@ Unresolved
 Focus Relevant
 ```
 
-This domain model forms the foundation for future spatial memory systems.
+The graph domain provides the structural memory model consumed by both Graph and Spatial Memory systems.
 
 ---
 
@@ -723,9 +1243,19 @@ This domain model forms the foundation for future spatial memory systems.
 
 ## Memory Graph
 
-* @xyflow/react
+* `@xyflow/react`
 * Renderer Adapter Architecture
 * Renderer-Independent Graph Projection
+
+---
+
+## Spatial Memory
+
+* Three.js
+* React Three Fiber
+* Drei
+* Renderer Adapter Architecture
+* Renderer-Independent Spatial Projection
 
 ---
 
@@ -744,7 +1274,7 @@ This domain model forms the foundation for future spatial memory systems.
 ## Authentication
 
 * Supabase Auth
-* @supabase/ssr
+* `@supabase/ssr`
 
 ---
 
@@ -817,11 +1347,13 @@ http://localhost:3000
 ```text
 Version
 
-v0.9
+v0.10
+
 
 Current Milestone
 
-Memory Graph v1
+Spatial Memory Foundation v1
+
 
 Development Status
 
@@ -833,18 +1365,36 @@ Lekhak currently:
 ```text
 Stores what exists
 
+↓
+
 Remembers what changed
+
+↓
 
 Preserves why work exists
 
+↓
+
 Connects related ideas
+
+↓
 
 Organizes creative knowledge
 
+↓
+
 Interprets writing patterns
 
+↓
+
 Visualizes accumulated memory
+
+↓
+
+Projects context into semantic space
 ```
+
+The product has evolved from storing writing into building and exposing a contextual model of creative memory.
 
 ---
 
@@ -861,43 +1411,49 @@ Visualizes accumulated memory
 * ✅ Knowledge Layer
 * ✅ Writer Intelligence Layer
 * ✅ Memory Graph v1
+* ✅ Spatial Memory Foundation v1
 
 ---
 
 ## Next
 
-### Spatial Memory Foundation
+### Temporal Memory Layer
 
-The next stage explores whether creative memory can be understood spatially.
+The next stage explores how creative memory changes over time.
 
 Potential capabilities include:
 
-* Spatial Graph Projection
-* Three-Dimensional Memory Navigation
-* Semantic Spatial Layout
-* Contextual Camera Movement
-* Depth-Based Memory Representation
-* Spatial Focus Modes
+* Memory Evolution
+* Intent History
+* Focus History
+* Relationship Evolution
+* Project Phase Detection
+* Creative Turning Points
+* Historical Memory Reconstruction
+* Temporal Context Exploration
 
-The objective is not to make Lekhak visually impressive for its own sake.
+The central question is:
 
-The objective is to determine whether spatial representation improves creative understanding.
+> Can Lekhak preserve not only creative memory, but how that memory evolved?
 
 ---
 
 ## Future
 
-### Spatial Memory
+### Advanced Spatial Memory
 
-Long-term research includes:
+The current spatial architecture can support future exploration of:
 
-* Three-Dimensional Knowledge Navigation
-* Memory Constellations
-* Spatial Project Exploration
-* Contextual Memory Worlds
-* Immersive Creative Navigation
+* Alternate Spatial Layouts
+* Richer Semantic Territories
+* Historical Spatial Reconstruction
+* Temporal-Spatial Memory Exploration
+* Additional Renderer Technologies
+* Spatial Computing Surfaces
 
-3D visualization will be introduced only when it meaningfully improves understanding rather than serving as decoration.
+These capabilities will be introduced only when they improve creative understanding.
+
+Spatial complexity is not a product goal by itself.
 
 ---
 
@@ -916,7 +1472,8 @@ Its goal is to become a complete creative operating system that helps writers:
 * Organize Knowledge
 * Understand Patterns
 * Explore Creative Memory
-* Navigate Creative Spaces
+* Navigate Creative Context
+* Understand Creative Evolution
 * Resume Work Instantly
 
 ---
@@ -972,11 +1529,19 @@ A place where writers can return months—or even years—later and immediately 
 
 > Where should I continue?
 
-And eventually:
+And increasingly:
 
-> How can I move through everything I once understood?
+> How did my thinking evolve?
 
-That is the future Lekhak is being built toward.
+Lekhak is being built toward a future where creative work is not only stored.
+
+It is remembered.
+
+Connected.
+
+Understood.
+
+And navigable.
 
 ---
 
