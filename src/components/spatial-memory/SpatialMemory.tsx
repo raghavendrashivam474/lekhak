@@ -4,10 +4,14 @@ import { useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useSpatialMemory } from "@/hooks/useSpatialMemory";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useWebGLSupport } from "@/hooks/useWebGLSupport";
 import { resolveCameraIntent } from "@/services/spatial/camera/intent";
 import { MemoryInspector } from "@/components/memory-graph/MemoryInspector";
 import { MemoryTrail } from "@/components/memory-graph/MemoryTrail";
 import { SpatialEmptyState } from "./SpatialEmptyState";
+import { SpatialUnsupported } from "./SpatialUnsupported";
+import { SpatialErrorBoundary } from "./SpatialErrorBoundary";
+import { SpatialSearch } from "./SpatialSearch";
 import type {
   GraphProjection,
   GraphAdjacency,
@@ -38,6 +42,7 @@ interface SpatialMemoryProps {
   initialSelectedNodeId?: string | null;
   onSelectedNodeChange?: (graphNodeId: string | null) => void;
   onEntryKindChange?: (kind: GraphEntryPoint["kind"]) => void;
+  onFallbackToGraph: () => void;
 }
 
 export function SpatialMemory({
@@ -51,8 +56,10 @@ export function SpatialMemory({
   initialSelectedNodeId,
   onSelectedNodeChange,
   onEntryKindChange,
+  onFallbackToGraph,
 }: SpatialMemoryProps) {
   const reducedMotion = useReducedMotion();
+  const webglSupported = useWebGLSupport();
 
   const spatial = useSpatialMemory({
     graph,
@@ -64,7 +71,6 @@ export function SpatialMemory({
     suggestedStartEntityId,
   });
 
-  // Sync outward — effects, not memos
   useEffect(() => {
     onSelectedNodeChange?.(spatial.selectedNodeId);
   }, [spatial.selectedNodeId, onSelectedNodeChange]);
@@ -73,7 +79,6 @@ export function SpatialMemory({
     if (spatial.activeEntry) onEntryKindChange?.(spatial.activeEntry.kind);
   }, [spatial.activeEntry, onEntryKindChange]);
 
-  // Semantic camera intent — pure derivation from state
   const cameraIntent = useMemo(
     () =>
       resolveCameraIntent({
@@ -98,44 +103,62 @@ export function SpatialMemory({
   const hasContent =
     spatial.projection.nodes.filter((n) => n.entityType !== "project").length > 0;
 
+  const isWebGLBlocked = webglSupported === false;
+
   return (
     <div className="flex flex-col h-[calc(100vh-160px)] bg-[#0F1623] rounded-lg border border-[#2A3A52] overflow-hidden">
-      {/* Entry point pills */}
-      <div className="flex items-center gap-2 flex-wrap p-4 border-b border-[#2A3A52]">
-        {spatial.entryPoints.map((entry) => (
-          <button
-            key={entry.kind}
-            onClick={() => spatial.setEntryPoint(entry.kind)}
-            className={
-              "text-xs rounded-lg px-3 py-1.5 border transition-colors " +
-              (entry.kind === spatial.activeEntry?.kind
-                ? "bg-[#C9A84C] text-[#0F1623] border-[#C9A84C] font-medium"
-                : "bg-[#1A2333] text-[#8A9BB0] border-[#2A3A52] hover:text-[#F5ECD7]")
-            }
-          >
-            {entry.label}
-          </button>
-        ))}
-        {reducedMotion && (
-          <span className="ml-auto text-[10px] text-[#4A5A6A] uppercase tracking-wide">
-            Reduced motion on
-          </span>
-        )}
+      {/* Top bar */}
+      <div className="flex items-center justify-between gap-4 flex-wrap p-4 border-b border-[#2A3A52]">
+        <div className="flex items-center gap-2 flex-wrap">
+          {spatial.entryPoints.map((entry) => (
+            <button
+              key={entry.kind}
+              onClick={() => spatial.setEntryPoint(entry.kind)}
+              className={
+                "text-xs rounded-lg px-3 py-1.5 border transition-colors " +
+                (entry.kind === spatial.activeEntry?.kind
+                  ? "bg-[#C9A84C] text-[#0F1623] border-[#C9A84C] font-medium"
+                  : "bg-[#1A2333] text-[#8A9BB0] border-[#2A3A52] hover:text-[#F5ECD7]")
+              }
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <SpatialSearch
+            projection={graph}
+            onSelectResult={spatial.selectNode}
+          />
+          {reducedMotion && (
+            <span className="text-[10px] text-[#4A5A6A] uppercase tracking-wide">
+              Reduced motion on
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Canvas + Inspector */}
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 relative">
-          {!hasContent ? (
+          {isWebGLBlocked ? (
+            <SpatialUnsupported
+              reason="WebGL is not available in this browser. Memory Graph shows the same knowledge."
+              onFallbackToGraph={onFallbackToGraph}
+            />
+          ) : !hasContent ? (
             <SpatialEmptyState />
           ) : (
-            <SpatialCanvas
-              projection={spatial.projection}
-              selectedNodeId={spatial.selectedNodeId}
-              onSelectNode={spatial.selectNode}
-              cameraIntent={cameraIntent}
-              reducedMotion={reducedMotion}
-            />
+            <SpatialErrorBoundary onFallbackToGraph={onFallbackToGraph}>
+              <SpatialCanvas
+                projection={spatial.projection}
+                selectedNodeId={spatial.selectedNodeId}
+                onSelectNode={spatial.selectNode}
+                cameraIntent={cameraIntent}
+                reducedMotion={reducedMotion}
+              />
+            </SpatialErrorBoundary>
           )}
         </div>
 

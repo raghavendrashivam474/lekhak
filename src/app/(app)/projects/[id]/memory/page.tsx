@@ -128,6 +128,7 @@ export default function MemoryPage() {
               initialSelectedNodeId={sharedSelectedNodeId}
               onSelectedNodeChange={setSharedSelectedNodeId}
               onEntryKindChange={setSharedEntryKind}
+              onFallbackToGraph={() => setViewMode("graph")}
             />
           )}
         </>
