@@ -1,18 +1,21 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { buildProjectGraph } from "@/services/graph";
 import { MemoryGraph } from "@/components/memory-graph/MemoryGraph";
+import { SpatialMemory } from "@/components/spatial-memory/SpatialMemory";
+import { SpatialViewSwitcher } from "@/components/spatial-memory/SpatialViewSwitcher";
 import type {
   GraphProjection,
   GraphAdjacency,
   GraphEntryPoint,
 } from "@/types/graph";
+import type { MemoryViewMode } from "@/types/spatial";
 
-export default function MemoryGraphPage() {
+export default function MemoryPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.id as string;
@@ -23,13 +26,19 @@ export default function MemoryGraphPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Shared state between Graph and Space
+  const [viewMode, setViewMode] = useState<MemoryViewMode>("graph");
+  const [sharedEntryKind, setSharedEntryKind] =
+    useState<GraphEntryPoint["kind"] | undefined>(undefined);
+  const [sharedSelectedNodeId, setSharedSelectedNodeId] = useState<string | null>(
+    null
+  );
+
   useEffect(() => {
     if (!projectId) return;
-
     async function load() {
       try {
         const result = await buildProjectGraph(projectId);
-
         if (!result) {
           setError("Project not found or you do not have access.");
         } else {
@@ -38,21 +47,31 @@ export default function MemoryGraphPage() {
           setEntryPoints(result.entryPoints);
         }
       } catch (err) {
-        console.error("[MemoryGraphPage]", err);
-        setError("Failed to build memory graph.");
+        console.error("[MemoryPage]", err);
+        setError("Failed to build memory.");
       } finally {
         setLoading(false);
       }
     }
-
     load();
   }, [projectId]);
 
-  const isEmpty =
-    !loading &&
-    !error &&
-    projection &&
-    projection.nodes.filter((n) => n.entityType !== "project").length === 0;
+  // Derive helpers passed to the spatial hook
+  const { focusRelevantEntityIds, suggestedStartEntityId } = useMemo(() => {
+    if (!projection) {
+      return {
+        focusRelevantEntityIds: new Set<string>(),
+        suggestedStartEntityId: null as string | null,
+      };
+    }
+    const focus = new Set<string>();
+    let suggested: string | null = null;
+    for (const n of projection.nodes) {
+      if (n.state.focusRelevant) focus.add(n.entityId);
+      if (n.state.suggestedStart) suggested = n.entityId;
+    }
+    return { focusRelevantEntityIds: focus, suggestedStartEntityId: suggested };
+  }, [projection]);
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
@@ -65,15 +84,12 @@ export default function MemoryGraphPage() {
           Back to Project
         </button>
 
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#C9A84C]" />
-          <h1 className="text-sm font-medium text-[#C9A84C]">Memory Graph</h1>
-        </div>
+        <SpatialViewSwitcher mode={viewMode} onChange={setViewMode} />
       </div>
 
       {loading && (
         <div className="flex items-center justify-center py-24">
-          <p className="text-[#8A9BB0] text-sm">Building memory graph...</p>
+          <p className="text-[#8A9BB0] text-sm">Building memory...</p>
         </div>
       )}
 
@@ -89,31 +105,32 @@ export default function MemoryGraphPage() {
         </div>
       )}
 
-      {!loading && !error && isEmpty && (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
-          <Sparkles className="h-10 w-10 text-[#4A5A6A] mb-4" />
-          <h2 className="text-lg font-medium text-[#F5ECD7] mb-1">
-            Your project memory is still quiet
-          </h2>
-          <p className="text-[#8A9BB0] text-sm max-w-sm mb-6">
-            Create notes and connections to begin shaping its visual memory.
-          </p>
-          <Link
-            href={"/projects/" + projectId}
-            className="inline-flex items-center rounded-lg bg-[#C9A84C] px-4 py-2 text-sm font-medium text-[#0F1623] hover:bg-[#D4B86A] transition-colors"
-          >
-            Back to project
-          </Link>
-        </div>
-      )}
+      {!loading && !error && projection && adjacency && (
+        <>
+          {viewMode === "graph" && (
+            <MemoryGraph
+              projectId={projectId}
+              projection={projection}
+              adjacency={adjacency}
+              entryPoints={entryPoints}
+            />
+          )}
 
-      {!loading && !error && !isEmpty && projection && adjacency && (
-        <MemoryGraph
-          projectId={projectId}
-          projection={projection}
-          adjacency={adjacency}
-          entryPoints={entryPoints}
-        />
+          {viewMode === "space" && (
+            <SpatialMemory
+              projectId={projectId}
+              graph={projection}
+              adjacency={adjacency}
+              entryPoints={entryPoints}
+              focusRelevantEntityIds={focusRelevantEntityIds}
+              suggestedStartEntityId={suggestedStartEntityId}
+              initialEntryKind={sharedEntryKind}
+              initialSelectedNodeId={sharedSelectedNodeId}
+              onSelectedNodeChange={setSharedSelectedNodeId}
+              onEntryKindChange={setSharedEntryKind}
+            />
+          )}
+        </>
       )}
     </div>
   );
