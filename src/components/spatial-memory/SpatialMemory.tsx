@@ -3,6 +3,8 @@
 import { useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useSpatialMemory } from "@/hooks/useSpatialMemory";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { resolveCameraIntent } from "@/services/spatial/camera/intent";
 import { MemoryInspector } from "@/components/memory-graph/MemoryInspector";
 import { MemoryTrail } from "@/components/memory-graph/MemoryTrail";
 import { SpatialEmptyState } from "./SpatialEmptyState";
@@ -13,14 +15,16 @@ import type {
   GraphNode,
 } from "@/types/graph";
 
-// Canvas is client-only — Three.js touches window/document during init.
 const SpatialCanvas = dynamic(
   () => import("./SpatialCanvas").then((m) => m.SpatialCanvas),
-  { ssr: false, loading: () => (
-    <div className="flex items-center justify-center h-full text-[#8A9BB0] text-sm">
-      Preparing memory space...
-    </div>
-  )}
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-full text-[#8A9BB0] text-sm">
+        Preparing memory space...
+      </div>
+    ),
+  }
 );
 
 interface SpatialMemoryProps {
@@ -30,7 +34,6 @@ interface SpatialMemoryProps {
   entryPoints: GraphEntryPoint[];
   focusRelevantEntityIds: Set<string>;
   suggestedStartEntityId: string | null;
-  // Cross-view sync from parent
   initialEntryKind?: GraphEntryPoint["kind"];
   initialSelectedNodeId?: string | null;
   onSelectedNodeChange?: (graphNodeId: string | null) => void;
@@ -49,6 +52,8 @@ export function SpatialMemory({
   onSelectedNodeChange,
   onEntryKindChange,
 }: SpatialMemoryProps) {
+  const reducedMotion = useReducedMotion();
+
   const spatial = useSpatialMemory({
     graph,
     adjacency,
@@ -59,7 +64,7 @@ export function SpatialMemory({
     suggestedStartEntityId,
   });
 
-  // Sync outward — must be effects (setState in render is illegal)
+  // Sync outward — effects, not memos
   useEffect(() => {
     onSelectedNodeChange?.(spatial.selectedNodeId);
   }, [spatial.selectedNodeId, onSelectedNodeChange]);
@@ -68,13 +73,22 @@ export function SpatialMemory({
     if (spatial.activeEntry) onEntryKindChange?.(spatial.activeEntry.kind);
   }, [spatial.activeEntry, onEntryKindChange]);
 
-  // Selected graph node (for shared inspector)
+  // Semantic camera intent — pure derivation from state
+  const cameraIntent = useMemo(
+    () =>
+      resolveCameraIntent({
+        projection: spatial.projection,
+        selectedNodeId: spatial.selectedNodeId,
+        previousMode: null,
+      }),
+    [spatial.projection, spatial.selectedNodeId]
+  );
+
   const selectedGraphNode: GraphNode | null = useMemo(() => {
     if (!spatial.selectedNodeId) return null;
     return graph.nodes.find((n) => n.id === spatial.selectedNodeId) ?? null;
   }, [graph.nodes, spatial.selectedNodeId]);
 
-  // Trail nodes lookup (reuse MemoryTrail component from Sprint 9)
   const nodesById = useMemo(() => {
     const m = new Map<string, GraphNode>();
     for (const n of graph.nodes) m.set(n.id, n);
@@ -102,6 +116,11 @@ export function SpatialMemory({
             {entry.label}
           </button>
         ))}
+        {reducedMotion && (
+          <span className="ml-auto text-[10px] text-[#4A5A6A] uppercase tracking-wide">
+            Reduced motion on
+          </span>
+        )}
       </div>
 
       {/* Canvas + Inspector */}
@@ -114,6 +133,8 @@ export function SpatialMemory({
               projection={spatial.projection}
               selectedNodeId={spatial.selectedNodeId}
               onSelectNode={spatial.selectNode}
+              cameraIntent={cameraIntent}
+              reducedMotion={reducedMotion}
             />
           )}
         </div>

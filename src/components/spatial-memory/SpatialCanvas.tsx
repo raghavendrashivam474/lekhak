@@ -6,27 +6,31 @@ import { OrbitControls } from "@react-three/drei";
 import { adaptProjection } from "./adapters/spatial-three";
 import { SpatialEdge } from "./SpatialEdge";
 import { SpatialRegion } from "./SpatialRegion";
+import { SpatialCamera } from "./SpatialCamera";
 import { ProjectSpatialNode } from "./nodes/ProjectSpatialNode";
 import { CollectionSpatialNode } from "./nodes/CollectionSpatialNode";
 import { NoteSpatialNode } from "./nodes/NoteSpatialNode";
 import { QuestionSpatialNode } from "./nodes/QuestionSpatialNode";
 import { TagSpatialNode } from "./nodes/TagSpatialNode";
-import type { SpatialProjection } from "@/types/spatial";
+import type { SpatialProjection, CameraIntent } from "@/types/spatial";
 
 interface SpatialCanvasProps {
   projection: SpatialProjection;
   selectedNodeId: string | null;
   onSelectNode: (id: string) => void;
+  cameraIntent: CameraIntent;
+  reducedMotion: boolean;
 }
 
 export function SpatialCanvas({
   projection,
   selectedNodeId,
   onSelectNode,
+  cameraIntent,
+  reducedMotion,
 }: SpatialCanvasProps) {
   const adapted = useMemo(() => adaptProjection(projection), [projection]);
 
-  // Which edges are highlighted? Edges touching the selected node.
   const highlightedEdgeIds = useMemo(() => {
     if (!selectedNodeId) return new Set<string>();
     const set = new Set<string>();
@@ -40,20 +44,21 @@ export function SpatialCanvas({
 
   return (
     <Canvas
-      camera={{ position: [0, 5, 18], fov: 50 }}
+      camera={{ position: [0, 5, 22], fov: 50 }}
       style={{ background: "#0F1623" }}
+      dpr={[1, 2]}
     >
-      {/* Ambient + directional light for calm, readable presence */}
       <ambientLight intensity={0.6} />
       <directionalLight position={[10, 10, 5]} intensity={0.7} />
       <directionalLight position={[-10, -5, -5]} intensity={0.3} />
 
-      {/* Regions — subtle ground territories */}
+      {/* Semantic camera controller */}
+      <SpatialCamera intent={cameraIntent} reducedMotion={reducedMotion} />
+
       {adapted.regions.map((r) => (
         <SpatialRegion key={r.id} region={r} />
       ))}
 
-      {/* Edges */}
       {adapted.edges.map((e) => (
         <SpatialEdge
           key={e.id}
@@ -62,9 +67,8 @@ export function SpatialCanvas({
         />
       ))}
 
-      {/* Nodes — dispatched by entity type */}
       {adapted.nodes.map((n) => {
-        const isSelected = selectedNodeId === n.id;
+        const isSelected = selectedNodeId === n.id.replace("spatial::", "");
         switch (n.entityType) {
           case "project":
             return <ProjectSpatialNode key={n.id} node={n} onSelect={onSelectNode} isSelected={isSelected} />;
@@ -85,9 +89,10 @@ export function SpatialCanvas({
         enablePan
         enableZoom
         enableRotate
-        minDistance={5}
-        maxDistance={60}
+        minDistance={4}
+        maxDistance={70}
         dampingFactor={0.1}
+        makeDefault
       />
     </Canvas>
   );
