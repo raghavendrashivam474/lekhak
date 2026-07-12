@@ -70,7 +70,7 @@ export async function detectOrphans(projectId: string): Promise<OrphanInsight> {
 
   // Fetch note_collections for this project's collections
   const collectionIds = collections.map((c) => c.id);
-  let usedCollections = new Set<string>();
+  const usedCollections = new Set<string>();
   if (collectionIds.length > 0) {
     const { data: ncData } = await supabase
       .from("note_collections")
@@ -140,7 +140,7 @@ export async function analyzeQuestions(
     .map((q) => q.answered_by_note_id)
     .filter((id): id is string => id !== null);
 
-  let noteTitles: Record<string, string> = {};
+  const noteTitles: Record<string, string> = {};
   if (noteIds.length > 0) {
     const { data: notes } = await supabase
       .from("notes")
@@ -231,11 +231,11 @@ export async function detectFocusDrift(
   const focusLower = focus.toLowerCase();
   const focusKeywords = focusLower
     .split(/\s+/)
-    .filter((w) => w.length >= 4);
+    .filter((w: string) => w.length >= 4);
 
   const titlesMatchingFocus = (recentNotes ?? []).filter((n) => {
     const title = n.title.toLowerCase();
-    return focusKeywords.some((kw) => title.includes(kw));
+    return focusKeywords.some((kw: string) => title.includes(kw));
   }).length;
 
   const drifting =

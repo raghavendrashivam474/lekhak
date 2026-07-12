@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
  * Detects WebGL availability once on mount.
  * Returns:
  *   null    while checking (SSR + first paint)
- *   true    WebGL 1 or 2 available
+ *   true    WebGL available
  *   false   WebGL unavailable — caller should render fallback
  */
 export function useWebGLSupport(): boolean | null {
   const [supported, setSupported] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // One-time DOM probe — a legitimate synchronisation with the
+    // external system (the browser's WebGL implementation).
     try {
       const canvas = document.createElement("canvas");
       const gl =

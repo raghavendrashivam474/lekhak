@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ import {
   type CreateProjectFormValues,
 } from "@/lib/validations/project";
 import type { Project } from "@/types/project";
+import { isErr } from "@/types/service";
 
 interface CreateProjectDialogProps {
   onProjectCreated: (project: Project) => void;
@@ -56,17 +57,17 @@ export function CreateProjectDialog({
   async function onSubmit(values: CreateProjectFormValues) {
     setServerError(null);
 
-    const { data, error } = await createProject({
+    const result = await createProject({
       title: values.title,
       description: values.description || undefined,
     });
 
-    if (error) {
-      setServerError(error);
+    if (isErr(result)) {
+      setServerError(result.error);
       return;
     }
 
-    onProjectCreated(data);
+    onProjectCreated(result.data);
     setOpen(false);
     form.reset();
   }

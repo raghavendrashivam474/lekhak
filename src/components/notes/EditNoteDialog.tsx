@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -29,9 +29,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateNote } from "@/services/notes";
 import {
   updateNoteSchema,
+  type UpdateNoteFormInput,
   type UpdateNoteFormValues,
 } from "@/lib/validations/note";
 import type { Note } from "@/types/note";
+import { isErr } from "@/types/service";
 
 interface EditNoteDialogProps {
   note: Note;
@@ -42,7 +44,7 @@ export function EditNoteDialog({ note, onNoteUpdated }: EditNoteDialogProps) {
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const form = useForm<UpdateNoteFormValues>({
+  const form = useForm<UpdateNoteFormInput, unknown, UpdateNoteFormValues>({
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
       title: note.title,
@@ -63,17 +65,17 @@ export function EditNoteDialog({ note, onNoteUpdated }: EditNoteDialogProps) {
   async function onSubmit(values: UpdateNoteFormValues) {
     setServerError(null);
 
-    const { data, error } = await updateNote(note.id, {
+    const result = await updateNote(note.id, {
       title: values.title,
       content: values.content || undefined,
     });
 
-    if (error) {
-      setServerError(error);
+    if (isErr(result)) {
+      setServerError(result.error);
       return;
     }
 
-    onNoteUpdated(data);
+    onNoteUpdated(result.data);
     setOpen(false);
   }
 

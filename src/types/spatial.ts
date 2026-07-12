@@ -4,6 +4,7 @@
 
 import type {
   GraphNodeType,
+  GraphNodeMetadata,
   GraphRelationshipType,
   GraphEntryPoint,
 } from "@/types/graph";
@@ -60,7 +61,7 @@ export interface SpatialNode {
 
   state: SpatialNodeState;
 
-  metadata: Record<string, unknown>;
+  metadata: GraphNodeMetadata;
 }
 
 export interface SpatialEdge {

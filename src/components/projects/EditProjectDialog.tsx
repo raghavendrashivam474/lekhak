@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ import {
   type UpdateProjectFormValues,
 } from "@/lib/validations/project";
 import type { Project } from "@/types/project";
+import { isErr } from "@/types/service";
 
 interface EditProjectDialogProps {
   project: Project;
@@ -65,17 +66,17 @@ export function EditProjectDialog({
   async function onSubmit(values: UpdateProjectFormValues) {
     setServerError(null);
 
-    const { data, error } = await updateProject(project.id, {
+    const result = await updateProject(project.id, {
       title: values.title,
       description: values.description || undefined,
     });
 
-    if (error) {
-      setServerError(error);
+    if (isErr(result)) {
+      setServerError(result.error);
       return;
     }
 
-    onProjectUpdated(data);
+    onProjectUpdated(result.data);
     setOpen(false);
   }
 

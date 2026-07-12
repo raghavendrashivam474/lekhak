@@ -72,6 +72,8 @@ export function useMemoryGraph({
   // When entry point changes, reset visible set
   useEffect(() => {
     if (!activeEntry) return;
+    // Entry point change = external context change; resetting derived
+    // state is the correct synchronisation pattern.
     const initial = resolveInitialVisible(activeEntry, adjacency);
     setVisibleNodeIds(initial);
     setMemoryTrail([]);

@@ -1,4 +1,4 @@
-// src/app/(app)/projects/page.tsx
+﻿// src/app/(app)/projects/page.tsx
 
 "use client";
 
@@ -17,11 +17,11 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     async function load() {
-      const { data, error } = await getProjects();
-      if (error) {
-        setError(error);
-      } else {
-        setProjects(data);
+      const result = await getProjects();
+      if (result.error !== null) {
+        setError(result.error);
+      } else if (result.data) {
+        setProjects(result.data);
       }
       setLoading(false);
     }

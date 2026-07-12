@@ -30,5 +30,9 @@ export const createNoteSchema = z.object({
 
 export const updateNoteSchema = createNoteSchema.partial();
 
-export type CreateNoteFormValues = z.infer<typeof createNoteSchema>;
-export type UpdateNoteFormValues = z.infer<typeof updateNoteSchema>;
+// z.infer gives the PARSED (output) shape.
+// useForm/zodResolver needs the INPUT shape.
+export type CreateNoteFormInput = z.input<typeof createNoteSchema>;
+export type CreateNoteFormValues = z.output<typeof createNoteSchema>;
+export type UpdateNoteFormInput = z.input<typeof updateNoteSchema>;
+export type UpdateNoteFormValues = z.output<typeof updateNoteSchema>;

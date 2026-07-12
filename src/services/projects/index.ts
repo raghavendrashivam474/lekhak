@@ -1,5 +1,7 @@
 ﻿// src/services/projects/index.ts
 
+import type { ServiceResult } from "@/types/service";
+
 import { createClient } from "@/lib/supabase/client";
 import { logActivity } from "@/services/activity";
 import type {
@@ -9,9 +11,6 @@ import type {
   UpdateProjectIntentInput,
 } from "@/types/project";
 
-type ServiceResult<T> =
-  | { data: T; error: null }
-  | { data: null; error: string };
 
 export async function createProject(
   input: CreateProjectInput

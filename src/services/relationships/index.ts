@@ -1,5 +1,7 @@
 ﻿// src/services/relationships/index.ts
 
+import type { ServiceResult } from "@/types/service";
+
 import { createClient } from "@/lib/supabase/client";
 import type {
   NoteRelationship,
@@ -14,9 +16,6 @@ import type {
   QuestionStatus,
 } from "@/types/relationship";
 
-type ServiceResult<T> =
-  | { data: T; error: null }
-  | { data: null; error: string };
 
 // ---------------------------------------------------------------------------
 // Questions

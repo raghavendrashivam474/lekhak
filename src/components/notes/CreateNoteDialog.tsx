@@ -28,6 +28,7 @@ import { createNote } from "@/services/notes";
 import {
   createNoteSchema,
   NOTE_CATEGORIES,
+  type CreateNoteFormInput,
   type CreateNoteFormValues,
 } from "@/lib/validations/note";
 import type { Note } from "@/types/note";
@@ -41,7 +42,7 @@ export function CreateNoteDialog({ projectId, onNoteCreated }: CreateNoteDialogP
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const form = useForm<CreateNoteFormValues>({
+  const form = useForm<CreateNoteFormInput, unknown, CreateNoteFormValues>({
     resolver: zodResolver(createNoteSchema),
     defaultValues: { title: "", content: "", category: "idea" },
   });
@@ -51,16 +52,17 @@ export function CreateNoteDialog({ projectId, onNoteCreated }: CreateNoteDialogP
   async function onSubmit(values: CreateNoteFormValues) {
     setServerError(null);
 
-    const { data, error } = await createNote({
+    const result = await createNote({
       title: values.title,
       content: values.content || undefined,
       project_id: projectId,
       category: values.category,
     });
 
-    if (error) { setServerError(error); return; }
+    if (result.error !== null) { setServerError(result.error); return; }
+    if (!result.data) return;
 
-    onNoteCreated(data);
+    onNoteCreated(result.data);
     setOpen(false);
     form.reset();
   }

@@ -1,5 +1,5 @@
 ﻿// src/services/graph/index.ts
-// Graph orchestrator — consumes existing services, produces a projection.
+// Graph orchestrator - consumes existing services, produces a projection.
 // Does not query Supabase directly; reuses existing service functions.
 
 import { createClient } from "@/lib/supabase/client";
@@ -46,6 +46,19 @@ import { buildAdjacency } from "./context/neighbours";
 import { buildEntryPoints } from "./context/entry-points";
 import type { GraphEntryPoint } from "@/types/graph";
 
+// Explicit row shapes for the two direct Supabase queries below.
+// Kept local because these are the ONLY direct queries in this module.
+interface NoteRelationshipRow {
+  from_note_id: string;
+  to_note_id: string;
+  relationship_type: string;
+}
+
+interface NoteTagRow {
+  note_id: string;
+  tag_id: string;
+}
+
 interface BuiltGraph {
   projection: GraphProjection;
   adjacency: Map<string, Set<string>>;
@@ -53,7 +66,10 @@ interface BuiltGraph {
 }
 
 // Load raw data the graph needs that isn't covered by existing services
-async function loadGraphRawData(projectId: string) {
+async function loadGraphRawData(projectId: string): Promise<{
+  noteRelationships: NoteRelationshipRow[];
+  noteTagLinks: NoteTagRow[];
+}> {
   const supabase = createClient();
 
   const { data: notes } = await supabase
@@ -61,7 +77,10 @@ async function loadGraphRawData(projectId: string) {
     .select("id")
     .eq("project_id", projectId);
 
-  const noteIds = (notes ?? []).map((n) => n.id);
+  const noteIds = (notes ?? []).map((n) => n.id as string);
+
+  const emptyRels: NoteRelationshipRow[] = [];
+  const emptyTags: NoteTagRow[] = [];
 
   const [noteRelsRes, noteTagsRes] = await Promise.all([
     noteIds.length > 0
@@ -75,18 +94,18 @@ async function loadGraphRawData(projectId: string) {
               noteIds.join(",") +
               ")"
           )
-      : Promise.resolve({ data: [] as any[] }),
+      : Promise.resolve({ data: emptyRels, error: null }),
     noteIds.length > 0
       ? supabase
           .from("note_tags")
           .select("note_id, tag_id")
           .in("note_id", noteIds)
-      : Promise.resolve({ data: [] as any[] }),
+      : Promise.resolve({ data: emptyTags, error: null }),
   ]);
 
   return {
-    noteRelationships: noteRelsRes.data ?? [],
-    noteTagLinks: noteTagsRes.data ?? [],
+    noteRelationships: (noteRelsRes.data ?? []) as NoteRelationshipRow[],
+    noteTagLinks: (noteTagsRes.data ?? []) as NoteTagRow[],
   };
 }
 
@@ -126,10 +145,8 @@ export async function buildProjectGraph(
   const intentLinks = intentLinksRes.data ?? [];
   const tags = tagsRes.data ?? [];
 
-  // Project node
   const projectNode = projectToGraphNode(project);
 
-  // Notes with intelligence-derived hints
   const orphanNoteIds = extractOrphanNoteIds(orphans);
   const suggestedStartId = extractSuggestedStartNoteId(resume);
   const focusRelevantIds = extractFocusRelevantNoteIds(intentLinks);
@@ -140,22 +157,12 @@ export async function buildProjectGraph(
     suggestedStartNoteId: suggestedStartId,
   });
 
-  // Collections and their belongs_to edges
   const collectionsResult = collectionsToGraph(project.id, collections);
-
-  // Questions
   const questionsResult = questionsToGraph(project.id, questions);
-
-  // Tags
   const tagsResult = tagsToGraph(tags, raw.noteTagLinks);
-
-  // Note-to-note edges
   const noteRelationshipEdges = noteRelationshipsToEdges(raw.noteRelationships);
-
-  // Intent edges (note → project)
   const intentEdges = intentLinksToEdges(intentLinks);
 
-  // Combine everything
   const allNodes: GraphNode[] = [
     projectNode,
     ...collectionsResult.nodes,
@@ -172,7 +179,6 @@ export async function buildProjectGraph(
     ...intentEdges,
   ];
 
-  // Apply intelligence hints (project dormancy, etc)
   const finalNodes = applyIntelligenceToNodes(allNodes, {
     orphans,
     resume,
@@ -182,7 +188,6 @@ export async function buildProjectGraph(
   const projection: GraphProjection = { nodes: finalNodes, edges: allEdges };
   const adjacency = buildAdjacency(allEdges);
 
-  // Recent note ids for "recent work" entry point
   const recentNoteIds = notes.slice(0, 5).map((n) => n.id);
   const openQuestionIds = questions
     .filter((q) => q.status === "open")
@@ -201,7 +206,6 @@ export async function buildProjectGraph(
   return { projection, adjacency, entryPoints };
 }
 
-// Re-exports for convenience
 export type { GraphProjection, GraphEntryPoint } from "@/types/graph";
 export { searchGraphNodes } from "./search/search-graph";
 export { applyFilters } from "./filters/filter-graph";

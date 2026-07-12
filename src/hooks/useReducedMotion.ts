@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 /**
  * Reads the user's OS-level reduced-motion preference and stays in sync.
- * Returns true when motion should be minimised.
+ * matchMedia is an external system — synchronising into React state
+ * is the correct pattern here.
  */
 export function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState<boolean>(false);

@@ -1,5 +1,7 @@
 ﻿// src/services/notes/index.ts
 
+import type { ServiceResult } from "@/types/service";
+
 import { createClient } from "@/lib/supabase/client";
 import { logActivity } from "@/services/activity";
 import type {
@@ -8,9 +10,6 @@ import type {
   UpdateNoteInput,
 } from "@/types/note";
 
-type ServiceResult<T> =
-  | { data: T; error: null }
-  | { data: null; error: string };
 
 export async function createNote(
   input: CreateNoteInput

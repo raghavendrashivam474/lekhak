@@ -1,5 +1,7 @@
 ﻿// src/services/collections/index.ts
 
+import type { ServiceResult } from "@/types/service";
+
 import { createClient } from "@/lib/supabase/client";
 import type {
   Collection,
@@ -12,9 +14,6 @@ import type {
   UpdateCollectionInput,
 } from "@/types/collection";
 
-type ServiceResult<T> =
-  | { data: T; error: null }
-  | { data: null; error: string };
 
 // ---------------------------------------------------------------------------
 // Collections
@@ -43,7 +42,11 @@ export async function getProjectCollections(
         .select("note_id, notes(id, title, category)")
         .eq("collection_id", col.id);
 
-      const notes = (noteCollections ?? []).map((nc: any) => ({
+      interface NoteCollectionRow {
+        note_id: string;
+        notes: { id: string; title: string; category: string } | null;
+      }
+      const notes = ((noteCollections ?? []) as unknown as NoteCollectionRow[]).map((nc) => ({
         id: nc.notes?.id ?? "",
         title: nc.notes?.title ?? "",
         category: nc.notes?.category ?? "idea",

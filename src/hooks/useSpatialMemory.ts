@@ -54,7 +54,7 @@ export function useSpatialMemory({
 
   const [memoryTrail, setMemoryTrail] = useState<string[]>([]);
 
-  // Reset on entry point change
+  // Reset on entry point change — external context change synchronisation
   useEffect(() => {
     if (!activeEntry) return;
     setVisibleNodeIds(initialVisibleFromEntry(activeEntry, adjacency));
@@ -65,6 +65,7 @@ export function useSpatialMemory({
 
   // Guard: if the graph changes and the selected node no longer exists,
   // clear selection so we don't try to focus on a ghost.
+  // Graph is an external prop; synchronising derived selection is correct.
   useEffect(() => {
     if (!selectedNodeId) return;
     const stillExists = graph.nodes.some((n) => n.id === selectedNodeId);

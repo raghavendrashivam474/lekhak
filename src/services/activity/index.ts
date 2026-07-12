@@ -1,11 +1,10 @@
 ﻿// src/services/activity/index.ts
 
+import type { ServiceResult } from "@/types/service";
+
 import { createClient } from "@/lib/supabase/client";
 import type { ActivityLog, ActivityAction, ActivityEntityType } from "@/types/activity";
 
-type ServiceResult<T> =
-  | { data: T; error: null }
-  | { data: null; error: string };
 
 export async function logActivity(params: {
   project_id: string | null;
