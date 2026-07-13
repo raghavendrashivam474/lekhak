@@ -45,11 +45,6 @@ export async function getProjectQuestions(
   return { data, error: null };
 }
 
-/**
- * Create a question.
- *
- * Sprint 11 [3/8]: records `question_raised` after successful creation.
- */
 export async function createQuestion(
   input: CreateQuestionInput
 ): Promise<ServiceResult<Question>> {
@@ -82,7 +77,6 @@ export async function createQuestion(
 
   const question = data as Question;
 
-  // Record only after the insert succeeded.
   await recordTemporalEvent({
     project_id: question.project_id,
     entity_type: "question",
@@ -98,12 +92,6 @@ export async function createQuestion(
   return { data: question, error: null };
 }
 
-/**
- * Update a question's status (and optionally which note answers it).
- *
- * Sprint 11 [3/8]: resolves the correct temporal event type from the
- * (previous, next) status pair. Identical-status saves do not create events.
- */
 export async function updateQuestionStatus(
   id: string,
   status: QuestionStatus,
@@ -111,10 +99,6 @@ export async function updateQuestionStatus(
 ): Promise<ServiceResult<Question>> {
   const supabase = createClient();
 
-  // --- 1. Load previous status BEFORE mutating ------------------------------
-  //
-  // Needed so the temporal resolver can decide whether this is a resolution,
-  // a reopen, or an ordinary status change.
   let previousStatus: LifecycleStatus | null = null;
   const { data: prev, error: prevErr } = await supabase
     .from("questions")
@@ -130,8 +114,6 @@ export async function updateQuestionStatus(
   } else if (prev) {
     previousStatus = prev.status as LifecycleStatus;
   }
-
-  // --- 2. Perform the mutation (unchanged behaviour) ------------------------
 
   const payload: Record<string, unknown> = {
     status,
@@ -155,8 +137,6 @@ export async function updateQuestionStatus(
   }
 
   const question = data as Question;
-
-  // --- 3. Record the temporal event, only if the status actually changed ---
 
   if (previousStatus) {
     const eventType = resolveQuestionTemporalEvent(
@@ -182,20 +162,11 @@ export async function updateQuestionStatus(
   return { data: question, error: null };
 }
 
-/**
- * Delete a question.
- *
- * Sprint 11 [3/8]: records a `question_status_changed` event with
- * next_state.status = "deleted" so the timeline can distinguish "question
- * ended" from ordinary status transitions. The metadata preserves the
- * question text since the row will no longer exist to query later.
- */
 export async function deleteQuestion(
   id: string
 ): Promise<ServiceResult<{ id: string }>> {
   const supabase = createClient();
 
-  // Capture question state before deletion — needed for temporal history.
   const { data: existing, error: loadErr } = await supabase
     .from("questions")
     .select("project_id, status, question")
@@ -272,6 +243,13 @@ export async function getNoteRelationships(
   return { data: unique, error: null };
 }
 
+/**
+ * Create a note-to-note relationship.
+ *
+ * Sprint 11 [4/8]: records `relationship_created` after successful insertion.
+ * Needs the project_id for scoping temporal events — inferred from the
+ * source note.
+ */
 export async function createNoteRelationship(
   input: CreateNoteRelationshipInput
 ): Promise<ServiceResult<NoteRelationship>> {
@@ -305,13 +283,73 @@ export async function createNoteRelationship(
     return { data: null, error: error.message };
   }
 
-  return { data, error: null };
+  const relationship = data as NoteRelationship;
+
+  // Need project_id for temporal scoping — look it up from the source note.
+  const { data: sourceNote, error: noteErr } = await supabase
+    .from("notes")
+    .select("project_id")
+    .eq("id", relationship.from_note_id)
+    .single();
+
+  if (noteErr) {
+    console.warn(
+      "[createNoteRelationship] could not resolve project for temporal event:",
+      noteErr.message
+    );
+  } else if (sourceNote?.project_id) {
+    await recordTemporalEvent({
+      project_id: sourceNote.project_id as string,
+      entity_type: "relationship",
+      entity_id: relationship.id,
+      event_type: "relationship_created",
+      previous_state: null,
+      next_state: {
+        from_note_id: relationship.from_note_id,
+        to_note_id: relationship.to_note_id,
+        relationship_type: relationship.relationship_type,
+      },
+    });
+  }
+
+  return { data: relationship, error: null };
 }
 
+/**
+ * Delete a note-to-note relationship.
+ *
+ * Sprint 11 [4/8]: capture relationship metadata BEFORE deletion so the
+ * removal event carries enough semantic information for later reconstruction.
+ */
 export async function deleteNoteRelationship(
   id: string
 ): Promise<ServiceResult<{ id: string }>> {
   const supabase = createClient();
+
+  // Load first — we need project_id (via source note) and the relationship
+  // shape before the row disappears.
+  const { data: existing, error: loadErr } = await supabase
+    .from("note_relationships")
+    .select("from_note_id, to_note_id, relationship_type")
+    .eq("id", id)
+    .single();
+
+  if (loadErr) {
+    console.warn(
+      "[deleteNoteRelationship] could not load relationship before deletion, skipping temporal recording:",
+      loadErr.message
+    );
+  }
+
+  let projectId: string | null = null;
+  if (existing?.from_note_id) {
+    const { data: sourceNote } = await supabase
+      .from("notes")
+      .select("project_id")
+      .eq("id", existing.from_note_id)
+      .single();
+    projectId = (sourceNote?.project_id as string) ?? null;
+  }
 
   const { error } = await supabase
     .from("note_relationships")
@@ -321,6 +359,21 @@ export async function deleteNoteRelationship(
   if (error) {
     console.error("[deleteNoteRelationship]", error.message);
     return { data: null, error: error.message };
+  }
+
+  if (existing && projectId) {
+    await recordTemporalEvent({
+      project_id: projectId,
+      entity_type: "relationship",
+      entity_id: id,
+      event_type: "relationship_removed",
+      previous_state: {
+        from_note_id: existing.from_note_id,
+        to_note_id: existing.to_note_id,
+        relationship_type: existing.relationship_type,
+      },
+      next_state: null,
+    });
   }
 
   return { data: { id }, error: null };
@@ -349,6 +402,11 @@ export async function getNoteIntentLinks(
   return { data, error: null };
 }
 
+/**
+ * Create a note-to-project intent link (goal / focus / next_step support).
+ *
+ * Sprint 11 [4/8]: records `intent_link_created` after successful insertion.
+ */
 export async function createNoteIntentLink(
   input: CreateNoteIntentLinkInput
 ): Promise<ServiceResult<NoteIntentLink>> {
@@ -382,13 +440,45 @@ export async function createNoteIntentLink(
     return { data: null, error: error.message };
   }
 
-  return { data, error: null };
+  const link = data as NoteIntentLink;
+
+  await recordTemporalEvent({
+    project_id: link.project_id,
+    entity_type: "relationship",
+    entity_id: link.id,
+    event_type: "intent_link_created",
+    previous_state: null,
+    next_state: {
+      note_id: link.note_id,
+      context: link.context,
+    },
+  });
+
+  return { data: link, error: null };
 }
 
+/**
+ * Delete a note-to-project intent link.
+ *
+ * Sprint 11 [4/8]: capture link metadata BEFORE deletion.
+ */
 export async function deleteNoteIntentLink(
   id: string
 ): Promise<ServiceResult<{ id: string }>> {
   const supabase = createClient();
+
+  const { data: existing, error: loadErr } = await supabase
+    .from("note_intent_links")
+    .select("project_id, note_id, context")
+    .eq("id", id)
+    .single();
+
+  if (loadErr) {
+    console.warn(
+      "[deleteNoteIntentLink] could not load link before deletion, skipping temporal recording:",
+      loadErr.message
+    );
+  }
 
   const { error } = await supabase
     .from("note_intent_links")
@@ -398,6 +488,20 @@ export async function deleteNoteIntentLink(
   if (error) {
     console.error("[deleteNoteIntentLink]", error.message);
     return { data: null, error: error.message };
+  }
+
+  if (existing) {
+    await recordTemporalEvent({
+      project_id: existing.project_id as string,
+      entity_type: "relationship",
+      entity_id: id,
+      event_type: "intent_link_removed",
+      previous_state: {
+        note_id: existing.note_id,
+        context: existing.context,
+      },
+      next_state: null,
+    });
   }
 
   return { data: { id }, error: null };
