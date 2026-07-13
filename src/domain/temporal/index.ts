@@ -1,7 +1,6 @@
 ﻿// src/domain/temporal/index.ts
 //
 // Public surface of the temporal domain.
-// Future milestones will add: reconstruction, phases, turning-points, timeline.
 
 export type {
   TemporalEntityType,
@@ -17,3 +16,23 @@ export {
 } from "./events";
 
 export type { LifecycleStatus } from "./events";
+
+export {
+  resolveProjectPhase,
+  findPhaseTransitions,
+} from "./phases";
+
+export type {
+  ProjectPhase,
+  ProjectPhaseSignal,
+  ProjectPhaseResult,
+  PhaseResolverInput,
+} from "./phases";
+
+export { detectTurningPoints } from "./turning-points";
+
+export type {
+  TurningPointType,
+  TurningPoint,
+  TurningPointInput,
+} from "./turning-points";
