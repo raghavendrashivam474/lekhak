@@ -4,6 +4,8 @@ import type { ServiceResult } from "@/types/service";
 
 import { createClient } from "@/lib/supabase/client";
 import { logActivity } from "@/services/activity";
+import { recordTemporalEvent } from "@/services/temporal";
+import { isMeaningfulTextChange } from "@/domain/temporal";
 import type {
   Project,
   CreateProjectInput,
@@ -129,11 +131,61 @@ export async function updateProject(
   return { data, error: null };
 }
 
+/**
+ * Update project intent fields (goal / current_focus / next_step /
+ * open_questions).
+ *
+ * Sprint 11 [2/8]: also records TemporalEvents for meaningful transitions in
+ * the three text intent fields. open_questions is handled by the question
+ * lifecycle in Commit 3/8.
+ *
+ * Recording rules (Sprint 11 brief):
+ *   - Load previous state BEFORE the mutation.
+ *   - Only record events AFTER the mutation succeeds (Rule 1).
+ *   - Ignore whitespace-only / no-op saves (isMeaningfulTextChange).
+ *   - A temporal recording failure must not fail the user's save.
+ */
 export async function updateProjectIntent(
   id: string,
   input: UpdateProjectIntentInput
 ): Promise<ServiceResult<Project>> {
   const supabase = createClient();
+
+  // --- 1. Load previous intent BEFORE mutating -----------------------------
+  //
+  // We only fetch this when at least one intent-text field is being updated.
+  // This keeps question-only saves cheap.
+  const willTouchIntentText =
+    input.goal !== undefined ||
+    input.current_focus !== undefined ||
+    input.next_step !== undefined;
+
+  let previous: Pick<
+    Project,
+    "goal" | "current_focus" | "next_step"
+  > | null = null;
+
+  if (willTouchIntentText) {
+    const { data: prev, error: prevErr } = await supabase
+      .from("projects")
+      .select("goal, current_focus, next_step")
+      .eq("id", id)
+      .single();
+
+    if (prevErr) {
+      console.warn(
+        "[updateProjectIntent] could not load previous intent, skipping temporal recording:",
+        prevErr.message
+      );
+    } else if (prev) {
+      previous = prev as Pick<
+        Project,
+        "goal" | "current_focus" | "next_step"
+      >;
+    }
+  }
+
+  // --- 2. Perform the mutation (unchanged behaviour) -----------------------
 
   const payload: Record<string, unknown> = {
     updated_at: new Date().toISOString(),
@@ -174,6 +226,57 @@ export async function updateProjectIntent(
     action: "project_updated",
     metadata: { title: data.title },
   });
+
+  // --- 3. Record temporal events (only meaningful transitions) --------------
+  //
+  // Fire-and-forget. Failures already log warnings inside the temporal
+  // service; we never propagate them as user-facing errors.
+
+  if (previous) {
+    const project = data as Project;
+
+    if (
+      input.goal !== undefined &&
+      isMeaningfulTextChange(previous.goal, project.goal)
+    ) {
+      await recordTemporalEvent({
+        project_id: id,
+        entity_type: "intent",
+        entity_id: id,
+        event_type: "goal_changed",
+        previous_state: { value: previous.goal },
+        next_state: { value: project.goal },
+      });
+    }
+
+    if (
+      input.current_focus !== undefined &&
+      isMeaningfulTextChange(previous.current_focus, project.current_focus)
+    ) {
+      await recordTemporalEvent({
+        project_id: id,
+        entity_type: "intent",
+        entity_id: id,
+        event_type: "focus_changed",
+        previous_state: { value: previous.current_focus },
+        next_state: { value: project.current_focus },
+      });
+    }
+
+    if (
+      input.next_step !== undefined &&
+      isMeaningfulTextChange(previous.next_step, project.next_step)
+    ) {
+      await recordTemporalEvent({
+        project_id: id,
+        entity_type: "intent",
+        entity_id: id,
+        event_type: "next_step_changed",
+        previous_state: { value: previous.next_step },
+        next_state: { value: project.next_step },
+      });
+    }
+  }
 
   return { data, error: null };
 }
