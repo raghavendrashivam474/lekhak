@@ -36,3 +36,24 @@ export type {
   TurningPoint,
   TurningPointInput,
 } from "./turning-points";
+
+export {
+  reconstructIntentAt,
+  reconstructQuestionsAt,
+  reconstructRelationshipsAt,
+} from "./reconstruction";
+
+export type {
+  TemporalSnapshot,
+  ReconstructedIntent,
+  ReconstructedQuestion,
+  ReconstructedRelationship,
+} from "./reconstruction";
+
+export { buildEvolutionTimeline } from "./timeline";
+
+export type {
+  EvolutionTimelineItem,
+  EvolutionTimelineItemType,
+  BuildTimelineInput,
+} from "./timeline";
