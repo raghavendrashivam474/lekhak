@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, FileText, History, Network } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, FileText, History, Network } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { getProjectById, deleteProject } from "@/services/projects";
 import { getNotesByProject } from "@/services/notes";
@@ -234,6 +234,13 @@ export default function ProjectDetailPage() {
                 >
                   <Network className="h-4 w-4 mr-2" />
                   Explore Memory
+                </Link>
+                <Link
+                  href={"/projects/" + id + "/evolution"}
+                  className="inline-flex items-center justify-center rounded-lg border border-[#C9A84C]/40 bg-[#C9A84C]/10 px-4 py-2 text-sm font-medium text-[#C9A84C] transition-colors hover:bg-[#C9A84C]/20"
+                >
+                  <Clock className="h-4 w-4 mr-2" />
+                  Explore Evolution
                 </Link>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}

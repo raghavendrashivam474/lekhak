@@ -5,25 +5,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getProjectEvolutionTimeline, type EvolutionSnapshot } from "@/services/temporal/timeline";
 import {
-  reconstructProjectSnapshot,
-} from "@/services/temporal/reconstruction";
+  getProjectEvolutionTimeline,
+  type EvolutionSnapshot,
+} from "@/services/temporal/timeline";
+import { reconstructProjectSnapshot } from "@/services/temporal/reconstruction";
 import type {
   TemporalSnapshot,
   EvolutionTimelineItem,
 } from "@/domain/temporal";
 
-// Sprint 11 brief §33: separate from the Activity Timeline (which shows
-// every operational event). This page shows curated evolution.
-
+// Deterministic date formatter (SSR-safe).
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
 function formatDate(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return MONTHS[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear();
 }
 
 function itemColor(item: EvolutionTimelineItem): string {
@@ -51,12 +50,10 @@ export default function EvolutionPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Historical reconstruction state — driven by selecting a timeline marker.
   const [selectedAt, setSelectedAt] = useState<string | null>(null);
   const [historic, setHistoric] = useState<TemporalSnapshot | null>(null);
   const [historicLoading, setHistoricLoading] = useState(false);
 
-  // Load the evolution snapshot on mount / project change.
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -74,7 +71,6 @@ export default function EvolutionPage() {
     };
   }, [projectId]);
 
-  // Load historical snapshot when a marker is selected.
   useEffect(() => {
     if (!selectedAt) {
       setHistoric(null);
@@ -104,24 +100,18 @@ export default function EvolutionPage() {
           </h1>
         </div>
         <Link
-          href={`/projects/${projectId}`}
+          href={"/projects/" + projectId}
           className="text-sm text-slate-400 hover:text-slate-200"
         >
           ← Back to project
         </Link>
       </header>
 
-      {loading && (
-        <p className="text-slate-400 text-sm">Loading evolution…</p>
-      )}
-
-      {error && (
-        <p className="text-rose-400 text-sm">{error}</p>
-      )}
+      {loading && <p className="text-slate-400 text-sm">Loading evolution…</p>}
+      {error && <p className="text-rose-400 text-sm">{error}</p>}
 
       {snapshot && (
         <>
-          {/* Current phase */}
           <section className="rounded-lg border border-slate-800 bg-slate-900/50 p-5">
             <p className="text-xs uppercase tracking-wide text-slate-500">
               Current Phase
@@ -140,7 +130,6 @@ export default function EvolutionPage() {
             )}
           </section>
 
-          {/* Timeline */}
           <section className="space-y-4">
             <h2 className="text-sm uppercase tracking-wide text-slate-400">
               Timeline
@@ -160,7 +149,7 @@ export default function EvolutionPage() {
                     <div className="flex items-baseline justify-between">
                       <div>
                         <span
-                          className={`text-xs uppercase tracking-wide ${itemColor(item)}`}
+                          className={"text-xs uppercase tracking-wide " + itemColor(item)}
                         >
                           {item.title}
                         </span>
@@ -174,23 +163,35 @@ export default function EvolutionPage() {
                     </div>
 
                     {isMarker && (
-                      <div className="mt-3 flex items-center gap-3">
+                      <div className="mt-3 flex flex-wrap items-center gap-3">
                         <button
                           onClick={() =>
                             setSelectedAt(
                               isSelected ? null : item.occurred_at
                             )
                           }
-                          className={`text-xs px-3 py-1 rounded border ${
-                            isSelected
+                          className={
+                            "text-xs px-3 py-1 rounded border " +
+                            (isSelected
                               ? "border-amber-400 text-amber-300"
-                              : "border-slate-700 text-slate-400 hover:text-slate-200"
-                          }`}
+                              : "border-slate-700 text-slate-400 hover:text-slate-200")
+                          }
                         >
                           {isSelected
                             ? "Return to current memory"
-                            : "Explore memory at this point"}
+                            : "See text snapshot"}
                         </button>
+                        <Link
+                          href={
+                            "/projects/" +
+                            projectId +
+                            "/memory?at=" +
+                            encodeURIComponent(item.occurred_at)
+                          }
+                          className="text-xs px-3 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200"
+                        >
+                          Explore in Memory Graph
+                        </Link>
                       </div>
                     )}
                   </li>
@@ -199,7 +200,6 @@ export default function EvolutionPage() {
             </ol>
           </section>
 
-          {/* Historical panel */}
           {selectedAt && (
             <section className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-5">
               <div className="flex items-center justify-between">
@@ -220,9 +220,7 @@ export default function EvolutionPage() {
               </div>
 
               {historicLoading && (
-                <p className="text-slate-400 text-sm mt-4">
-                  Reconstructing…
-                </p>
+                <p className="text-slate-400 text-sm mt-4">Reconstructing…</p>
               )}
 
               {historic && (
@@ -246,14 +244,15 @@ export default function EvolutionPage() {
                         .filter((q) => q.existed)
                         .map((q) => (
                           <li key={q.id}>
-                            <span className="text-slate-500">
-                              [{q.status}]
-                            </span>{" "}
+                            <span className="text-slate-500">[{q.status}]</span>{" "}
                             {q.question || "(no text captured)"}
                           </li>
                         ))}
-                      {historic.questions.filter((q) => q.existed).length === 0 && (
-                        <li className="text-slate-500 italic">No questions yet.</li>
+                      {historic.questions.filter((q) => q.existed).length ===
+                        0 && (
+                        <li className="text-slate-500 italic">
+                          No questions yet.
+                        </li>
                       )}
                     </ul>
                   </div>
