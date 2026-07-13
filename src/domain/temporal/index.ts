@@ -13,4 +13,7 @@ export type {
 export {
   normaliseIntentValue,
   isMeaningfulTextChange,
+  resolveQuestionTemporalEvent,
 } from "./events";
+
+export type { LifecycleStatus } from "./events";

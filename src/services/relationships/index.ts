@@ -3,6 +3,11 @@
 import type { ServiceResult } from "@/types/service";
 
 import { createClient } from "@/lib/supabase/client";
+import { recordTemporalEvent } from "@/services/temporal";
+import {
+  resolveQuestionTemporalEvent,
+  type LifecycleStatus,
+} from "@/domain/temporal";
 import type {
   NoteRelationship,
   NoteRelationshipWithNote,
@@ -40,6 +45,11 @@ export async function getProjectQuestions(
   return { data, error: null };
 }
 
+/**
+ * Create a question.
+ *
+ * Sprint 11 [3/8]: records `question_raised` after successful creation.
+ */
 export async function createQuestion(
   input: CreateQuestionInput
 ): Promise<ServiceResult<Question>> {
@@ -70,15 +80,58 @@ export async function createQuestion(
     return { data: null, error: error.message };
   }
 
-  return { data, error: null };
+  const question = data as Question;
+
+  // Record only after the insert succeeded.
+  await recordTemporalEvent({
+    project_id: question.project_id,
+    entity_type: "question",
+    entity_id: question.id,
+    event_type: "question_raised",
+    previous_state: null,
+    next_state: {
+      status: question.status,
+      question: question.question,
+    },
+  });
+
+  return { data: question, error: null };
 }
 
+/**
+ * Update a question's status (and optionally which note answers it).
+ *
+ * Sprint 11 [3/8]: resolves the correct temporal event type from the
+ * (previous, next) status pair. Identical-status saves do not create events.
+ */
 export async function updateQuestionStatus(
   id: string,
   status: QuestionStatus,
   answeredByNoteId?: string | null
 ): Promise<ServiceResult<Question>> {
   const supabase = createClient();
+
+  // --- 1. Load previous status BEFORE mutating ------------------------------
+  //
+  // Needed so the temporal resolver can decide whether this is a resolution,
+  // a reopen, or an ordinary status change.
+  let previousStatus: LifecycleStatus | null = null;
+  const { data: prev, error: prevErr } = await supabase
+    .from("questions")
+    .select("status")
+    .eq("id", id)
+    .single();
+
+  if (prevErr) {
+    console.warn(
+      "[updateQuestionStatus] could not load previous status, skipping temporal recording:",
+      prevErr.message
+    );
+  } else if (prev) {
+    previousStatus = prev.status as LifecycleStatus;
+  }
+
+  // --- 2. Perform the mutation (unchanged behaviour) ------------------------
 
   const payload: Record<string, unknown> = {
     status,
@@ -101,19 +154,78 @@ export async function updateQuestionStatus(
     return { data: null, error: error.message };
   }
 
-  return { data, error: null };
+  const question = data as Question;
+
+  // --- 3. Record the temporal event, only if the status actually changed ---
+
+  if (previousStatus) {
+    const eventType = resolveQuestionTemporalEvent(
+      previousStatus,
+      status as LifecycleStatus
+    );
+
+    if (eventType) {
+      await recordTemporalEvent({
+        project_id: question.project_id,
+        entity_type: "question",
+        entity_id: question.id,
+        event_type: eventType,
+        previous_state: { status: previousStatus },
+        next_state: {
+          status: question.status,
+          answered_by_note_id: question.answered_by_note_id,
+        },
+      });
+    }
+  }
+
+  return { data: question, error: null };
 }
 
+/**
+ * Delete a question.
+ *
+ * Sprint 11 [3/8]: records a `question_status_changed` event with
+ * next_state.status = "deleted" so the timeline can distinguish "question
+ * ended" from ordinary status transitions. The metadata preserves the
+ * question text since the row will no longer exist to query later.
+ */
 export async function deleteQuestion(
   id: string
 ): Promise<ServiceResult<{ id: string }>> {
   const supabase = createClient();
+
+  // Capture question state before deletion — needed for temporal history.
+  const { data: existing, error: loadErr } = await supabase
+    .from("questions")
+    .select("project_id, status, question")
+    .eq("id", id)
+    .single();
+
+  if (loadErr) {
+    console.warn(
+      "[deleteQuestion] could not load question before deletion, skipping temporal recording:",
+      loadErr.message
+    );
+  }
 
   const { error } = await supabase.from("questions").delete().eq("id", id);
 
   if (error) {
     console.error("[deleteQuestion]", error.message);
     return { data: null, error: error.message };
+  }
+
+  if (existing) {
+    await recordTemporalEvent({
+      project_id: existing.project_id as string,
+      entity_type: "question",
+      entity_id: id,
+      event_type: "question_status_changed",
+      previous_state: { status: existing.status },
+      next_state: { status: "deleted" },
+      metadata: { question: existing.question },
+    });
   }
 
   return { data: { id }, error: null };
