@@ -26,7 +26,8 @@ export interface ReconstructedIntent {
 export interface ReconstructedQuestion {
   id: string;
   question: string;
-  status: "open" | "in_progress" | "answered" | "archived" | "deleted";
+  // "deleted" is intentionally absent. Deletion is tracked via the existed boolean.
+  status: "open" | "in_progress" | "answered" | "archived";
   existed: boolean;
 }
 
@@ -102,6 +103,7 @@ export function reconstructQuestionsAt(
     list.sort((a, b) => a.occurred_at.localeCompare(b.occurred_at));
 
     let existed = false;
+    let deleted = false;
     let text = "";
     let status: ReconstructedQuestion["status"] = "open";
 
@@ -114,10 +116,18 @@ export function reconstructQuestionsAt(
 
       if (e.event_type === "question_raised") {
         existed = true;
+        deleted = false;
         text = next.question ?? text;
         status = next.status ?? "open";
         continue;
       }
+
+      if (e.event_type === "question_deleted") {
+        deleted = true;
+        if (meta.question && !text) text = meta.question;
+        continue;
+      }
+
       if (!existed) continue;
       if (next.status) status = next.status;
       if (meta.question && !text) text = meta.question;
@@ -128,7 +138,7 @@ export function reconstructQuestionsAt(
         id: questionId,
         question: text,
         status,
-        existed: status !== "deleted",
+        existed: !deleted,
       });
     }
   }

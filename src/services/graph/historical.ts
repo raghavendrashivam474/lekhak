@@ -208,7 +208,7 @@ export async function buildHistoricalProjectGraph(
       if (live) {
         return {
           ...live,
-          status: h.status === "deleted" ? live.status : h.status,
+          status: h.status,
         } as QuestionRow;
       }
       // Row was deleted from the live table but existed historically —
@@ -216,7 +216,7 @@ export async function buildHistoricalProjectGraph(
       return {
         id: h.id,
         question: h.question,
-        status: h.status === "deleted" ? "archived" : h.status,
+        status: h.status,
         answered_by_note_id: null,
         created_at: refIso,
         updated_at: refIso,

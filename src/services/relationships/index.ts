@@ -192,9 +192,9 @@ export async function deleteQuestion(
       project_id: existing.project_id as string,
       entity_type: "question",
       entity_id: id,
-      event_type: "question_status_changed",
+      event_type: "question_deleted",
       previous_state: { status: existing.status },
-      next_state: { status: "deleted" },
+      next_state: null,
       metadata: { question: existing.question },
     });
   }

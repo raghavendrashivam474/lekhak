@@ -1,4 +1,4 @@
-﻿// src/domain/temporal/types.ts
+// src/domain/temporal/types.ts
 //
 // Renderer-independent temporal domain.
 // No React, no Three.js, no Supabase imports here.
@@ -13,18 +13,19 @@ export type TemporalEntityType =
   | "relationship";
 
 export type TemporalEventType =
-  // Intent transitions (Sprint 5 concepts)
+  // Intent transitions
   | "goal_changed"
   | "focus_changed"
   | "next_step_changed"
 
-  // Question lifecycle (Sprint 6 concepts, temporalised)
+  // Question lifecycle
   | "question_raised"
   | "question_status_changed"
   | "question_resolved"
   | "question_reopened"
+  | "question_deleted"
 
-  // Relationship evolution (Sprint 6 concepts, temporalised)
+  // Relationship evolution
   | "relationship_created"
   | "relationship_removed"
   | "intent_link_created"
