@@ -2,39 +2,36 @@
 
 > **The Memory Layer for Writers.**
 
-A memory-first writing workspace that helps writers preserve not only what they write, but also **why they wrote it, how their ideas connect, what deserves attention, and where they should continue.**
+A memory-first writing workspace that preserves not only what writers create, but also **why they created it, how ideas connect, how projects evolve, and where work should continue.**
 
 **Status:** Active Development
-**Version:** **v0.10 — Spatial Memory Foundation v1**
+**Version:** **v0.11 — Temporal Memory Layer v1**
 **License:** MIT
 
 ---
 
 # About
 
-Lekhak was created by **Raghavendra Singh** to solve a problem experienced by nearly every writer.
+Lekhak was created by **Raghavendra Singh** around a simple problem:
 
 > Writers rarely lose words.
 >
 > They lose context.
 
-Creative work rarely disappears.
+Creative work usually survives.
 
-What disappears is the thinking behind it.
+The thinking behind it does not.
 
-Weeks or months later, writers often return to a project and struggle to remember:
+After weeks or months away from a project, writers often struggle to remember:
 
 * Why they started
 * What they were trying to achieve
 * Which ideas mattered
-* How everything connected
+* How ideas connected
 * What changed
-* What deserves attention
 * Where they should continue
 
-Lekhak exists to preserve that missing context.
-
-Rather than becoming another writing editor, Lekhak is being built as a **creative memory system** that grows alongside every project.
+Lekhak is being built as a **creative memory system** that preserves this missing context.
 
 ---
 
@@ -44,9 +41,7 @@ Most writing software stores documents.
 
 Lekhak preserves understanding.
 
-Instead of simply organizing notes, Lekhak gradually builds a living memory of a writer's creative journey.
-
-It remembers:
+It gradually builds a living memory of:
 
 * Projects
 * Notes
@@ -55,163 +50,42 @@ It remembers:
 * Relationships
 * Knowledge
 * Insights
-* Creative connections
-* Exploration context
-* Contextual relevance
-* Memory priority
+* Creative context
+* Project evolution
 
-The long-term goal is to help writers reconnect with their work instantly, whether they return after one day or one year.
+The goal is simple:
 
----
-
-# Product Identity
-
-Traditional writing software focuses on documents.
-
-Knowledge management software focuses on information.
-
-Lekhak focuses on **creative memory**.
-
-Its objective is to help writers remember:
-
-* What they created
-* Why they created it
-* How it evolved
-* Which ideas connect together
-* Which memories are relevant now
-* What deserves attention
-* Where they should continue
-
-Every capability in Lekhak exists to strengthen one or more of these principles.
-
----
-
-# Core Philosophy
-
-> Remember every story.
->
-> Remember every idea.
->
-> Remember why you started.
-
-Writing is more than producing words.
-
-It is the accumulation of ideas, decisions, revisions, questions, relationships, and experiences.
-
-Lekhak is designed to preserve that entire creative journey.
-
----
-
-# Why Lekhak?
-
-Modern writing workflows are fragmented.
-
-Creative work is often spread across multiple tools.
-
-```text
-Google Docs
-Notion
-Research PDFs
-Voice Notes
-Bookmarks
-Screenshots
-Random Notes
-Ideas on Paper
-```
-
-Eventually, projects become difficult to resume.
-
-Most writing tools answer:
-
-> "What documents do you have?"
-
-Lekhak answers:
-
-> "What were you building?"
-
-Then:
-
-> "How does everything you built connect?"
-
-And now:
-
-> "What matters in your current context?"
-
----
-
-# The Solution
-
-Lekhak gradually builds an understanding of every writing project.
-
-Instead of only storing content, it preserves and derives:
-
-* What changed
-* Why the project exists
-* What the writer is focused on
-* Which ideas relate
-* Which concepts belong together
-* Which projects require attention
-* Where unresolved questions remain
-* Which memories are contextually relevant
-* How the writer can continue immediately
-
-Every writing session strengthens the application's understanding of the project.
-
-The accumulated memory can then be explored structurally through the **Memory Graph** and contextually through **Spatial Memory**.
+> Help writers reconnect with their work, whether they return after one day or one year.
 
 ---
 
 # Product Evolution
 
-Lekhak has been intentionally developed in layers.
-
-Each layer solves a deeper creative problem.
+Lekhak is intentionally developed in layers.
 
 ```text
 Foundation
-
 ↓
-
 Authentication
-
 ↓
-
 Writing Workflow
-
 ↓
-
 Memory
-
 ↓
-
 Intent
-
 ↓
-
 Relationships
-
 ↓
-
 Knowledge
-
 ↓
-
 Writer Intelligence
-
 ↓
-
-Visual Memory Graph
-
+Memory Graph
 ↓
-
 Spatial Memory
-
 ↓
-
 Temporal Memory
-
 ↓
-
 Creative Operating System
 ```
 
@@ -225,93 +99,62 @@ Everything evolves.
 
 # Current Capabilities
 
-## Authentication
-
-Secure authentication powered by Supabase.
-
-Features:
-
-* User Registration
-* User Login
-* User Logout
-* Protected Routes
-* Server-Side Authentication
-* Cookie-Based Sessions
-* Row-Level Security
-
----
-
 ## Writing Workflow
 
-Core writing experience.
-
-Features:
-
-* Create Projects
-* Edit Projects
-* Delete Projects
-* Create Notes
-* Edit Notes
-* Delete Notes
-* Project Dashboard
+* Projects
+* Notes
 * Project Organization
-* Note Detail Pages
+* Project Dashboard
+* Secure Authentication
+* Server-Side Sessions
+* Row-Level Security
 
 ---
 
 ## Memory Layer
 
-Automatically preserves writing history.
-
-Features:
+Preserves what happened.
 
 * Activity Timeline
-* Resume Context
+* Recent Activity
 * Last Active Tracking
-* Recent Activity Feed
+* Resume Context
 * Project History
-
-The application remembers what happened throughout a project's lifetime.
 
 ---
 
 ## Intent Layer
 
-Preserves creative intent.
+Preserves why work exists.
 
-Every project maintains:
+Every project can maintain:
 
 * Project Goal
 * Current Focus
 * Next Writing Step
 * Open Questions
 
-Helping writers remember **why** they were working and **what should happen next**.
-
 ---
 
 ## Relationship Layer
 
-Connects creative assets.
+Connects creative memory.
 
 Capabilities include:
 
 * Related Notes
 * Note References
+* Question Relationships
 * Goal Support
 * Focus Support
 * Next Step Dependencies
-* Question Relationships
-* Question Status
-* Note Categories
-
-Ideas become connected instead of isolated.
+* Intent Links
 
 ---
 
 ## Knowledge Layer
 
-Transforms connected information into structured knowledge.
+Organizes connected information.
 
 Capabilities include:
 
@@ -319,757 +162,235 @@ Capabilities include:
 * Knowledge Spaces
 * Knowledge Tags
 * Smart References
-* Resume Workspace v2
-* Project Dashboard v2
 * Project Health
-
-Projects become organized knowledge workspaces rather than simple collections of notes.
+* Resume Workspace
 
 ---
 
-## Writer Intelligence Layer
+## Writer Intelligence
 
-Transforms structured knowledge into meaningful insights.
+Derives meaningful project signals.
 
 Capabilities include:
 
-* Resume Intelligence
-* Project Intelligence
 * Writing Momentum
 * Goal Progress
 * Focus Drift Detection
 * Question Intelligence
 * Creative Gap Analysis
-* Weekly Summary
-* Smart Dashboard
 * Project Health Insights
+* Weekly Summary
+* Smart Resume
 
 Writer Intelligence is deterministic.
 
-It derives observations from structured project data without requiring Large Language Models or generative AI.
-
-The intelligence layer does not write for the writer.
+It does not write for the writer.
 
 It helps the writer understand their own work.
 
 ---
 
-# Memory Graph v1
+# Memory Graph
 
-Memory Graph makes Lekhak's accumulated understanding visible.
+The Memory Graph makes accumulated creative memory visible.
 
-Instead of forcing writers to navigate creative memory through lists alone, Lekhak projects existing project data into an interactive visual memory graph.
-
-The graph represents:
+It projects:
 
 * Projects
 * Collections
 * Notes
-* Open Questions
+* Questions
 * Knowledge Tags
 
-Relationships between these entities become semantic graph edges.
+into an interactive relationship graph.
 
-Examples include:
+```text
+Creative Memory
+↓
+Graph Projection
+↓
+Relationships Become Visible
+↓
+Context Can Be Explored
+```
 
-* Note Relationships
-* Collection Membership
-* Knowledge Tags
-* Question Answers
-* Intent Relationships
-* Goal Support
-* Focus Relevance
-* Next Step Dependencies
+Writers can explore memory through contextual entry points, inspect entities, search projected memory, filter relationships, and preserve an exploration trail.
 
-The Memory Graph is a **projection of existing creative memory**.
+The graph is a **projection of existing project memory**.
 
 It is not a separate source of truth.
 
 ---
 
-## Contextual Memory Exploration
+# Spatial Memory
 
-The graph does not render an entire project without context by default.
-
-Writers can enter memory through contextual entry points.
-
-Current entry points include:
-
-* Project Memory
-* Current Focus
-* Suggested Start
-* Recent Work
-* Open Questions
-* Orphan Knowledge
-
-Each entry point reveals a different perspective on the same project memory.
-
----
-
-## Context Expansion
-
-Selecting an entity reveals its immediate creative neighbourhood.
-
-```text
-Selected Memory
-
-↓
-
-Immediate Relationships
-
-↓
-
-Connected Ideas
-
-↓
-
-Relevant Context
-```
-
-Relevant connections emerge.
-
-Unrelated memories become secondary.
-
-This allows writers to explore context without being overwhelmed by the entire project.
-
----
-
-## Memory Inspector
-
-Every selected memory entity can be inspected.
-
-The Memory Inspector adapts to the selected entity type and displays relevant information such as:
-
-* Category
-* Description
-* Project Status
-* Last Updated Time
-* Intelligence State
-* Relationship Context
-
-Writers can navigate from memory entities back to their actual writing workspace.
-
-Visual memory remains a lens on creative work.
-
-It does not replace writing.
-
----
-
-## Memory Trail
-
-Lekhak preserves the writer's current exploration path.
-
-Example:
-
-```text
-Project
-
-↓
-
-Chapter Outline
-
-↓
-
-Character Conflict
-
-↓
-
-Unresolved Question
-
-↓
-
-Research Note
-```
-
-The Memory Trail allows writers to move backwards through their exploration context.
-
-Memory exploration becomes a journey rather than a sequence of disconnected clicks.
-
----
-
-## Graph Search and Filters
-
-The Memory Graph includes contextual discovery tools.
-
-Writers can:
-
-* Search projected memory entities
-* Filter node types
-* Filter relationship types
-* Focus on specific creative structures
-
-The graph acts as both an exploration surface and a visual navigation system.
-
----
-
-## Intelligence Overlay
-
-Writer Intelligence is mapped into visual memory state.
-
-The graph can surface concepts such as:
-
-* Orphan Knowledge
-* Dormant Projects
-* Active Projects
-* Suggested Starting Points
-* Unresolved Questions
-* Focus-Relevant Notes
-
-Intelligence calculations remain independent from visualization.
-
-The graph only visualizes insights already derived by the Writer Intelligence Layer.
-
----
-
-# Spatial Memory Foundation v1
-
-Spatial Memory introduces a second way to understand creative memory.
-
-The Memory Graph communicates **structure**.
-
-Spatial Memory communicates **context**.
+Spatial Memory introduces a contextual lens over creative memory.
 
 ```text
 Graph
-
-↓
-
-How is memory connected?
-
+→ How is memory connected?
 
 Space
-
-↓
-
-What matters in this context?
+→ What matters in this context?
 ```
 
-Spatial Memory does not simply place the existing graph into three dimensions.
-
-Instead, Lekhak projects creative memory into a semantic spatial model where position itself communicates meaning.
-
----
-
-## Spatial Semantic Contract
-
-Spatial Memory follows four core semantic rules.
+Spatial meaning follows four principles:
 
 ```text
-Distance
-
-=
-
-Contextual Relevance
+Distance   = Contextual Relevance
+Depth      = Contextual Priority
+Prominence = Attention Priority
+Region     = Memory Role
 ```
 
-```text
-Depth
+Memory is organized into semantic regions:
 
-=
+* Current Work
+* Open Threads
+* Established Knowledge
+* Peripheral Memory
 
-Contextual Priority
-```
+Selecting a memory recomposes the surrounding context.
 
-```text
-Prominence
-
-=
-
-Attention Priority
-```
-
-```text
-Region
-
-=
-
-Memory Role
-```
-
-Therefore:
-
-* Relevant memories appear contextually closer
-* Immediate working context occupies foreground space
-* Important memories receive greater visual presence
-* Memory regions communicate semantic roles
-
-Spatial properties are not decorative.
-
-They communicate creative context.
-
----
-
-## Semantic Memory Regions
-
-Spatial Memory currently organizes projected memory into four regions.
-
-### Current Work
-
-Represents active working context.
-
-May contain:
-
-* Current Focus
-* Next Step Dependencies
-* Suggested Starting Points
-* Recently Active Notes
-* Focus-Relevant Notes
-
----
-
-### Open Threads
-
-Represents unresolved creative thinking.
-
-May contain:
-
-* Open Questions
-* Question Relationships
-* Notes Answering Questions
-* Blocked Context
-* Unresolved Creative Threads
-
----
-
-### Established Knowledge
-
-Represents stable and structured project knowledge.
-
-May contain:
-
-* Highly Connected Notes
-* Collection Anchors
-* Knowledge Tags
-* Frequently Referenced Memory
-
----
-
-### Peripheral Memory
-
-Represents weakly connected or inactive memory.
-
-May contain:
-
-* Dormant Notes
-* Orphan Knowledge
-* Old Draft Context
-* Weakly Connected Notes
-
-Region assignment is deterministic.
-
-Current Work has the highest semantic precedence, followed by Open Threads, Established Knowledge, and Peripheral Memory.
-
----
-
-## Contextual Spatial Exploration
-
-Selecting a memory does more than move the camera.
-
-Lekhak recomposes the spatial context around the selected entity.
-
-```text
-Memory Selected
-
-↓
-
-Focus Context Resolved
-
-↓
-
-Relevance Recalculated
-
-↓
-
-Depth Reclassified
-
-↓
-
-Memory Regions Re-evaluated
-
-↓
-
-Spatial Positions Recomputed
-
-↓
-
-Space Recomposed
-```
-
-Immediate context becomes clearer.
+Relevant ideas move closer.
 
 Supporting context remains visible.
 
-Peripheral memory moves into secondary space.
+Peripheral memory becomes secondary.
 
-The writer moves deeper into existing creative memory without completely losing orientation.
+The renderer displays meaning.
 
----
-
-## Spatial Focus Mode
-
-Spatial Focus allows writers to explore one memory context at a time.
-
-```text
-Selected Memory
-
-↓
-
-Primary Presence
-
-
-Immediate Context
-
-↓
-
-Near and Clear
-
-
-Supporting Context
-
-↓
-
-Visible
-
-
-Peripheral Context
-
-↓
-
-Distant and Secondary
-```
-
-Focus is contextual.
-
-It is not simply a visual highlight.
-
-The entire visible memory space responds to the selected context.
+The domain derives meaning.
 
 ---
 
-## Semantic Camera
+# Temporal Memory Layer v1
 
-Camera movement communicates changes in memory context.
+Temporal Memory allows Lekhak to understand **how a project became its current state**.
 
-Current camera intentions include:
+Before Temporal Memory, Lekhak could answer:
 
-* Overview
-* Focus
-* Entry Point Context
-* Search Focus
-* Trail Restore
+> What does this project look like now?
 
-The camera does not calculate product meaning.
+It can now begin answering:
 
-It receives already-resolved spatial intent from the domain layer.
+> How did this project become what it is?
 
-Transitions remain calm and intentional.
+Temporal Memory preserves meaningful state transitions such as:
 
-Reduced-motion preferences are respected.
+* Goal Changes
+* Focus Changes
+* Next Step Changes
+* Questions Raised
+* Question Resolution
+* Question Reopening
+* Relationship Creation
+* Relationship Removal
+* Intent Link Evolution
+
+Operational activity and temporal evolution remain separate.
+
+```text
+Activity
+→ What action happened?
+
+Temporal Memory
+→ How did project state change?
+```
 
 ---
 
-## Spatial Search
+## Project Evolution
 
-Search is integrated with contextual navigation.
+Lekhak can derive a meaningful project evolution timeline from temporal evidence.
 
-```text
-Search Query
+It can identify:
 
-↓
+* Direction Changes
+* Focus Shifts
+* Major Question Resolutions
+* Knowledge Breakthroughs
+* Project Resumption
+* Creative Phase Transitions
 
-Matching Memory
+These moments are derived deterministically.
 
-↓
-
-Spatial Context Resolved
-
-↓
-
-Space Recomposed
-
-↓
-
-Camera Transitions
-
-↓
-
-Matching Memory Focused
-```
-
-Search does not merely highlight a distant entity.
-
-It transports the writer into the memory's contextual neighbourhood.
+No generative AI is required.
 
 ---
 
-## Graph and Space Views
+## Project Phases
 
-Lekhak now provides two visual lenses over the same creative memory.
+Lekhak can derive creative project phases from observable project signals.
+
+Current phases include:
 
 ```text
-Explore Memory
-
-[ Graph ] [ Space ]
+Exploring
+Structuring
+Active
+Revising
+Dormant
+Resumed
 ```
 
-### Graph View
-
-Designed for:
-
-* Structural Understanding
-* Relationship Exploration
-* Connection Discovery
-
-### Space View
-
-Designed for:
-
-* Contextual Understanding
-* Attention Navigation
-* Memory Priority
-* Spatial Exploration
-
-Both views consume the same underlying memory model.
-
-They do not maintain independent sources of truth.
-
-Where practical, entry point and selected memory context are preserved when switching views.
+Phase resolution considers project activity, writing momentum, intent, questions, notes, collections, and temporal evidence.
 
 ---
 
-## Shared Memory Inspector
+## Historical Reconstruction
 
-Graph and Space reuse the same Memory Inspector.
+Lekhak can reconstruct meaningful project state at a past reference time.
 
-```text
-Graph Memory
+Currently reconstructed:
 
-──────┐
+* Project Goal
+* Current Focus
+* Next Writing Step
+* Question Lifecycle
+* Question Status
+* Relationship Existence
+* Project Phase
 
-      ↓
+This allows writers to explore questions such as:
 
-Memory Inspector
+> What was my focus three weeks ago?
 
-      ↑
+> When did this goal change?
 
-──────┘
+> How long was this question unresolved?
 
-Spatial Memory
-```
+> When did these ideas become connected?
 
-A memory entity communicates the same underlying information regardless of how the writer reaches it.
-
-Visualization does not duplicate business logic.
-
----
-
-## Shared Memory Trail
-
-Spatial navigation extends the existing Memory Trail.
-
-Example:
-
-```text
-Project
-
-↓
-
-Elena
-
-↓
-
-Character Arc
-
-↓
-
-Childhood Research
-```
-
-Selecting an earlier trail item restores that memory context and recomposes the space.
-
-Exploration history remains temporary client interaction.
-
-It is not stored as project activity.
+Historical state is read-only.
 
 ---
 
-## Spatial Intelligence Mapping
+## Historical Memory Exploration
 
-Writer Intelligence influences spatial meaning.
-
-Examples:
+Historical project state can be projected through the existing Memory Graph and Spatial Memory systems.
 
 ```text
-Suggested Start
-
+Reference Time
 ↓
-
-High Prominence
+Temporal Snapshot
+↓
+Historical Memory State
+↓
+Graph Projection
+↓
+Spatial Projection
+↓
+Existing Renderers
 ```
 
-```text
-Current Focus Relevance
+The renderers remain time-agnostic.
 
-↓
+Time changes state.
 
-Near Context
-```
+State changes the projection.
 
-```text
-Orphan Knowledge
-
-↓
-
-Spatial Isolation
-```
-
-```text
-Dormant Memory
-
-↓
-
-Peripheral Context
-```
-
-```text
-Active Memory
-
-↓
-
-Greater Presence
-```
-
-```text
-Unresolved Question
-
-↓
-
-Open Spatial State
-```
-
-The renderer never calculates these states.
-
-It only displays meaning already derived by Lekhak's intelligence and spatial layers.
-
----
-
-# Spatial Memory Architecture
-
-Spatial Memory follows a strict renderer-independent architecture.
-
-```text
-Domain Data
-
-↓
-
-Graph Projection Layer
-
-↓
-
-GraphProjection
-
-↓
-
-Spatial Projection Layer
-
-↓
-
-SpatialProjection
-
-↓
-
-Spatial Renderer Adapter
-
-↓
-
-3D Spatial Renderer
-```
-
-The spatial domain contains no Three.js or React Three Fiber dependencies.
-
----
-
-## Renderer Boundary
-
-```text
-GraphProjection
-        │
-        ├── React Flow Adapter
-        │       ↓
-        │   2D Memory Graph
-        │
-        └── Spatial Projection Engine
-                ↓
-          SpatialProjection
-                ↓
-          Three Renderer Adapter
-                ↓
-          3D Spatial Memory
-```
-
-The Three.js renderer boundary is intentionally isolated.
-
-The core spatial projection remains deterministic, serializable, and renderer-independent.
-
----
-
-## Spatial Domain
-
-Core spatial concepts include:
-
-```text
-SpatialVector
-
-SpatialDepth
-
-SpatialProminence
-
-SpatialRegionType
-
-SpatialNodeState
-
-SpatialNode
-
-SpatialEdge
-
-SpatialRegion
-
-SpatialContext
-
-SpatialProjection
-
-CameraIntent
-```
-
-The domain uses plain data structures.
-
-It does not use:
-
-```text
-THREE.Vector3
-```
-
-or other renderer-specific types.
-
----
-
-## Deterministic Spatial Projection
-
-Spatial positions are calculated deterministically.
-
-The projection considers:
-
-* Semantic Region
-* Contextual Depth
-* Relationship Relevance
-* Writer Intelligence
-* Stable Node Identity
-
-No random semantic positioning is used.
-
-Stable node identifiers produce deterministic spatial offsets.
-
-The same project context produces the same spatial result.
+The visualization naturally reflects the historical memory.
 
 ---
 
@@ -1079,153 +400,39 @@ Lekhak follows a layered architecture.
 
 ```text
 UI
-
 ↓
-
 Components
-
 ↓
-
 Graph / Spatial Renderers
-
 ↓
-
 Renderer Adapters
-
 ↓
-
-Spatial Projection Layer
-
+Spatial Projection
 ↓
-
-Graph Projection Layer
-
+Graph Projection
 ↓
-
+Temporal Memory
+↓
 Writer Intelligence
-
 ↓
-
-Knowledge Layer
-
+Knowledge
 ↓
-
-Relationship Layer
-
+Relationships
 ↓
-
-Intent Layer
-
+Intent
 ↓
-
-Memory Layer
-
+Memory
 ↓
-
 Service Layer
-
 ↓
-
 Supabase
-
 ↓
-
 PostgreSQL
 ```
 
-Each layer builds upon the previous one while maintaining clear separation of responsibilities.
+The architecture follows a simple principle:
 
-The renderer displays meaning.
-
-The domain derives meaning.
-
----
-
-# Core Data Model
-
-```text
-Project
-│
-├── Intent
-│     ├── Goal
-│     ├── Current Focus
-│     ├── Next Step
-│     └── Questions
-│
-├── Collections
-│
-├── Notes
-│
-├── Relationships
-│
-├── Knowledge
-│
-├── Intelligence
-│
-├── Graph Projection
-│
-├── Spatial Projection
-│
-└── Activity
-```
-
-Every capability in Lekhak ultimately revolves around the project and its accumulated creative memory.
-
----
-
-# Graph Domain Model
-
-The graph domain is visualization-library independent.
-
-Core concepts include:
-
-```text
-GraphNode
-
-GraphEdge
-
-GraphProjection
-
-GraphNodeState
-
-GraphRelationshipType
-
-GraphEntryPoint
-
-GraphAdjacency
-```
-
-Supported memory node types include:
-
-```text
-Project
-
-Collection
-
-Note
-
-Question
-
-Knowledge Tag
-```
-
-Graph state can represent:
-
-```text
-Orphan
-
-Dormant
-
-Active
-
-Suggested Start
-
-Unresolved
-
-Focus Relevant
-```
-
-The graph domain provides the structural memory model consumed by both Graph and Spatial Memory systems.
+> **The domain derives meaning. The renderer displays meaning.**
 
 ---
 
@@ -1239,44 +446,27 @@ The graph domain provides the structural memory model consumed by both Graph and
 * Tailwind CSS
 * shadcn/ui
 
----
-
 ## Memory Graph
 
 * `@xyflow/react`
-* Renderer Adapter Architecture
 * Renderer-Independent Graph Projection
-
----
 
 ## Spatial Memory
 
 * Three.js
 * React Three Fiber
 * Drei
-* Renderer Adapter Architecture
 * Renderer-Independent Spatial Projection
-
----
 
 ## Backend
 
 * Supabase
-
----
-
-## Database
-
 * PostgreSQL
-
----
 
 ## Authentication
 
 * Supabase Auth
 * `@supabase/ssr`
-
----
 
 ## Validation
 
@@ -1293,42 +483,26 @@ The graph domain provides the structural memory model consumed by both Graph and
 * npm
 * Supabase Project
 
----
-
-## Clone Repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/raghavendrashivam474/lekhak.git
 ```
 
----
-
-## Install Dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
----
-
-## Configure Environment
-
-Create:
-
-```text
-.env.local
-```
-
-Add:
+Create `.env.local`:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
----
-
-## Start Development Server
+Start development:
 
 ```bash
 npm run dev
@@ -1347,12 +521,12 @@ http://localhost:3000
 ```text
 Version
 
-v0.10
+v0.11
 
 
 Current Milestone
 
-Spatial Memory Foundation v1
+Temporal Memory Layer v1
 
 
 Development Status
@@ -1364,37 +538,23 @@ Lekhak currently:
 
 ```text
 Stores what exists
-
 ↓
-
-Remembers what changed
-
+Remembers what happened
 ↓
-
 Preserves why work exists
-
 ↓
-
 Connects related ideas
-
 ↓
-
 Organizes creative knowledge
-
 ↓
-
 Interprets writing patterns
-
 ↓
-
 Visualizes accumulated memory
-
 ↓
-
-Projects context into semantic space
+Projects memory into semantic space
+↓
+Preserves how creative state evolves
 ```
-
-The product has evolved from storing writing into building and exposing a contextual model of creative memory.
 
 ---
 
@@ -1409,72 +569,20 @@ The product has evolved from storing writing into building and exposing a contex
 * ✅ Intent Layer
 * ✅ Relationship Layer
 * ✅ Knowledge Layer
-* ✅ Writer Intelligence Layer
+* ✅ Writer Intelligence
 * ✅ Memory Graph v1
 * ✅ Spatial Memory Foundation v1
+* ✅ Temporal Memory Layer v1
 
 ---
 
 ## Next
 
-### Temporal Memory Layer
+The next stage will build upon the temporal foundation to deepen Lekhak's understanding of **creative continuity and long-term project memory**.
 
-The next stage explores how creative memory changes over time.
+The central question becomes:
 
-Potential capabilities include:
-
-* Memory Evolution
-* Intent History
-* Focus History
-* Relationship Evolution
-* Project Phase Detection
-* Creative Turning Points
-* Historical Memory Reconstruction
-* Temporal Context Exploration
-
-The central question is:
-
-> Can Lekhak preserve not only creative memory, but how that memory evolved?
-
----
-
-## Future
-
-### Advanced Spatial Memory
-
-The current spatial architecture can support future exploration of:
-
-* Alternate Spatial Layouts
-* Richer Semantic Territories
-* Historical Spatial Reconstruction
-* Temporal-Spatial Memory Exploration
-* Additional Renderer Technologies
-* Spatial Computing Surfaces
-
-These capabilities will be introduced only when they improve creative understanding.
-
-Spatial complexity is not a product goal by itself.
-
----
-
-## Long-Term Vision
-
-### Creative Operating System
-
-The ultimate goal of Lekhak is not to become another writing editor.
-
-Its goal is to become a complete creative operating system that helps writers:
-
-* Capture Ideas
-* Preserve Memory
-* Maintain Intent
-* Build Relationships
-* Organize Knowledge
-* Understand Patterns
-* Explore Creative Memory
-* Navigate Creative Context
-* Understand Creative Evolution
-* Resume Work Instantly
+> Can Lekhak help a writer understand not only their past and present creative state, but the direction their work is moving?
 
 ---
 
@@ -1513,11 +621,11 @@ This project is an attempt to preserve that thinking and help writers reconnect 
 
 # Long-Term Mission
 
-The destination is not another note-taking application.
+Lekhak is not being built as another note-taking application.
 
-The destination is a system that remembers creative journeys.
+It is being built as a system that remembers creative journeys.
 
-A place where writers can return months—or even years—later and immediately understand:
+A place where writers can return months—or years—later and understand:
 
 > What was I building?
 
@@ -1525,17 +633,15 @@ A place where writers can return months—or even years—later and immediately 
 
 > How do these ideas connect?
 
-> What deserves my attention?
-
-> Where should I continue?
-
-And increasingly:
+> What changed?
 
 > How did my thinking evolve?
 
-Lekhak is being built toward a future where creative work is not only stored.
+> Where should I continue?
 
-It is remembered.
+Creative work should not only be stored.
+
+It should be remembered.
 
 Connected.
 
