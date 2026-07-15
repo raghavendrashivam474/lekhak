@@ -76,7 +76,6 @@ async function loadResolverInput(
 
   const noteIdSet = new Set(notes.map((n) => n.id));
 
-  // Filter relationships to only those involving project notes
   const relationships = (relsRes.data ?? [])
     .filter(
       (r: Record<string, unknown>) =>
@@ -101,10 +100,9 @@ async function loadResolverInput(
     context: l.context as "goal" | "focus" | "next_step",
   }));
 
-  // Load note_collections for each collection
   const collectionRows = collectionsRes.data ?? [];
   const collectionIds = collectionRows.map((c: Record<string, unknown>) => c.id as string);
-  let noteCollectionMap = new Map<string, string[]>();
+  const noteCollectionMap = new Map<string, string[]>();
 
   if (collectionIds.length > 0) {
     const { data: ncData } = await supabase
@@ -165,6 +163,8 @@ export interface FullReasoningSnapshot {
   dependencies: DependencyAnalysis;
   health: CreativeHealth;
   reasoning: ReasoningResult;
+  /** Raw input — needed by explanation and adapter layers. */
+  input: ThreadResolverInput;
 }
 
 export async function getProjectReasoning(
@@ -172,7 +172,6 @@ export async function getProjectReasoning(
 ): Promise<ServiceResult<FullReasoningSnapshot>> {
   const supabase = createClient();
 
-  // Load project intent
   const { data: project, error: projectErr } = await supabase
     .from("projects")
     .select("goal, current_focus, next_step")
@@ -183,7 +182,6 @@ export async function getProjectReasoning(
     return { data: null, error: projectErr?.message ?? "Project not found" };
   }
 
-  // Load structured input
   const inputRes = await loadResolverInput(projectId);
   if (inputRes.error || !inputRes.data) {
     return { data: null, error: inputRes.error ?? "Failed to load project data" };
@@ -191,7 +189,8 @@ export async function getProjectReasoning(
 
   const input = inputRes.data;
 
-  // Load momentum (user-level — documented limitation)
+  // calculateMomentum is user-scoped (documented limitation from Sprint 11).
+  // A project-scoped momentum function is planned for a future sprint.
   const momentum = await calculateMomentum();
 
   const intent = {
@@ -200,16 +199,9 @@ export async function getProjectReasoning(
     nextStep: (project as Record<string, unknown>).next_step as string | null,
   };
 
-  // 1. Resolve threads
   const threads = resolveCreativeThreads(input);
-
-  // 2. Calculate progress
   const progress = calculateProjectNarrativeProgress(threads, input);
-
-  // 3. Analyze dependencies
   const dependencies = analyzeDependencies(threads, input, intent);
-
-  // 4. Calculate health
   const health = calculateCreativeHealth({
     projectId,
     threads,
@@ -222,7 +214,6 @@ export async function getProjectReasoning(
     writingStreakDays: momentum.writing_streak_days,
   });
 
-  // 5. Run reasoning engine
   const reasoningCtx: ReasoningContext = {
     projectId,
     threads,
@@ -239,13 +230,7 @@ export async function getProjectReasoning(
   const reasoning = analyzeProject(reasoningCtx);
 
   return {
-    data: {
-      threads,
-      progress,
-      dependencies,
-      health,
-      reasoning,
-    },
+    data: { threads, progress, dependencies, health, reasoning, input },
     error: null,
   };
 }
