@@ -2,17 +2,17 @@
 
 > **The Memory Layer for Writers.**
 
-A memory-first writing workspace that preserves not only what writers create, but also **why they created it, how ideas connect, how projects evolve, and where work should continue.**
+A memory-first writing workspace that helps writers preserve not only what they create, but also **why they created it, how their ideas connect, how their projects evolve, what those projects mean, and where they should continue next.**
 
-**Status:** Active Development
-**Version:** **v0.11 — Temporal Memory Layer v1**
+**Status:** Active Development  
+**Version:** **v0.12 — Creative Reasoning Layer v1**  
 **License:** MIT
 
 ---
 
 # About
 
-Lekhak was created by **Raghavendra Singh** around a simple problem:
+Lekhak was created by **Raghavendra Singh** around a simple realization:
 
 > Writers rarely lose words.
 >
@@ -22,16 +22,19 @@ Creative work usually survives.
 
 The thinking behind it does not.
 
-After weeks or months away from a project, writers often struggle to remember:
+After weeks—or even months—away from a project, writers often struggle to remember:
 
-* Why they started
-* What they were trying to achieve
-* Which ideas mattered
-* How ideas connected
-* What changed
-* Where they should continue
+- Why they started
+- What they were trying to achieve
+- Which ideas mattered
+- How everything connected
+- What changed
+- What is blocking progress
+- Where they should continue
 
-Lekhak is being built as a **creative memory system** that preserves this missing context.
+Lekhak exists to preserve that missing context.
+
+Rather than becoming another writing editor, it is being built as a **creative memory and reasoning system** that grows alongside every writing project.
 
 ---
 
@@ -41,59 +44,62 @@ Most writing software stores documents.
 
 Lekhak preserves understanding.
 
-It gradually builds a living memory of:
+As writers continue working, Lekhak gradually builds a living model of:
 
-* Projects
-* Notes
-* Activity
-* Intent
-* Relationships
-* Knowledge
-* Insights
-* Creative context
-* Project evolution
+- Projects
+- Notes
+- Activity
+- Intent
+- Relationships
+- Knowledge
+- Insights
+- Spatial Context
+- Temporal Evolution
+- Creative Reasoning
 
-The goal is simple:
+The long-term goal is simple:
 
-> Help writers reconnect with their work, whether they return after one day or one year.
+> Help writers reconnect with their work instantly, whether they return after one day or one year.
 
 ---
 
 # Product Evolution
 
-Lekhak is intentionally developed in layers.
+Lekhak has been intentionally developed in layers.
+
+Each layer deepens the application's understanding of creative work.
 
 ```text
 Foundation
-↓
+        ↓
 Authentication
-↓
+        ↓
 Writing Workflow
-↓
+        ↓
 Memory
-↓
+        ↓
 Intent
-↓
+        ↓
 Relationships
-↓
+        ↓
 Knowledge
-↓
+        ↓
 Writer Intelligence
-↓
+        ↓
 Memory Graph
-↓
+        ↓
 Spatial Memory
-↓
+        ↓
 Temporal Memory
-↓
+        ↓
+Creative Reasoning
+        ↓
 Creative Operating System
 ```
 
-Each layer builds upon the previous one.
-
 Nothing is replaced.
 
-Everything evolves.
+Each layer builds upon everything before it.
 
 ---
 
@@ -101,13 +107,17 @@ Everything evolves.
 
 ## Writing Workflow
 
-* Projects
-* Notes
-* Project Organization
-* Project Dashboard
-* Secure Authentication
-* Server-Side Sessions
-* Row-Level Security
+Core writing experience.
+
+Features include:
+
+- Projects
+- Notes
+- Project Organization
+- Project Dashboard
+- Secure Authentication
+- Server-Side Sessions
+- Row-Level Security
 
 ---
 
@@ -115,11 +125,13 @@ Everything evolves.
 
 Preserves what happened.
 
-* Activity Timeline
-* Recent Activity
-* Last Active Tracking
-* Resume Context
-* Project History
+Features include:
+
+- Activity Timeline
+- Recent Activity
+- Resume Context
+- Last Active Tracking
+- Project History
 
 ---
 
@@ -127,12 +139,12 @@ Preserves what happened.
 
 Preserves why work exists.
 
-Every project can maintain:
+Every project maintains:
 
-* Project Goal
-* Current Focus
-* Next Writing Step
-* Open Questions
+- Project Goal
+- Current Focus
+- Next Writing Step
+- Open Questions
 
 ---
 
@@ -142,13 +154,15 @@ Connects creative memory.
 
 Capabilities include:
 
-* Related Notes
-* Note References
-* Question Relationships
-* Goal Support
-* Focus Support
-* Next Step Dependencies
-* Intent Links
+- Related Notes
+- Note References
+- Intent Links
+- Question Relationships
+- Goal Support
+- Focus Support
+- Next Step Dependencies
+
+Ideas become connected instead of isolated.
 
 ---
 
@@ -158,105 +172,104 @@ Organizes connected information.
 
 Capabilities include:
 
-* Collections
-* Knowledge Spaces
-* Knowledge Tags
-* Smart References
-* Project Health
-* Resume Workspace
+- Collections
+- Knowledge Spaces
+- Knowledge Tags
+- Smart References
+- Resume Workspace
+- Project Health
+
+Projects become organized knowledge workspaces rather than simple collections of notes.
 
 ---
 
 ## Writer Intelligence
 
-Derives meaningful project signals.
+Derives meaningful writing insights.
 
 Capabilities include:
 
-* Writing Momentum
-* Goal Progress
-* Focus Drift Detection
-* Question Intelligence
-* Creative Gap Analysis
-* Project Health Insights
-* Weekly Summary
-* Smart Resume
+- Writing Momentum
+- Goal Progress
+- Focus Drift Detection
+- Creative Gap Analysis
+- Question Intelligence
+- Smart Resume
+- Weekly Summary
+- Project Health Insights
 
 Writer Intelligence is deterministic.
 
-It does not write for the writer.
-
-It helps the writer understand their own work.
+It helps writers understand their work without generating it.
 
 ---
 
 # Memory Graph
 
-The Memory Graph makes accumulated creative memory visible.
+The Memory Graph transforms accumulated creative memory into an interactive knowledge graph.
 
 It projects:
 
-* Projects
-* Collections
-* Notes
-* Questions
-* Knowledge Tags
+- Projects
+- Notes
+- Collections
+- Questions
+- Knowledge Tags
 
-into an interactive relationship graph.
+into an explorable relationship network.
 
 ```text
 Creative Memory
-↓
+        ↓
 Graph Projection
-↓
-Relationships Become Visible
-↓
-Context Can Be Explored
+        ↓
+Interactive Exploration
 ```
 
-Writers can explore memory through contextual entry points, inspect entities, search projected memory, filter relationships, and preserve an exploration trail.
+The graph is a projection of project memory.
 
-The graph is a **projection of existing project memory**.
-
-It is not a separate source of truth.
+It is never a separate source of truth.
 
 ---
 
 # Spatial Memory
 
-Spatial Memory introduces a contextual lens over creative memory.
+Spatial Memory introduces semantic navigation.
+
+Instead of asking only:
 
 ```text
-Graph
-→ How is memory connected?
+How are ideas connected?
+```
 
-Space
-→ What matters in this context?
+it also answers:
+
+```text
+What matters most right now?
 ```
 
 Spatial meaning follows four principles:
 
 ```text
-Distance   = Contextual Relevance
-Depth      = Contextual Priority
-Prominence = Attention Priority
-Region     = Memory Role
+Distance
+    = Contextual Relevance
+
+Depth
+    = Importance
+
+Prominence
+    = Attention Priority
+
+Region
+    = Memory Role
 ```
 
-Memory is organized into semantic regions:
+Memory is organized into semantic regions such as:
 
-* Current Work
-* Open Threads
-* Established Knowledge
-* Peripheral Memory
-
-Selecting a memory recomposes the surrounding context.
-
-Relevant ideas move closer.
-
-Supporting context remains visible.
-
-Peripheral memory becomes secondary.
+- Current Work
+- Open Threads
+- Established Knowledge
+- Peripheral Memory
 
 The renderer displays meaning.
 
@@ -264,97 +277,25 @@ The domain derives meaning.
 
 ---
 
-# Temporal Memory Layer v1
+# Temporal Memory
 
-Temporal Memory allows Lekhak to understand **how a project became its current state**.
+Temporal Memory preserves how projects evolve.
 
-Before Temporal Memory, Lekhak could answer:
+Instead of only understanding the current project,
 
-> What does this project look like now?
+Lekhak can reconstruct how the project reached its present state.
 
-It can now begin answering:
+It records meaningful changes including:
 
-> How did this project become what it is?
+- Goal Evolution
+- Focus Changes
+- Next Step History
+- Question Lifecycle
+- Relationship Evolution
+- Intent Link Changes
+- Creative Phase Changes
 
-Temporal Memory preserves meaningful state transitions such as:
-
-* Goal Changes
-* Focus Changes
-* Next Step Changes
-* Questions Raised
-* Question Resolution
-* Question Reopening
-* Relationship Creation
-* Relationship Removal
-* Intent Link Evolution
-
-Operational activity and temporal evolution remain separate.
-
-```text
-Activity
-→ What action happened?
-
-Temporal Memory
-→ How did project state change?
-```
-
----
-
-## Project Evolution
-
-Lekhak can derive a meaningful project evolution timeline from temporal evidence.
-
-It can identify:
-
-* Direction Changes
-* Focus Shifts
-* Major Question Resolutions
-* Knowledge Breakthroughs
-* Project Resumption
-* Creative Phase Transitions
-
-These moments are derived deterministically.
-
-No generative AI is required.
-
----
-
-## Project Phases
-
-Lekhak can derive creative project phases from observable project signals.
-
-Current phases include:
-
-```text
-Exploring
-Structuring
-Active
-Revising
-Dormant
-Resumed
-```
-
-Phase resolution considers project activity, writing momentum, intent, questions, notes, collections, and temporal evidence.
-
----
-
-## Historical Reconstruction
-
-Lekhak can reconstruct meaningful project state at a past reference time.
-
-Currently reconstructed:
-
-* Project Goal
-* Current Focus
-* Next Writing Step
-* Question Lifecycle
-* Question Status
-* Relationship Existence
-* Project Phase
-
-This allows writers to explore questions such as:
-
-> What was my focus three weeks ago?
+Temporal Memory answers questions like:
 
 > When did this goal change?
 
@@ -362,35 +303,137 @@ This allows writers to explore questions such as:
 
 > When did these ideas become connected?
 
-Historical state is read-only.
+Historical reconstruction remains deterministic and read-only.
 
 ---
 
-## Historical Memory Exploration
+# Creative Reasoning Layer
 
-Historical project state can be projected through the existing Memory Graph and Spatial Memory systems.
+Creative Reasoning is the newest layer in Lekhak.
+
+It transforms accumulated creative memory into meaningful understanding.
+
+Instead of asking:
+
+> What exists?
+
+the application now begins asking:
+
+> What does this project mean?
+
+Creative Reasoning derives understanding from every previous layer.
+
+---
+
+## Creative Threads
+
+The application no longer thinks in isolated notes.
+
+Instead, it discovers coherent creative threads by grouping related ideas into meaningful units of work.
+
+Each thread represents a connected creative concept rather than an individual document.
+
+---
+
+## Narrative Progress
+
+Every thread receives measurable progress based on:
+
+- Intent
+- Questions
+- Relationships
+- Knowledge
+- Supporting Notes
+
+Progress is derived from project structure rather than manually entered percentages.
+
+---
+
+## Creative Dependencies
+
+The system understands what depends on what.
+
+Examples include:
 
 ```text
-Reference Time
-↓
-Temporal Snapshot
-↓
-Historical Memory State
-↓
-Graph Projection
-↓
-Spatial Projection
-↓
-Existing Renderers
+Question
+        ↓
+Goal
+        ↓
+Current Focus
+        ↓
+Next Writing Step
+        ↓
+Creative Thread
 ```
 
-The renderers remain time-agnostic.
+This allows Lekhak to explain why progress has stopped.
 
-Time changes state.
+---
 
-State changes the projection.
+## Creative Health
 
-The visualization naturally reflects the historical memory.
+Creative Health evaluates the current state of a project using measurable signals such as:
+
+- Intent Clarity
+- Thread Coverage
+- Question Resolution
+- Dependency Health
+- Writing Momentum
+- Narrative Progress
+
+Every score includes supporting evidence.
+
+---
+
+## Creative Insights
+
+Creative Reasoning derives deterministic insights including:
+
+- Continue Here
+- Blocking Issues
+- Attention Areas
+- Thread Progress
+- Creative Health
+- Project Summary
+
+Every insight is backed by evidence.
+
+Nothing is generated through AI.
+
+---
+
+## Temporal Explanations
+
+Reasoning now combines with Temporal Memory.
+
+Instead of only showing history,
+
+Lekhak explains it.
+
+Examples include:
+
+- Goal Evolution
+- Focus Evolution
+- Thread Evolution
+- Question Lifecycle
+
+Every explanation references real project history.
+
+---
+
+## Reasoning Dashboard
+
+Projects now expose a reasoning workspace containing:
+
+- Continue Here
+- Creative Health
+- Blocking Issues
+- Attention Areas
+- Thread Progress
+- Project Summary
+
+The dashboard explains projects instead of merely reporting statistics.
 
 ---
 
@@ -400,39 +443,37 @@ Lekhak follows a layered architecture.
 
 ```text
 UI
-↓
-Components
-↓
-Graph / Spatial Renderers
-↓
+        ↓
+Reasoning Dashboard
+        ↓
+Graph & Spatial Renderers
+        ↓
 Renderer Adapters
-↓
-Spatial Projection
-↓
-Graph Projection
-↓
+        ↓
+Creative Reasoning
+        ↓
 Temporal Memory
-↓
+        ↓
 Writer Intelligence
-↓
+        ↓
 Knowledge
-↓
+        ↓
 Relationships
-↓
+        ↓
 Intent
-↓
+        ↓
 Memory
-↓
+        ↓
 Service Layer
-↓
+        ↓
 Supabase
-↓
+        ↓
 PostgreSQL
 ```
 
-The architecture follows a simple principle:
+Architecture follows one simple principle:
 
-> **The domain derives meaning. The renderer displays meaning.**
+> **The domain derives meaning. The UI presents meaning.**
 
 ---
 
@@ -440,38 +481,36 @@ The architecture follows a simple principle:
 
 ## Frontend
 
-* Next.js 16
-* React
-* TypeScript
-* Tailwind CSS
-* shadcn/ui
+- Next.js 16
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
 
-## Memory Graph
+## Graph Visualization
 
-* `@xyflow/react`
-* Renderer-Independent Graph Projection
+- @xyflow/react
 
-## Spatial Memory
+## Spatial Visualization
 
-* Three.js
-* React Three Fiber
-* Drei
-* Renderer-Independent Spatial Projection
+- Three.js
+- React Three Fiber
+- Drei
 
 ## Backend
 
-* Supabase
-* PostgreSQL
+- Supabase
+- PostgreSQL
 
 ## Authentication
 
-* Supabase Auth
-* `@supabase/ssr`
+- Supabase Auth
+- @supabase/ssr
 
 ## Validation
 
-* Zod
-* React Hook Form
+- Zod
+- React Hook Form
 
 ---
 
@@ -479,9 +518,9 @@ The architecture follows a simple principle:
 
 ## Prerequisites
 
-* Node.js 20+
-* npm
-* Supabase Project
+- Node.js 20+
+- npm
+- Supabase Project
 
 Clone the repository:
 
@@ -495,14 +534,20 @@ Install dependencies:
 npm install
 ```
 
-Create `.env.local`:
+Create:
+
+```text
+.env.local
+```
+
+Configure:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
-Start development:
+Run:
 
 ```bash
 npm run dev
@@ -520,40 +565,37 @@ http://localhost:3000
 
 ```text
 Version
-
-v0.11
-
+v0.12
 
 Current Milestone
-
-Temporal Memory Layer v1
-
+Creative Reasoning Layer v1
 
 Development Status
-
 Active Development
 ```
 
 Lekhak currently:
 
 ```text
-Stores what exists
-↓
-Remembers what happened
-↓
-Preserves why work exists
-↓
-Connects related ideas
-↓
-Organizes creative knowledge
-↓
-Interprets writing patterns
-↓
-Visualizes accumulated memory
-↓
-Projects memory into semantic space
-↓
-Preserves how creative state evolves
+Stores creative work
+        ↓
+Remembers activity
+        ↓
+Preserves intent
+        ↓
+Connects ideas
+        ↓
+Organizes knowledge
+        ↓
+Derives writing insights
+        ↓
+Visualizes memory
+        ↓
+Navigates semantic space
+        ↓
+Reconstructs project history
+        ↓
+Explains creative state
 ```
 
 ---
@@ -562,44 +604,45 @@ Preserves how creative state evolves
 
 ## Completed
 
-* ✅ Foundation
-* ✅ Authentication
-* ✅ Writing Workflow
-* ✅ Memory Layer
-* ✅ Intent Layer
-* ✅ Relationship Layer
-* ✅ Knowledge Layer
-* ✅ Writer Intelligence
-* ✅ Memory Graph v1
-* ✅ Spatial Memory Foundation v1
-* ✅ Temporal Memory Layer v1
+- ✅ Foundation
+- ✅ Authentication
+- ✅ Writing Workflow
+- ✅ Memory Layer
+- ✅ Intent Layer
+- ✅ Relationship Layer
+- ✅ Knowledge Layer
+- ✅ Writer Intelligence
+- ✅ Memory Graph
+- ✅ Spatial Memory
+- ✅ Temporal Memory
+- ✅ Creative Reasoning
 
 ---
 
 ## Next
 
-The next stage will build upon the temporal foundation to deepen Lekhak's understanding of **creative continuity and long-term project memory**.
+The next evolution is **Creative Guidance**.
 
-The central question becomes:
+The guiding question becomes:
 
-> Can Lekhak help a writer understand not only their past and present creative state, but the direction their work is moving?
+> Can Lekhak not only understand a creative project, but also help the writer decide what to do next?
 
 ---
 
 # Documentation
 
-Project documentation is available in the `docs/` directory.
+Documentation is available inside the `docs/` directory.
 
-* `PRODUCT_VISION.md`
-* `ROADMAP.md`
-* `ARCHITECTURE.md`
-* `DESIGN_PHILOSOPHY.md`
-* `3D_PHILOSOPHY.md`
-* `HANDOVER.md`
-* `CONTRIBUTING.md`
-* `CHANGELOG.md`
-* `CODE_OF_CONDUCT.md`
-* `SECURITY.md`
+- PRODUCT_VISION.md
+- ROADMAP.md
+- ARCHITECTURE.md
+- DESIGN_PHILOSOPHY.md
+- 3D_PHILOSOPHY.md
+- HANDOVER.md
+- CONTRIBUTING.md
+- CHANGELOG.md
+- CODE_OF_CONDUCT.md
+- SECURITY.md
 
 ---
 
@@ -612,7 +655,7 @@ Engineering Student, Builder, and Creator.
 Lekhak began from a simple realization:
 
 > Writers rarely lose their work.
->
+
 > They lose the thinking behind it.
 
 This project is an attempt to preserve that thinking and help writers reconnect with their creative journeys.
@@ -623,9 +666,9 @@ This project is an attempt to preserve that thinking and help writers reconnect 
 
 Lekhak is not being built as another note-taking application.
 
-It is being built as a system that remembers creative journeys.
+It is being built as a **Creative Operating System**.
 
-A place where writers can return months—or years—later and understand:
+A place where writers can return months—or years—later and immediately understand:
 
 > What was I building?
 
@@ -635,7 +678,7 @@ A place where writers can return months—or years—later and understand:
 
 > What changed?
 
-> How did my thinking evolve?
+> What is blocking progress?
 
 > Where should I continue?
 
@@ -645,9 +688,9 @@ It should be remembered.
 
 Connected.
 
-Understood.
+Explained.
 
-And navigable.
+And ultimately understood.
 
 ---
 
